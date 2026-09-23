@@ -1,5 +1,6 @@
 from __future__ import annotations
 import pandas as pd
+from .roles import FLOOR
 
 def make_evidence(row)->str:
  r=row.role
@@ -10,7 +11,7 @@ def make_evidence(row)->str:
   outgoing=("нет наблюдаемых исходящих переводов" if row.out_degree==0 else f"наблюдаемый исходящий объём {row.outgoing_kzt:.0f} KZT")
   text=f"Признаки конечного получателя: наблюдаемый входящий объём {row.incoming_kzt:.0f} KZT; {outgoing}."
  elif r=="coordinator": text=f"Структурно значимый узел: процентили PageRank {row.pagerank_pct:.2f}, betweenness {row.betweenness_pct:.2f} в своей depth-группе; достижим из {row.seed_reach_count} seed-узлов."
- else: text="Выраженные признаки функциональной роли по наблюдаемым данным не выявлены."
+ else: text=f"Выраженная роль не выявлена: максимальная оценка применимой роли {row.max_eligible_non_peripheral_score:.6f} при пороге {FLOOR:.2f}."
  if "observation_boundary" in row.limitation_flags: text+=" Граница наблюдения depth=4 ограничивает выводы."
  return text[:200]
 def apply_evidence(features:pd.DataFrame)->pd.DataFrame:

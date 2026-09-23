@@ -5,6 +5,14 @@ import { csvText } from './export'
 const parse = (text: string) => parseCsvAnalysis(text, 'transfers.csv')
 
 describe('CSV observations', () => {
+  it.each([
+    'gid,role,role_score,cluster_id,priority_score,evidence\n100000000000000001,,0,-1,0,',
+    'cluster_id,n_nodes,n_seed,sum_kzt_internal,top_gids,hypothesis\n',
+    'rank,gid,role,priority_score,why\n',
+  ])('explains that organizer output files are not transfer inputs', csv => {
+    expect(() => parse(csv)).toThrow('Это CSV с результатами расчёта, а не с переводами.')
+  })
+
   it('preserves huge GIDs, duplicates, reciprocal edges, and exact decimal totals', () => {
     const result = parse([
       'src,dst,amount_kzt,date',

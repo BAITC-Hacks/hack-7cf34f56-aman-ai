@@ -40,6 +40,21 @@ def test_coordinator_evidence_identifies_percentiles_and_boundary():
     assert len(evidence) <= 200
 
 
+@pytest.mark.parametrize("maximum", [0., .451467, .549999])
+@pytest.mark.parametrize("limitations", [[], ["observation_boundary"]])
+def test_peripheral_evidence_explains_eligible_maximum_and_floor(maximum, limitations):
+    evidence = make_evidence(SimpleNamespace(
+        role="peripheral", max_eligible_non_peripheral_score=maximum,
+        terminal_score=.99, terminal_eligible=False, limitation_flags=limitations,
+    ))
+    assert f"оценка применимой роли {maximum:.6f}" in evidence
+    assert "пороге 0.55" in evidence
+    assert "0.990000" not in evidence
+    if limitations:
+        assert "Граница наблюдения depth=4 ограничивает выводы." in evidence
+    assert len(evidence) <= 200
+
+
 @pytest.mark.parametrize("invalid", [np.inf, -np.inf, np.nan])
 def test_nonfinite_percentiles_follow_invalid_group_fallback(invalid):
     values = pd.Series([1., 2., invalid, 10., 20.])

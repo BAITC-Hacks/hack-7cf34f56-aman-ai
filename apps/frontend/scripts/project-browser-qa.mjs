@@ -34,10 +34,19 @@ function readCanonicalCsv(name, columns) {
 const canonicalTop = readCanonicalCsv('top_nodes', ['rank', 'gid', 'role', 'priority_score', 'why'])
   .map(row => ({ ...row, rank: Number(row.rank), priority_score: Number(row.priority_score) }))
 const topIds = new Set(canonicalTop.map(row => row.gid))
-const canonicalNodes = readCanonicalCsv('nodes_roles', ['gid', 'role', 'role_score', 'cluster_id', 'priority_score', 'evidence'])
-  .filter(row => topIds.has(row.gid))
+const allCanonicalNodes = readCanonicalCsv('nodes_roles', ['gid', 'role', 'role_score', 'cluster_id', 'priority_score', 'evidence'])
   .map(row => ({ ...row, role_score: Number(row.role_score), cluster_id: Number(row.cluster_id), priority_score: Number(row.priority_score) }))
-const canonical = { top: canonicalTop, nodes: canonicalNodes }
+const sampleIndices = new Set()
+let sampleSeed = 42
+while (sampleIndices.size < Math.min(3, allCanonicalNodes.length)) {
+  sampleSeed = (Math.imul(sampleSeed, 1664525) + 1013904223) >>> 0
+  sampleIndices.add(sampleSeed % allCanonicalNodes.length)
+}
+const canonical = {
+  top: canonicalTop,
+  nodes: allCanonicalNodes.filter(row => topIds.has(row.gid)),
+  spotChecks: [...sampleIndices].map(index => allCanonicalNodes[index]),
+}
 
 const baseUrl = process.env.QA_BASE_URL || 'http://127.0.0.1:5173/'
 if (!['localhost', '127.0.0.1'].includes(new URL(baseUrl).hostname)) throw new Error('QA requires a local server')
@@ -196,6 +205,20 @@ try {
     await page.getByText('Клиент не найден', { exact: true }).waitFor()
     assert(await page.locator('.node-gid').innerText() === seed.gid, 'Unknown GID retains selected node')
     await page.getByRole('textbox', { name: 'Поиск по gid' }).fill('')
+    for (const sample of expected.spotChecks) {
+      await search(sample.gid)
+      await page.locator('.node-gid').filter({ hasText: sample.gid }).waitFor()
+      const displayedEvidence = await page.locator('.inspector .evidence-text').first().innerText()
+      const displayedPriority = Number(await page.locator('.inspector').getByRole('progressbar', { name: 'Приоритет проверки', exact: true }).getAttribute('aria-valuenow'))
+      const displayedRoleScore = Number(await page.locator('.inspector').getByRole('progressbar', { name: 'Соответствие роли', exact: true }).getAttribute('aria-valuenow'))
+      const incoming = fixture.edges.filter(edge => edge.dst === sample.gid).reduce((sum, edge) => sum + edge.sum_kzt, 0)
+      const outgoing = fixture.edges.filter(edge => edge.src === sample.gid).reduce((sum, edge) => sum + edge.sum_kzt, 0)
+      const displayedFlows = await page.locator('.inspector .flow-number').allTextContents()
+      assert(displayedEvidence === sample.evidence && await page.locator(`.inspector .role-dot[data-role="${sample.role}"]`).count() === 1 &&
+        Math.abs(displayedPriority - sample.priority_score * 100) < 1e-8 && Math.abs(displayedRoleScore - sample.role_score * 100) < 1e-8 &&
+        displayedFlows[0].includes(format(incoming)) && displayedFlows[1].includes(format(outgoing)),
+      `Arbitrary GID ${sample.gid}: role, scores and evidence match CSV; flows match directed edges`)
+    }
     await page.getByRole('button', { name: 'Вся выборка', exact: true }).click()
     await page.locator('.aml-canvas[data-node-count="2248"]').waitFor()
     assert(await canvas.getAttribute('data-selected-gid') === '' && await page.locator('.canvas-drawer').count() === 0, 'Full-selection action restores entire graph and closes inspector')
@@ -232,6 +255,14 @@ try {
     await page.locator(`.aml-canvas[data-node-count="${clusterSize}"]`).waitFor()
     assert((await page.locator('#graph-settings').innerText()).includes('Активных фильтров: 1'), 'Community filter matches source cluster membership')
     await page.locator('#graph-settings').getByRole('button', { name: 'Сбросить фильтры', exact: true }).click()
+    await page.getByRole('button', { name: 'Цвет узлов', exact: true }).click()
+    await page.getByRole('radio', { name: 'Роль', exact: true }).click()
+    await page.getByRole('button', { name: 'Как читать граф', exact: true }).click()
+    assert((await page.locator('.aml-color-legend').innerText()).includes('Гипотезы ролей') && await page.locator('.aml-categories > span').count() === 6, 'Role coloring exposes all six role hypotheses in the graph legend')
+    await page.getByRole('radio', { name: 'Кластер', exact: true }).click()
+    assert((await page.locator('.aml-color-legend').innerText()).includes('Сообщества') && await page.locator('.aml-categories > span').count() === fixture.clusters.length, 'Community coloring exposes every computed cluster in the graph legend')
+    await page.getByRole('radio', { name: 'Приоритет', exact: true }).click()
+    await page.getByRole('button', { name: 'Как читать граф', exact: true }).click()
     await page.getByRole('button', { name: 'Закрыть фильтры графа' }).click()
     await page.getByRole('button', { name: 'На весь экран', exact: true }).click()
     await page.getByRole('button', { name: 'Выйти из полноэкранного режима', exact: true }).waitFor()

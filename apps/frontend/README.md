@@ -46,6 +46,8 @@ See [AML graph architecture and controls](../../docs/aml-graph.md) for rendering
 
 Click **Загрузить CSV** to open the import screen. Choose a file or drop it onto the upload card; **Скачать пример CSV** provides a template. A successful import opens summary cards, a directed graph, client inflows/outflows, searchable links with CSV export, and daily totals. **К исследованию сети** returns to the project results. Uploaded data stays in memory while switching views and is cleared on page reload.
 
+This is a supplementary transaction-file viewer. The official case uses three Parquet inputs and produces three CSV outputs. Main project mode already loads the completed `results/{nodes_roles,clusters,top_nodes}.csv` together with canonical nodes/edges; those result files are not upload inputs. `starter/out/` contains incomplete organizer templates. The upload screen explains this distinction and recognizes result-file headers with a specific error message.
+
 Supported headers:
 
 | Column | Meaning |

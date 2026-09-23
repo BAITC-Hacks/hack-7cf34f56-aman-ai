@@ -30,6 +30,16 @@ try {
     await page.getByRole('button', { name: 'Загрузить CSV', exact: true }).click()
     await page.getByRole('heading', { name: 'Аналитика переводов' }).waitFor()
     assert(await page.getByText('Ваши переводы — в одном дашборде').isVisible(), 'CSV empty state')
+    assert(await page.getByText('Результаты проекта — в основном графе', { exact: true }).isVisible(), 'Upload screen distinguishes project results from transaction inputs')
+    for (const [name, text] of [
+      ['nodes_roles.csv', 'gid,role,role_score,cluster_id,priority_score,evidence\n100000000000000001,,0,-1,0,'],
+      ['clusters.csv', 'cluster_id,n_nodes,n_seed,sum_kzt_internal,top_gids,hypothesis'],
+      ['top_nodes.csv', 'rank,gid,role,priority_score,why'],
+    ]) {
+      await upload(text, name)
+      await page.getByRole('alert').filter({ hasText: 'Это CSV с результатами расчёта' }).waitFor()
+      passed.push(`${name} identified as a result file, not a transfer input`)
+    }
     const template = page.waitForEvent('download')
     await page.getByRole('button', { name: 'Скачать пример CSV' }).click()
     assert((await template).suggestedFilename() === 'transfers-template.csv', 'CSV template download')

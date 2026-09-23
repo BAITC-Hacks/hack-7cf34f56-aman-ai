@@ -41,7 +41,7 @@ export function CsvDashboard({ analysis, onAnalysis, onBack }: Props) {
     worker.current?.terminate(); worker.current = null
     setBusy(false); setError(''); setDragging(false)
     if (!files?.length) return
-    if (files.length !== 1) { setError('Загрузите один CSV-файл за раз.'); return }
+    if (files.length !== 1) { setError('Здесь нужен один CSV с переводами. Три файла nodes_roles.csv, clusters.csv и top_nodes.csv — результаты основного расчёта, а не входные переводы.'); return }
     const file = files[0]
     if (!/\.csv$/i.test(file.name)) { setError('Выберите файл с расширением .csv.'); return }
     if (file.size > MAX_CSV_BYTES) { setError('Файл слишком большой. Максимальный размер — 10 МБ.'); return }
@@ -101,10 +101,11 @@ export function CsvDashboard({ analysis, onAnalysis, onBack }: Props) {
   return <div className="csv-shell">
     <header className="app-header"><a className="brand" href="./" onClick={event => { event.preventDefault(); onBack() }}><span className="brand-symbol"><Network /></span><span>MoneyGraph<small>INVESTIGATOR</small></span></a><Badge variant="outline">Аналитика CSV</Badge><Button variant="outline" className="ml-auto" onClick={onBack}><ArrowLeft data-icon="inline-start" />К исследованию сети</Button></header>
     <main className="csv-main">
-      <div className="csv-heading"><div><h1 ref={title} tabIndex={-1}>Аналитика переводов</h1><p>Загрузите CSV, чтобы увидеть объёмы, клиентов и связи.</p></div>{analysis && uploadButton}</div>
+      <div className="csv-heading"><div><h1 ref={title} tabIndex={-1}>Аналитика переводов</h1><p>Дополнительный обзор одного CSV с переводами: объёмы, клиенты и связи.</p></div>{analysis && uploadButton}</div>
       <Input ref={input} type="file" accept=".csv,text/csv" className="hidden" aria-label="CSV-файл переводов" tabIndex={-1} onChange={event => { upload(event.target.files); event.target.value = '' }} />
       {error && <Alert variant="destructive"><AlertTitle>Файл не загружен</AlertTitle><AlertDescription>{error}{analysis && ' Предыдущий набор данных сохранён.'}</AlertDescription></Alert>}
       {busy && <Alert role="status" aria-label="Обработка CSV"><Spinner /><AlertTitle>Обрабатываем CSV…</AlertTitle><AlertDescription>Проверяем строки и рассчитываем показатели.</AlertDescription></Alert>}
+      {!analysis && <Alert><AlertTitle>Результаты проекта — в основном графе</AlertTitle><AlertDescription><p>Роли, кластеры и приоритеты рассчитаны из трёх исходных Parquet-файлов. Файлы <code>nodes_roles.csv</code>, <code>clusters.csv</code> и <code>top_nodes.csv</code> — результаты расчёта; загружать их сюда не нужно.</p><Button variant="outline" size="sm" onClick={onBack}>Открыть результаты проекта</Button></AlertDescription></Alert>}
       {!analysis && <Card className="csv-upload" data-dragging={dragging} onDragOver={event => { event.preventDefault(); setDragging(true) }} onDragLeave={event => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setDragging(false) }} onDrop={event => { event.preventDefault(); upload(event.dataTransfer.files) }}>
         <CardHeader><FileSpreadsheet className="size-9 text-primary" /><CardTitle>Ваши переводы — в одном дашборде</CardTitle><CardDescription>Перетащите CSV сюда или выберите файл на компьютере.</CardDescription></CardHeader>
         <CardContent className="flex flex-col items-start gap-4">{uploadButton}<p className="text-sm text-muted-foreground">UTF-8 · до 10 МБ · до 50 000 строк. Файл обрабатывается в браузере.</p><div className="csv-format"><strong>Формат данных</strong><p><code>src</code> — GID отправителя · <code>dst</code> — GID получателя · <code>amount_kzt</code> — сумма в KZT.</p><p>Необязательно: <code>date</code> в формате ГГГГ-ММ-ДД. Транзакции из задания: <code>src,dst,date,sum_kzt</code>. Для агрегированных связей укажите <code>sum_kzt</code> и <code>n_tx</code> — число переводов (пустое, если неизвестно).</p><p>Разделитель: запятая, точка с запятой или табуляция.</p></div></CardContent>

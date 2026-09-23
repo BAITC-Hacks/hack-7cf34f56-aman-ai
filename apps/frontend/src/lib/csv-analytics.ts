@@ -198,6 +198,12 @@ export function parseCsvAnalysis(text: string, fileName: string): CsvAnalysis {
   const moneyColumns = headers.filter(value => moneyHeaders.includes(value))
   const dateColumns = headers.filter(value => dateHeaders.includes(value))
   if (!headers.includes('src') || !headers.includes('dst') || moneyColumns.length === 0) {
+    const resultSchema = [
+      ['gid', 'role', 'role_score', 'cluster_id', 'priority_score', 'evidence'],
+      ['cluster_id', 'n_nodes', 'n_seed', 'sum_kzt_internal', 'top_gids', 'hypothesis'],
+      ['rank', 'gid', 'role', 'priority_score', 'why'],
+    ].some(columns => columns.every(column => headers.includes(column)))
+    if (resultSchema) csvError('Это CSV с результатами расчёта, а не с переводами. Роли, кластеры и приоритеты доступны в основном графе. Здесь нужен CSV с колонками src, dst и суммой перевода.')
     csvError('В CSV нужны колонки src, dst и amount_kzt (или amount / sum_kzt).')
   }
   if (moneyColumns.length > 1) csvError('Оставьте одну колонку суммы: amount_kzt, amount или sum_kzt.')
