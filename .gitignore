@@ -1,0 +1,30 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# Node
+node_modules/
+dist/
+build/
+.next/
+.turbo/
+
+# Env / secrets
+.env
+.env.local
+.env.*.local
+*.key
+
+# Codex / editor
+.codex/config.toml
+.vscode/*
+!.vscode/settings.json
+.DS_Store
+
+# Logs
+*.log
+npm-debug.log*
