@@ -1,0 +1,3395 @@
+{
+  "nodes": [
+    {
+      "gid": "900000000000100001",
+      "role": "consolidator",
+      "role_score": 0.94,
+      "priority_score": 0.823,
+      "depth": 2,
+      "is_seed": false,
+      "cluster_id": 0,
+      "observed_flows": {
+        "incoming_kzt": 3197000,
+        "outgoing_kzt": 700000,
+        "in_degree": 7,
+        "out_degree": 2,
+        "in_tx": 34,
+        "out_tx": 7
+      },
+      "evidence": "7 отправителей · 2 получателей · 3 197 000 KZT входящих в демонстрационном графе.",
+      "seed_reach_count": null,
+      "role_scores": {
+        "consolidator": {
+          "score": 0.94,
+          "applicable": true,
+          "reason": null
+        },
+        "coordinator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "transit": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "distributor": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "terminal": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "peripheral": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        }
+      },
+      "priority_components": [
+        {
+          "key": "Роль и её значимость",
+          "weight": 0.3,
+          "value": 0.98,
+          "contribution": 0.294,
+          "computed": true
+        },
+        {
+          "key": "Схождение seed-веток",
+          "weight": 0.25,
+          "value": 0.97,
+          "contribution": 0.2425,
+          "computed": true
+        },
+        {
+          "key": "Центральность",
+          "weight": 0.15,
+          "value": 0.96,
+          "contribution": 0.144,
+          "computed": true
+        },
+        {
+          "key": "Наблюдаемый объём",
+          "weight": 0.15,
+          "value": 0.95,
+          "contribution": 0.1425,
+          "computed": true
+        },
+        {
+          "key": "Временные сигналы",
+          "weight": 0.1,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        },
+        {
+          "key": "Устойчивость",
+          "weight": 0.05,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        }
+      ],
+      "limitations": [
+        {
+          "code": "synthetic",
+          "message": "Синтетический пример интерфейса. Роли и приоритеты не являются результатом анализа датасета."
+        }
+      ],
+      "next_action": "Проверить источники поступлений и дальнейшее движение средств за пределами наблюдаемого периода.",
+      "edges": [
+        {
+          "src": "900000000000100002",
+          "dst": "900000000000100001",
+          "sum_kzt": 312000,
+          "n_tx": 3
+        },
+        {
+          "src": "900000000000100003",
+          "dst": "900000000000100001",
+          "sum_kzt": 399000,
+          "n_tx": 4
+        },
+        {
+          "src": "900000000000100004",
+          "dst": "900000000000100001",
+          "sum_kzt": 486000,
+          "n_tx": 5
+        },
+        {
+          "src": "900000000000100005",
+          "dst": "900000000000100001",
+          "sum_kzt": 573000,
+          "n_tx": 6
+        },
+        {
+          "src": "900000000000100006",
+          "dst": "900000000000100001",
+          "sum_kzt": 660000,
+          "n_tx": 7
+        },
+        {
+          "src": "900000000000100007",
+          "dst": "900000000000100001",
+          "sum_kzt": 747000,
+          "n_tx": 8
+        },
+        {
+          "src": "900000000000100011",
+          "dst": "900000000000100001",
+          "sum_kzt": 20000,
+          "n_tx": 1
+        },
+        {
+          "src": "900000000000100001",
+          "dst": "900000000000100008",
+          "sum_kzt": 480000,
+          "n_tx": 4
+        },
+        {
+          "src": "900000000000100001",
+          "dst": "900000000000100009",
+          "sum_kzt": 220000,
+          "n_tx": 3
+        }
+      ]
+    },
+    {
+      "gid": "900000000000100002",
+      "role": "distributor",
+      "role_score": 0.9,
+      "priority_score": 0.8026,
+      "depth": 0,
+      "is_seed": true,
+      "cluster_id": 0,
+      "observed_flows": {
+        "incoming_kzt": 0,
+        "outgoing_kzt": 312000,
+        "in_degree": 0,
+        "out_degree": 1,
+        "in_tx": 0,
+        "out_tx": 3
+      },
+      "evidence": "0 отправителей · 1 получателей · 0 KZT входящих в демонстрационном графе.",
+      "seed_reach_count": null,
+      "role_scores": {
+        "consolidator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "coordinator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "transit": {
+          "score": 0.12,
+          "applicable": false,
+          "reason": "Не применяется на этой глубине"
+        },
+        "distributor": {
+          "score": 0.9,
+          "applicable": true,
+          "reason": null
+        },
+        "terminal": {
+          "score": 0.12,
+          "applicable": false,
+          "reason": "Не применяется на этой глубине"
+        },
+        "peripheral": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        }
+      },
+      "priority_components": [
+        {
+          "key": "Роль и её значимость",
+          "weight": 0.3,
+          "value": 0.956,
+          "contribution": 0.2868,
+          "computed": true
+        },
+        {
+          "key": "Схождение seed-веток",
+          "weight": 0.25,
+          "value": 0.946,
+          "contribution": 0.2365,
+          "computed": true
+        },
+        {
+          "key": "Центральность",
+          "weight": 0.15,
+          "value": 0.9359999999999999,
+          "contribution": 0.1404,
+          "computed": true
+        },
+        {
+          "key": "Наблюдаемый объём",
+          "weight": 0.15,
+          "value": 0.9259999999999999,
+          "contribution": 0.1389,
+          "computed": true
+        },
+        {
+          "key": "Временные сигналы",
+          "weight": 0.1,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        },
+        {
+          "key": "Устойчивость",
+          "weight": 0.05,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        }
+      ],
+      "limitations": [
+        {
+          "code": "seed_inflow",
+          "message": "Входящие переводы seed-клиента неполны. Наблюдаемый входящий объём не отражает все поступления."
+        },
+        {
+          "code": "synthetic",
+          "message": "Синтетический пример интерфейса. Роли и приоритеты не являются результатом анализа датасета."
+        }
+      ],
+      "next_action": "Запросить полную историю входящих переводов за период.",
+      "edges": [
+        {
+          "src": "900000000000100002",
+          "dst": "900000000000100001",
+          "sum_kzt": 312000,
+          "n_tx": 3
+        }
+      ]
+    },
+    {
+      "gid": "900000000000100003",
+      "role": "distributor",
+      "role_score": 0.86,
+      "priority_score": 0.7822,
+      "depth": 0,
+      "is_seed": true,
+      "cluster_id": 0,
+      "observed_flows": {
+        "incoming_kzt": 0,
+        "outgoing_kzt": 399000,
+        "in_degree": 0,
+        "out_degree": 1,
+        "in_tx": 0,
+        "out_tx": 4
+      },
+      "evidence": "0 отправителей · 1 получателей · 0 KZT входящих в демонстрационном графе.",
+      "seed_reach_count": null,
+      "role_scores": {
+        "consolidator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "coordinator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "transit": {
+          "score": 0.12,
+          "applicable": false,
+          "reason": "Не применяется на этой глубине"
+        },
+        "distributor": {
+          "score": 0.86,
+          "applicable": true,
+          "reason": null
+        },
+        "terminal": {
+          "score": 0.12,
+          "applicable": false,
+          "reason": "Не применяется на этой глубине"
+        },
+        "peripheral": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        }
+      },
+      "priority_components": [
+        {
+          "key": "Роль и её значимость",
+          "weight": 0.3,
+          "value": 0.9319999999999999,
+          "contribution": 0.2796,
+          "computed": true
+        },
+        {
+          "key": "Схождение seed-веток",
+          "weight": 0.25,
+          "value": 0.9219999999999999,
+          "contribution": 0.2305,
+          "computed": true
+        },
+        {
+          "key": "Центральность",
+          "weight": 0.15,
+          "value": 0.9119999999999999,
+          "contribution": 0.1368,
+          "computed": true
+        },
+        {
+          "key": "Наблюдаемый объём",
+          "weight": 0.15,
+          "value": 0.9019999999999999,
+          "contribution": 0.1353,
+          "computed": true
+        },
+        {
+          "key": "Временные сигналы",
+          "weight": 0.1,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        },
+        {
+          "key": "Устойчивость",
+          "weight": 0.05,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        }
+      ],
+      "limitations": [
+        {
+          "code": "seed_inflow",
+          "message": "Входящие переводы seed-клиента неполны. Наблюдаемый входящий объём не отражает все поступления."
+        },
+        {
+          "code": "synthetic",
+          "message": "Синтетический пример интерфейса. Роли и приоритеты не являются результатом анализа датасета."
+        }
+      ],
+      "next_action": "Запросить полную историю входящих переводов за период.",
+      "edges": [
+        {
+          "src": "900000000000100003",
+          "dst": "900000000000100001",
+          "sum_kzt": 399000,
+          "n_tx": 4
+        }
+      ]
+    },
+    {
+      "gid": "900000000000100004",
+      "role": "distributor",
+      "role_score": 0.82,
+      "priority_score": 0.7618,
+      "depth": 0,
+      "is_seed": true,
+      "cluster_id": 0,
+      "observed_flows": {
+        "incoming_kzt": 0,
+        "outgoing_kzt": 486000,
+        "in_degree": 0,
+        "out_degree": 1,
+        "in_tx": 0,
+        "out_tx": 5
+      },
+      "evidence": "0 отправителей · 1 получателей · 0 KZT входящих в демонстрационном графе.",
+      "seed_reach_count": null,
+      "role_scores": {
+        "consolidator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "coordinator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "transit": {
+          "score": 0.12,
+          "applicable": false,
+          "reason": "Не применяется на этой глубине"
+        },
+        "distributor": {
+          "score": 0.82,
+          "applicable": true,
+          "reason": null
+        },
+        "terminal": {
+          "score": 0.12,
+          "applicable": false,
+          "reason": "Не применяется на этой глубине"
+        },
+        "peripheral": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        }
+      },
+      "priority_components": [
+        {
+          "key": "Роль и её значимость",
+          "weight": 0.3,
+          "value": 0.9079999999999999,
+          "contribution": 0.2724,
+          "computed": true
+        },
+        {
+          "key": "Схождение seed-веток",
+          "weight": 0.25,
+          "value": 0.8979999999999999,
+          "contribution": 0.2245,
+          "computed": true
+        },
+        {
+          "key": "Центральность",
+          "weight": 0.15,
+          "value": 0.8879999999999999,
+          "contribution": 0.1332,
+          "computed": true
+        },
+        {
+          "key": "Наблюдаемый объём",
+          "weight": 0.15,
+          "value": 0.8779999999999999,
+          "contribution": 0.1317,
+          "computed": true
+        },
+        {
+          "key": "Временные сигналы",
+          "weight": 0.1,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        },
+        {
+          "key": "Устойчивость",
+          "weight": 0.05,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        }
+      ],
+      "limitations": [
+        {
+          "code": "seed_inflow",
+          "message": "Входящие переводы seed-клиента неполны. Наблюдаемый входящий объём не отражает все поступления."
+        },
+        {
+          "code": "synthetic",
+          "message": "Синтетический пример интерфейса. Роли и приоритеты не являются результатом анализа датасета."
+        }
+      ],
+      "next_action": "Запросить полную историю входящих переводов за период.",
+      "edges": [
+        {
+          "src": "900000000000100004",
+          "dst": "900000000000100001",
+          "sum_kzt": 486000,
+          "n_tx": 5
+        }
+      ]
+    },
+    {
+      "gid": "900000000000100005",
+      "role": "distributor",
+      "role_score": 0.78,
+      "priority_score": 0.7414,
+      "depth": 0,
+      "is_seed": true,
+      "cluster_id": 0,
+      "observed_flows": {
+        "incoming_kzt": 0,
+        "outgoing_kzt": 573000,
+        "in_degree": 0,
+        "out_degree": 1,
+        "in_tx": 0,
+        "out_tx": 6
+      },
+      "evidence": "0 отправителей · 1 получателей · 0 KZT входящих в демонстрационном графе.",
+      "seed_reach_count": null,
+      "role_scores": {
+        "consolidator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "coordinator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "transit": {
+          "score": 0.12,
+          "applicable": false,
+          "reason": "Не применяется на этой глубине"
+        },
+        "distributor": {
+          "score": 0.78,
+          "applicable": true,
+          "reason": null
+        },
+        "terminal": {
+          "score": 0.12,
+          "applicable": false,
+          "reason": "Не применяется на этой глубине"
+        },
+        "peripheral": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        }
+      },
+      "priority_components": [
+        {
+          "key": "Роль и её значимость",
+          "weight": 0.3,
+          "value": 0.884,
+          "contribution": 0.2652,
+          "computed": true
+        },
+        {
+          "key": "Схождение seed-веток",
+          "weight": 0.25,
+          "value": 0.874,
+          "contribution": 0.2185,
+          "computed": true
+        },
+        {
+          "key": "Центральность",
+          "weight": 0.15,
+          "value": 0.864,
+          "contribution": 0.1296,
+          "computed": true
+        },
+        {
+          "key": "Наблюдаемый объём",
+          "weight": 0.15,
+          "value": 0.854,
+          "contribution": 0.1281,
+          "computed": true
+        },
+        {
+          "key": "Временные сигналы",
+          "weight": 0.1,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        },
+        {
+          "key": "Устойчивость",
+          "weight": 0.05,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        }
+      ],
+      "limitations": [
+        {
+          "code": "seed_inflow",
+          "message": "Входящие переводы seed-клиента неполны. Наблюдаемый входящий объём не отражает все поступления."
+        },
+        {
+          "code": "synthetic",
+          "message": "Синтетический пример интерфейса. Роли и приоритеты не являются результатом анализа датасета."
+        }
+      ],
+      "next_action": "Запросить полную историю входящих переводов за период.",
+      "edges": [
+        {
+          "src": "900000000000100005",
+          "dst": "900000000000100001",
+          "sum_kzt": 573000,
+          "n_tx": 6
+        }
+      ]
+    },
+    {
+      "gid": "900000000000100006",
+      "role": "distributor",
+      "role_score": 0.74,
+      "priority_score": 0.721,
+      "depth": 0,
+      "is_seed": true,
+      "cluster_id": 0,
+      "observed_flows": {
+        "incoming_kzt": 0,
+        "outgoing_kzt": 660000,
+        "in_degree": 0,
+        "out_degree": 1,
+        "in_tx": 0,
+        "out_tx": 7
+      },
+      "evidence": "0 отправителей · 1 получателей · 0 KZT входящих в демонстрационном графе.",
+      "seed_reach_count": null,
+      "role_scores": {
+        "consolidator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "coordinator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "transit": {
+          "score": 0.12,
+          "applicable": false,
+          "reason": "Не применяется на этой глубине"
+        },
+        "distributor": {
+          "score": 0.74,
+          "applicable": true,
+          "reason": null
+        },
+        "terminal": {
+          "score": 0.12,
+          "applicable": false,
+          "reason": "Не применяется на этой глубине"
+        },
+        "peripheral": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        }
+      },
+      "priority_components": [
+        {
+          "key": "Роль и её значимость",
+          "weight": 0.3,
+          "value": 0.86,
+          "contribution": 0.258,
+          "computed": true
+        },
+        {
+          "key": "Схождение seed-веток",
+          "weight": 0.25,
+          "value": 0.85,
+          "contribution": 0.2125,
+          "computed": true
+        },
+        {
+          "key": "Центральность",
+          "weight": 0.15,
+          "value": 0.84,
+          "contribution": 0.126,
+          "computed": true
+        },
+        {
+          "key": "Наблюдаемый объём",
+          "weight": 0.15,
+          "value": 0.83,
+          "contribution": 0.1245,
+          "computed": true
+        },
+        {
+          "key": "Временные сигналы",
+          "weight": 0.1,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        },
+        {
+          "key": "Устойчивость",
+          "weight": 0.05,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        }
+      ],
+      "limitations": [
+        {
+          "code": "seed_inflow",
+          "message": "Входящие переводы seed-клиента неполны. Наблюдаемый входящий объём не отражает все поступления."
+        },
+        {
+          "code": "synthetic",
+          "message": "Синтетический пример интерфейса. Роли и приоритеты не являются результатом анализа датасета."
+        }
+      ],
+      "next_action": "Запросить полную историю входящих переводов за период.",
+      "edges": [
+        {
+          "src": "900000000000100006",
+          "dst": "900000000000100001",
+          "sum_kzt": 660000,
+          "n_tx": 7
+        }
+      ]
+    },
+    {
+      "gid": "900000000000100007",
+      "role": "distributor",
+      "role_score": 0.94,
+      "priority_score": 0.7006,
+      "depth": 0,
+      "is_seed": true,
+      "cluster_id": 0,
+      "observed_flows": {
+        "incoming_kzt": 0,
+        "outgoing_kzt": 747000,
+        "in_degree": 0,
+        "out_degree": 1,
+        "in_tx": 0,
+        "out_tx": 8
+      },
+      "evidence": "0 отправителей · 1 получателей · 0 KZT входящих в демонстрационном графе.",
+      "seed_reach_count": null,
+      "role_scores": {
+        "consolidator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "coordinator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "transit": {
+          "score": 0.12,
+          "applicable": false,
+          "reason": "Не применяется на этой глубине"
+        },
+        "distributor": {
+          "score": 0.94,
+          "applicable": true,
+          "reason": null
+        },
+        "terminal": {
+          "score": 0.12,
+          "applicable": false,
+          "reason": "Не применяется на этой глубине"
+        },
+        "peripheral": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        }
+      },
+      "priority_components": [
+        {
+          "key": "Роль и её значимость",
+          "weight": 0.3,
+          "value": 0.836,
+          "contribution": 0.2508,
+          "computed": true
+        },
+        {
+          "key": "Схождение seed-веток",
+          "weight": 0.25,
+          "value": 0.826,
+          "contribution": 0.2065,
+          "computed": true
+        },
+        {
+          "key": "Центральность",
+          "weight": 0.15,
+          "value": 0.816,
+          "contribution": 0.1224,
+          "computed": true
+        },
+        {
+          "key": "Наблюдаемый объём",
+          "weight": 0.15,
+          "value": 0.8059999999999999,
+          "contribution": 0.1209,
+          "computed": true
+        },
+        {
+          "key": "Временные сигналы",
+          "weight": 0.1,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        },
+        {
+          "key": "Устойчивость",
+          "weight": 0.05,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        }
+      ],
+      "limitations": [
+        {
+          "code": "seed_inflow",
+          "message": "Входящие переводы seed-клиента неполны. Наблюдаемый входящий объём не отражает все поступления."
+        },
+        {
+          "code": "synthetic",
+          "message": "Синтетический пример интерфейса. Роли и приоритеты не являются результатом анализа датасета."
+        }
+      ],
+      "next_action": "Запросить полную историю входящих переводов за период.",
+      "edges": [
+        {
+          "src": "900000000000100007",
+          "dst": "900000000000100001",
+          "sum_kzt": 747000,
+          "n_tx": 8
+        }
+      ]
+    },
+    {
+      "gid": "900000000000100008",
+      "role": "transit",
+      "role_score": 0.9,
+      "priority_score": 0.6802,
+      "depth": 3,
+      "is_seed": false,
+      "cluster_id": 0,
+      "observed_flows": {
+        "incoming_kzt": 525000,
+        "outgoing_kzt": 435000,
+        "in_degree": 2,
+        "out_degree": 1,
+        "in_tx": 5,
+        "out_tx": 4
+      },
+      "evidence": "2 отправителей · 1 получателей · 525 000 KZT входящих в демонстрационном графе.",
+      "seed_reach_count": null,
+      "role_scores": {
+        "consolidator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "coordinator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "transit": {
+          "score": 0.9,
+          "applicable": true,
+          "reason": null
+        },
+        "distributor": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "terminal": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "peripheral": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        }
+      },
+      "priority_components": [
+        {
+          "key": "Роль и её значимость",
+          "weight": 0.3,
+          "value": 0.8119999999999999,
+          "contribution": 0.2436,
+          "computed": true
+        },
+        {
+          "key": "Схождение seed-веток",
+          "weight": 0.25,
+          "value": 0.8019999999999999,
+          "contribution": 0.2005,
+          "computed": true
+        },
+        {
+          "key": "Центральность",
+          "weight": 0.15,
+          "value": 0.7919999999999999,
+          "contribution": 0.1188,
+          "computed": true
+        },
+        {
+          "key": "Наблюдаемый объём",
+          "weight": 0.15,
+          "value": 0.7819999999999999,
+          "contribution": 0.1173,
+          "computed": true
+        },
+        {
+          "key": "Временные сигналы",
+          "weight": 0.1,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        },
+        {
+          "key": "Устойчивость",
+          "weight": 0.05,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        }
+      ],
+      "limitations": [
+        {
+          "code": "synthetic",
+          "message": "Синтетический пример интерфейса. Роли и приоритеты не являются результатом анализа датасета."
+        }
+      ],
+      "next_action": "Проверить источники поступлений и дальнейшее движение средств за пределами наблюдаемого периода.",
+      "edges": [
+        {
+          "src": "900000000000100001",
+          "dst": "900000000000100008",
+          "sum_kzt": 480000,
+          "n_tx": 4
+        },
+        {
+          "src": "900000000000100010",
+          "dst": "900000000000100008",
+          "sum_kzt": 45000,
+          "n_tx": 1
+        },
+        {
+          "src": "900000000000100008",
+          "dst": "900000000000100010",
+          "sum_kzt": 435000,
+          "n_tx": 4
+        }
+      ]
+    },
+    {
+      "gid": "900000000000100009",
+      "role": "transit",
+      "role_score": 0.86,
+      "priority_score": 0.6598,
+      "depth": 3,
+      "is_seed": false,
+      "cluster_id": 0,
+      "observed_flows": {
+        "incoming_kzt": 220000,
+        "outgoing_kzt": 180000,
+        "in_degree": 1,
+        "out_degree": 1,
+        "in_tx": 3,
+        "out_tx": 2
+      },
+      "evidence": "1 отправителей · 1 получателей · 220 000 KZT входящих в демонстрационном графе.",
+      "seed_reach_count": null,
+      "role_scores": {
+        "consolidator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "coordinator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "transit": {
+          "score": 0.86,
+          "applicable": true,
+          "reason": null
+        },
+        "distributor": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "terminal": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "peripheral": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        }
+      },
+      "priority_components": [
+        {
+          "key": "Роль и её значимость",
+          "weight": 0.3,
+          "value": 0.788,
+          "contribution": 0.2364,
+          "computed": true
+        },
+        {
+          "key": "Схождение seed-веток",
+          "weight": 0.25,
+          "value": 0.778,
+          "contribution": 0.1945,
+          "computed": true
+        },
+        {
+          "key": "Центральность",
+          "weight": 0.15,
+          "value": 0.768,
+          "contribution": 0.1152,
+          "computed": true
+        },
+        {
+          "key": "Наблюдаемый объём",
+          "weight": 0.15,
+          "value": 0.758,
+          "contribution": 0.1137,
+          "computed": true
+        },
+        {
+          "key": "Временные сигналы",
+          "weight": 0.1,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        },
+        {
+          "key": "Устойчивость",
+          "weight": 0.05,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        }
+      ],
+      "limitations": [
+        {
+          "code": "synthetic",
+          "message": "Синтетический пример интерфейса. Роли и приоритеты не являются результатом анализа датасета."
+        }
+      ],
+      "next_action": "Проверить источники поступлений и дальнейшее движение средств за пределами наблюдаемого периода.",
+      "edges": [
+        {
+          "src": "900000000000100001",
+          "dst": "900000000000100009",
+          "sum_kzt": 220000,
+          "n_tx": 3
+        },
+        {
+          "src": "900000000000100009",
+          "dst": "900000000000100011",
+          "sum_kzt": 180000,
+          "n_tx": 2
+        }
+      ]
+    },
+    {
+      "gid": "900000000000100010",
+      "role": "distributor",
+      "role_score": 0.82,
+      "priority_score": 0.6394,
+      "depth": 3,
+      "is_seed": false,
+      "cluster_id": 0,
+      "observed_flows": {
+        "incoming_kzt": 435000,
+        "outgoing_kzt": 1235200,
+        "in_degree": 1,
+        "out_degree": 12,
+        "in_tx": 4,
+        "out_tx": 23
+      },
+      "evidence": "1 отправителей · 12 получателей · 435 000 KZT входящих в демонстрационном графе.",
+      "seed_reach_count": null,
+      "role_scores": {
+        "consolidator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "coordinator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "transit": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "distributor": {
+          "score": 0.82,
+          "applicable": true,
+          "reason": null
+        },
+        "terminal": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "peripheral": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        }
+      },
+      "priority_components": [
+        {
+          "key": "Роль и её значимость",
+          "weight": 0.3,
+          "value": 0.764,
+          "contribution": 0.2292,
+          "computed": true
+        },
+        {
+          "key": "Схождение seed-веток",
+          "weight": 0.25,
+          "value": 0.754,
+          "contribution": 0.1885,
+          "computed": true
+        },
+        {
+          "key": "Центральность",
+          "weight": 0.15,
+          "value": 0.744,
+          "contribution": 0.1116,
+          "computed": true
+        },
+        {
+          "key": "Наблюдаемый объём",
+          "weight": 0.15,
+          "value": 0.734,
+          "contribution": 0.1101,
+          "computed": true
+        },
+        {
+          "key": "Временные сигналы",
+          "weight": 0.1,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        },
+        {
+          "key": "Устойчивость",
+          "weight": 0.05,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        }
+      ],
+      "limitations": [
+        {
+          "code": "synthetic",
+          "message": "Синтетический пример интерфейса. Роли и приоритеты не являются результатом анализа датасета."
+        }
+      ],
+      "next_action": "Проверить источники поступлений и дальнейшее движение средств за пределами наблюдаемого периода.",
+      "edges": [
+        {
+          "src": "900000000000100008",
+          "dst": "900000000000100010",
+          "sum_kzt": 435000,
+          "n_tx": 4
+        },
+        {
+          "src": "900000000000100010",
+          "dst": "900000000000100008",
+          "sum_kzt": 45000,
+          "n_tx": 1
+        },
+        {
+          "src": "900000000000100010",
+          "dst": "900000000000100012",
+          "sum_kzt": 82200,
+          "n_tx": 2
+        },
+        {
+          "src": "900000000000100010",
+          "dst": "900000000000100013",
+          "sum_kzt": 87400,
+          "n_tx": 2
+        },
+        {
+          "src": "900000000000100010",
+          "dst": "900000000000100014",
+          "sum_kzt": 92600,
+          "n_tx": 2
+        },
+        {
+          "src": "900000000000100010",
+          "dst": "900000000000100015",
+          "sum_kzt": 97800,
+          "n_tx": 2
+        },
+        {
+          "src": "900000000000100010",
+          "dst": "900000000000100016",
+          "sum_kzt": 103000,
+          "n_tx": 2
+        },
+        {
+          "src": "900000000000100010",
+          "dst": "900000000000100017",
+          "sum_kzt": 108200,
+          "n_tx": 2
+        },
+        {
+          "src": "900000000000100010",
+          "dst": "900000000000100018",
+          "sum_kzt": 113400,
+          "n_tx": 2
+        },
+        {
+          "src": "900000000000100010",
+          "dst": "900000000000100019",
+          "sum_kzt": 118600,
+          "n_tx": 2
+        },
+        {
+          "src": "900000000000100010",
+          "dst": "900000000000100020",
+          "sum_kzt": 123800,
+          "n_tx": 2
+        },
+        {
+          "src": "900000000000100010",
+          "dst": "900000000000100021",
+          "sum_kzt": 129000,
+          "n_tx": 2
+        },
+        {
+          "src": "900000000000100010",
+          "dst": "900000000000100022",
+          "sum_kzt": 134200,
+          "n_tx": 2
+        }
+      ]
+    },
+    {
+      "gid": "900000000000100011",
+      "role": "coordinator",
+      "role_score": 0.78,
+      "priority_score": 0.619,
+      "depth": 3,
+      "is_seed": false,
+      "cluster_id": 0,
+      "observed_flows": {
+        "incoming_kzt": 180000,
+        "outgoing_kzt": 20000,
+        "in_degree": 1,
+        "out_degree": 1,
+        "in_tx": 2,
+        "out_tx": 1
+      },
+      "evidence": "1 отправителей · 1 получателей · 180 000 KZT входящих в демонстрационном графе.",
+      "seed_reach_count": null,
+      "role_scores": {
+        "consolidator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "coordinator": {
+          "score": 0.78,
+          "applicable": true,
+          "reason": null
+        },
+        "transit": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "distributor": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "terminal": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "peripheral": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        }
+      },
+      "priority_components": [
+        {
+          "key": "Роль и её значимость",
+          "weight": 0.3,
+          "value": 0.74,
+          "contribution": 0.222,
+          "computed": true
+        },
+        {
+          "key": "Схождение seed-веток",
+          "weight": 0.25,
+          "value": 0.73,
+          "contribution": 0.1825,
+          "computed": true
+        },
+        {
+          "key": "Центральность",
+          "weight": 0.15,
+          "value": 0.72,
+          "contribution": 0.108,
+          "computed": true
+        },
+        {
+          "key": "Наблюдаемый объём",
+          "weight": 0.15,
+          "value": 0.71,
+          "contribution": 0.1065,
+          "computed": true
+        },
+        {
+          "key": "Временные сигналы",
+          "weight": 0.1,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        },
+        {
+          "key": "Устойчивость",
+          "weight": 0.05,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        }
+      ],
+      "limitations": [
+        {
+          "code": "synthetic",
+          "message": "Синтетический пример интерфейса. Роли и приоритеты не являются результатом анализа датасета."
+        }
+      ],
+      "next_action": "Проверить источники поступлений и дальнейшее движение средств за пределами наблюдаемого периода.",
+      "edges": [
+        {
+          "src": "900000000000100009",
+          "dst": "900000000000100011",
+          "sum_kzt": 180000,
+          "n_tx": 2
+        },
+        {
+          "src": "900000000000100011",
+          "dst": "900000000000100001",
+          "sum_kzt": 20000,
+          "n_tx": 1
+        }
+      ]
+    },
+    {
+      "gid": "900000000000100012",
+      "role": "transit",
+      "role_score": 0.74,
+      "priority_score": 0.5986,
+      "depth": 3,
+      "is_seed": false,
+      "cluster_id": 1,
+      "observed_flows": {
+        "incoming_kzt": 82200,
+        "outgoing_kzt": 95000,
+        "in_degree": 1,
+        "out_degree": 1,
+        "in_tx": 2,
+        "out_tx": 2
+      },
+      "evidence": "1 отправителей · 1 получателей · 82 200 KZT входящих в демонстрационном графе.",
+      "seed_reach_count": null,
+      "role_scores": {
+        "consolidator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "coordinator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "transit": {
+          "score": 0.74,
+          "applicable": true,
+          "reason": null
+        },
+        "distributor": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "terminal": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "peripheral": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        }
+      },
+      "priority_components": [
+        {
+          "key": "Роль и её значимость",
+          "weight": 0.3,
+          "value": 0.716,
+          "contribution": 0.2148,
+          "computed": true
+        },
+        {
+          "key": "Схождение seed-веток",
+          "weight": 0.25,
+          "value": 0.706,
+          "contribution": 0.1765,
+          "computed": true
+        },
+        {
+          "key": "Центральность",
+          "weight": 0.15,
+          "value": 0.696,
+          "contribution": 0.1044,
+          "computed": true
+        },
+        {
+          "key": "Наблюдаемый объём",
+          "weight": 0.15,
+          "value": 0.6859999999999999,
+          "contribution": 0.1029,
+          "computed": true
+        },
+        {
+          "key": "Временные сигналы",
+          "weight": 0.1,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        },
+        {
+          "key": "Устойчивость",
+          "weight": 0.05,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        }
+      ],
+      "limitations": [
+        {
+          "code": "synthetic",
+          "message": "Синтетический пример интерфейса. Роли и приоритеты не являются результатом анализа датасета."
+        }
+      ],
+      "next_action": "Проверить источники поступлений и дальнейшее движение средств за пределами наблюдаемого периода.",
+      "edges": [
+        {
+          "src": "900000000000100010",
+          "dst": "900000000000100012",
+          "sum_kzt": 82200,
+          "n_tx": 2
+        },
+        {
+          "src": "900000000000100012",
+          "dst": "900000000000100023",
+          "sum_kzt": 95000,
+          "n_tx": 2
+        }
+      ]
+    },
+    {
+      "gid": "900000000000100013",
+      "role": "transit",
+      "role_score": 0.94,
+      "priority_score": 0.5782,
+      "depth": 3,
+      "is_seed": false,
+      "cluster_id": 1,
+      "observed_flows": {
+        "incoming_kzt": 87400,
+        "outgoing_kzt": 79000,
+        "in_degree": 1,
+        "out_degree": 1,
+        "in_tx": 2,
+        "out_tx": 1
+      },
+      "evidence": "1 отправителей · 1 получателей · 87 400 KZT входящих в демонстрационном графе.",
+      "seed_reach_count": null,
+      "role_scores": {
+        "consolidator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "coordinator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "transit": {
+          "score": 0.94,
+          "applicable": true,
+          "reason": null
+        },
+        "distributor": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "terminal": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "peripheral": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        }
+      },
+      "priority_components": [
+        {
+          "key": "Роль и её значимость",
+          "weight": 0.3,
+          "value": 0.692,
+          "contribution": 0.2076,
+          "computed": true
+        },
+        {
+          "key": "Схождение seed-веток",
+          "weight": 0.25,
+          "value": 0.6819999999999999,
+          "contribution": 0.1705,
+          "computed": true
+        },
+        {
+          "key": "Центральность",
+          "weight": 0.15,
+          "value": 0.6719999999999999,
+          "contribution": 0.1008,
+          "computed": true
+        },
+        {
+          "key": "Наблюдаемый объём",
+          "weight": 0.15,
+          "value": 0.6619999999999999,
+          "contribution": 0.0993,
+          "computed": true
+        },
+        {
+          "key": "Временные сигналы",
+          "weight": 0.1,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        },
+        {
+          "key": "Устойчивость",
+          "weight": 0.05,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        }
+      ],
+      "limitations": [
+        {
+          "code": "synthetic",
+          "message": "Синтетический пример интерфейса. Роли и приоритеты не являются результатом анализа датасета."
+        }
+      ],
+      "next_action": "Проверить источники поступлений и дальнейшее движение средств за пределами наблюдаемого периода.",
+      "edges": [
+        {
+          "src": "900000000000100010",
+          "dst": "900000000000100013",
+          "sum_kzt": 87400,
+          "n_tx": 2
+        },
+        {
+          "src": "900000000000100013",
+          "dst": "900000000000100024",
+          "sum_kzt": 79000,
+          "n_tx": 1
+        }
+      ]
+    },
+    {
+      "gid": "900000000000100014",
+      "role": "terminal",
+      "role_score": 0.9,
+      "priority_score": 0.5578,
+      "depth": 3,
+      "is_seed": false,
+      "cluster_id": 1,
+      "observed_flows": {
+        "incoming_kzt": 92600,
+        "outgoing_kzt": 0,
+        "in_degree": 1,
+        "out_degree": 0,
+        "in_tx": 2,
+        "out_tx": 0
+      },
+      "evidence": "1 отправителей · 0 получателей · 92 600 KZT входящих в демонстрационном графе.",
+      "seed_reach_count": null,
+      "role_scores": {
+        "consolidator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "coordinator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "transit": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "distributor": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "terminal": {
+          "score": 0.9,
+          "applicable": true,
+          "reason": null
+        },
+        "peripheral": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        }
+      },
+      "priority_components": [
+        {
+          "key": "Роль и её значимость",
+          "weight": 0.3,
+          "value": 0.6679999999999999,
+          "contribution": 0.2004,
+          "computed": true
+        },
+        {
+          "key": "Схождение seed-веток",
+          "weight": 0.25,
+          "value": 0.6579999999999999,
+          "contribution": 0.1645,
+          "computed": true
+        },
+        {
+          "key": "Центральность",
+          "weight": 0.15,
+          "value": 0.6479999999999999,
+          "contribution": 0.0972,
+          "computed": true
+        },
+        {
+          "key": "Наблюдаемый объём",
+          "weight": 0.15,
+          "value": 0.6379999999999999,
+          "contribution": 0.0957,
+          "computed": true
+        },
+        {
+          "key": "Временные сигналы",
+          "weight": 0.1,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        },
+        {
+          "key": "Устойчивость",
+          "weight": 0.05,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        }
+      ],
+      "limitations": [
+        {
+          "code": "synthetic",
+          "message": "Синтетический пример интерфейса. Роли и приоритеты не являются результатом анализа датасета."
+        }
+      ],
+      "next_action": "Проверить источники поступлений и дальнейшее движение средств за пределами наблюдаемого периода.",
+      "edges": [
+        {
+          "src": "900000000000100010",
+          "dst": "900000000000100014",
+          "sum_kzt": 92600,
+          "n_tx": 2
+        }
+      ]
+    },
+    {
+      "gid": "900000000000100015",
+      "role": "terminal",
+      "role_score": 0.86,
+      "priority_score": 0.5374,
+      "depth": 3,
+      "is_seed": false,
+      "cluster_id": 1,
+      "observed_flows": {
+        "incoming_kzt": 97800,
+        "outgoing_kzt": 0,
+        "in_degree": 1,
+        "out_degree": 0,
+        "in_tx": 2,
+        "out_tx": 0
+      },
+      "evidence": "1 отправителей · 0 получателей · 97 800 KZT входящих в демонстрационном графе.",
+      "seed_reach_count": null,
+      "role_scores": {
+        "consolidator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "coordinator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "transit": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "distributor": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "terminal": {
+          "score": 0.86,
+          "applicable": true,
+          "reason": null
+        },
+        "peripheral": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        }
+      },
+      "priority_components": [
+        {
+          "key": "Роль и её значимость",
+          "weight": 0.3,
+          "value": 0.6439999999999999,
+          "contribution": 0.1932,
+          "computed": true
+        },
+        {
+          "key": "Схождение seed-веток",
+          "weight": 0.25,
+          "value": 0.6339999999999999,
+          "contribution": 0.1585,
+          "computed": true
+        },
+        {
+          "key": "Центральность",
+          "weight": 0.15,
+          "value": 0.6239999999999999,
+          "contribution": 0.0936,
+          "computed": true
+        },
+        {
+          "key": "Наблюдаемый объём",
+          "weight": 0.15,
+          "value": 0.6139999999999999,
+          "contribution": 0.0921,
+          "computed": true
+        },
+        {
+          "key": "Временные сигналы",
+          "weight": 0.1,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        },
+        {
+          "key": "Устойчивость",
+          "weight": 0.05,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        }
+      ],
+      "limitations": [
+        {
+          "code": "synthetic",
+          "message": "Синтетический пример интерфейса. Роли и приоритеты не являются результатом анализа датасета."
+        }
+      ],
+      "next_action": "Проверить источники поступлений и дальнейшее движение средств за пределами наблюдаемого периода.",
+      "edges": [
+        {
+          "src": "900000000000100010",
+          "dst": "900000000000100015",
+          "sum_kzt": 97800,
+          "n_tx": 2
+        }
+      ]
+    },
+    {
+      "gid": "900000000000100016",
+      "role": "terminal",
+      "role_score": 0.82,
+      "priority_score": 0.517,
+      "depth": 3,
+      "is_seed": false,
+      "cluster_id": 1,
+      "observed_flows": {
+        "incoming_kzt": 103000,
+        "outgoing_kzt": 0,
+        "in_degree": 1,
+        "out_degree": 0,
+        "in_tx": 2,
+        "out_tx": 0
+      },
+      "evidence": "1 отправителей · 0 получателей · 103 000 KZT входящих в демонстрационном графе.",
+      "seed_reach_count": null,
+      "role_scores": {
+        "consolidator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "coordinator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "transit": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "distributor": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "terminal": {
+          "score": 0.82,
+          "applicable": true,
+          "reason": null
+        },
+        "peripheral": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        }
+      },
+      "priority_components": [
+        {
+          "key": "Роль и её значимость",
+          "weight": 0.3,
+          "value": 0.62,
+          "contribution": 0.186,
+          "computed": true
+        },
+        {
+          "key": "Схождение seed-веток",
+          "weight": 0.25,
+          "value": 0.61,
+          "contribution": 0.1525,
+          "computed": true
+        },
+        {
+          "key": "Центральность",
+          "weight": 0.15,
+          "value": 0.6,
+          "contribution": 0.09,
+          "computed": true
+        },
+        {
+          "key": "Наблюдаемый объём",
+          "weight": 0.15,
+          "value": 0.59,
+          "contribution": 0.0885,
+          "computed": true
+        },
+        {
+          "key": "Временные сигналы",
+          "weight": 0.1,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        },
+        {
+          "key": "Устойчивость",
+          "weight": 0.05,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        }
+      ],
+      "limitations": [
+        {
+          "code": "synthetic",
+          "message": "Синтетический пример интерфейса. Роли и приоритеты не являются результатом анализа датасета."
+        }
+      ],
+      "next_action": "Проверить источники поступлений и дальнейшее движение средств за пределами наблюдаемого периода.",
+      "edges": [
+        {
+          "src": "900000000000100010",
+          "dst": "900000000000100016",
+          "sum_kzt": 103000,
+          "n_tx": 2
+        }
+      ]
+    },
+    {
+      "gid": "900000000000100017",
+      "role": "terminal",
+      "role_score": 0.78,
+      "priority_score": 0.4966,
+      "depth": 3,
+      "is_seed": false,
+      "cluster_id": 1,
+      "observed_flows": {
+        "incoming_kzt": 108200,
+        "outgoing_kzt": 0,
+        "in_degree": 1,
+        "out_degree": 0,
+        "in_tx": 2,
+        "out_tx": 0
+      },
+      "evidence": "1 отправителей · 0 получателей · 108 200 KZT входящих в демонстрационном графе.",
+      "seed_reach_count": null,
+      "role_scores": {
+        "consolidator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "coordinator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "transit": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "distributor": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "terminal": {
+          "score": 0.78,
+          "applicable": true,
+          "reason": null
+        },
+        "peripheral": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        }
+      },
+      "priority_components": [
+        {
+          "key": "Роль и её значимость",
+          "weight": 0.3,
+          "value": 0.596,
+          "contribution": 0.1788,
+          "computed": true
+        },
+        {
+          "key": "Схождение seed-веток",
+          "weight": 0.25,
+          "value": 0.586,
+          "contribution": 0.1465,
+          "computed": true
+        },
+        {
+          "key": "Центральность",
+          "weight": 0.15,
+          "value": 0.576,
+          "contribution": 0.0864,
+          "computed": true
+        },
+        {
+          "key": "Наблюдаемый объём",
+          "weight": 0.15,
+          "value": 0.566,
+          "contribution": 0.0849,
+          "computed": true
+        },
+        {
+          "key": "Временные сигналы",
+          "weight": 0.1,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        },
+        {
+          "key": "Устойчивость",
+          "weight": 0.05,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        }
+      ],
+      "limitations": [
+        {
+          "code": "synthetic",
+          "message": "Синтетический пример интерфейса. Роли и приоритеты не являются результатом анализа датасета."
+        }
+      ],
+      "next_action": "Проверить источники поступлений и дальнейшее движение средств за пределами наблюдаемого периода.",
+      "edges": [
+        {
+          "src": "900000000000100010",
+          "dst": "900000000000100017",
+          "sum_kzt": 108200,
+          "n_tx": 2
+        }
+      ]
+    },
+    {
+      "gid": "900000000000100018",
+      "role": "terminal",
+      "role_score": 0.74,
+      "priority_score": 0.4762,
+      "depth": 3,
+      "is_seed": false,
+      "cluster_id": 1,
+      "observed_flows": {
+        "incoming_kzt": 113400,
+        "outgoing_kzt": 0,
+        "in_degree": 1,
+        "out_degree": 0,
+        "in_tx": 2,
+        "out_tx": 0
+      },
+      "evidence": "1 отправителей · 0 получателей · 113 400 KZT входящих в демонстрационном графе.",
+      "seed_reach_count": null,
+      "role_scores": {
+        "consolidator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "coordinator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "transit": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "distributor": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "terminal": {
+          "score": 0.74,
+          "applicable": true,
+          "reason": null
+        },
+        "peripheral": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        }
+      },
+      "priority_components": [
+        {
+          "key": "Роль и её значимость",
+          "weight": 0.3,
+          "value": 0.572,
+          "contribution": 0.1716,
+          "computed": true
+        },
+        {
+          "key": "Схождение seed-веток",
+          "weight": 0.25,
+          "value": 0.5619999999999999,
+          "contribution": 0.1405,
+          "computed": true
+        },
+        {
+          "key": "Центральность",
+          "weight": 0.15,
+          "value": 0.5519999999999999,
+          "contribution": 0.0828,
+          "computed": true
+        },
+        {
+          "key": "Наблюдаемый объём",
+          "weight": 0.15,
+          "value": 0.5419999999999999,
+          "contribution": 0.0813,
+          "computed": true
+        },
+        {
+          "key": "Временные сигналы",
+          "weight": 0.1,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        },
+        {
+          "key": "Устойчивость",
+          "weight": 0.05,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        }
+      ],
+      "limitations": [
+        {
+          "code": "synthetic",
+          "message": "Синтетический пример интерфейса. Роли и приоритеты не являются результатом анализа датасета."
+        }
+      ],
+      "next_action": "Проверить источники поступлений и дальнейшее движение средств за пределами наблюдаемого периода.",
+      "edges": [
+        {
+          "src": "900000000000100010",
+          "dst": "900000000000100018",
+          "sum_kzt": 113400,
+          "n_tx": 2
+        }
+      ]
+    },
+    {
+      "gid": "900000000000100019",
+      "role": "terminal",
+      "role_score": 0.94,
+      "priority_score": 0.4558,
+      "depth": 3,
+      "is_seed": false,
+      "cluster_id": 1,
+      "observed_flows": {
+        "incoming_kzt": 118600,
+        "outgoing_kzt": 0,
+        "in_degree": 1,
+        "out_degree": 0,
+        "in_tx": 2,
+        "out_tx": 0
+      },
+      "evidence": "1 отправителей · 0 получателей · 118 600 KZT входящих в демонстрационном графе.",
+      "seed_reach_count": null,
+      "role_scores": {
+        "consolidator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "coordinator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "transit": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "distributor": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "terminal": {
+          "score": 0.94,
+          "applicable": true,
+          "reason": null
+        },
+        "peripheral": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        }
+      },
+      "priority_components": [
+        {
+          "key": "Роль и её значимость",
+          "weight": 0.3,
+          "value": 0.548,
+          "contribution": 0.1644,
+          "computed": true
+        },
+        {
+          "key": "Схождение seed-веток",
+          "weight": 0.25,
+          "value": 0.538,
+          "contribution": 0.1345,
+          "computed": true
+        },
+        {
+          "key": "Центральность",
+          "weight": 0.15,
+          "value": 0.528,
+          "contribution": 0.0792,
+          "computed": true
+        },
+        {
+          "key": "Наблюдаемый объём",
+          "weight": 0.15,
+          "value": 0.518,
+          "contribution": 0.0777,
+          "computed": true
+        },
+        {
+          "key": "Временные сигналы",
+          "weight": 0.1,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        },
+        {
+          "key": "Устойчивость",
+          "weight": 0.05,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        }
+      ],
+      "limitations": [
+        {
+          "code": "synthetic",
+          "message": "Синтетический пример интерфейса. Роли и приоритеты не являются результатом анализа датасета."
+        }
+      ],
+      "next_action": "Проверить источники поступлений и дальнейшее движение средств за пределами наблюдаемого периода.",
+      "edges": [
+        {
+          "src": "900000000000100010",
+          "dst": "900000000000100019",
+          "sum_kzt": 118600,
+          "n_tx": 2
+        }
+      ]
+    },
+    {
+      "gid": "900000000000100020",
+      "role": "terminal",
+      "role_score": 0.9,
+      "priority_score": 0.4354,
+      "depth": 3,
+      "is_seed": false,
+      "cluster_id": 1,
+      "observed_flows": {
+        "incoming_kzt": 123800,
+        "outgoing_kzt": 0,
+        "in_degree": 1,
+        "out_degree": 0,
+        "in_tx": 2,
+        "out_tx": 0
+      },
+      "evidence": "1 отправителей · 0 получателей · 123 800 KZT входящих в демонстрационном графе.",
+      "seed_reach_count": null,
+      "role_scores": {
+        "consolidator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "coordinator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "transit": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "distributor": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "terminal": {
+          "score": 0.9,
+          "applicable": true,
+          "reason": null
+        },
+        "peripheral": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        }
+      },
+      "priority_components": [
+        {
+          "key": "Роль и её значимость",
+          "weight": 0.3,
+          "value": 0.524,
+          "contribution": 0.1572,
+          "computed": true
+        },
+        {
+          "key": "Схождение seed-веток",
+          "weight": 0.25,
+          "value": 0.514,
+          "contribution": 0.1285,
+          "computed": true
+        },
+        {
+          "key": "Центральность",
+          "weight": 0.15,
+          "value": 0.504,
+          "contribution": 0.0756,
+          "computed": true
+        },
+        {
+          "key": "Наблюдаемый объём",
+          "weight": 0.15,
+          "value": 0.494,
+          "contribution": 0.0741,
+          "computed": true
+        },
+        {
+          "key": "Временные сигналы",
+          "weight": 0.1,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        },
+        {
+          "key": "Устойчивость",
+          "weight": 0.05,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        }
+      ],
+      "limitations": [
+        {
+          "code": "synthetic",
+          "message": "Синтетический пример интерфейса. Роли и приоритеты не являются результатом анализа датасета."
+        }
+      ],
+      "next_action": "Проверить источники поступлений и дальнейшее движение средств за пределами наблюдаемого периода.",
+      "edges": [
+        {
+          "src": "900000000000100010",
+          "dst": "900000000000100020",
+          "sum_kzt": 123800,
+          "n_tx": 2
+        }
+      ]
+    },
+    {
+      "gid": "900000000000100021",
+      "role": "transit",
+      "role_score": 0.86,
+      "priority_score": 0.415,
+      "depth": 3,
+      "is_seed": false,
+      "cluster_id": 1,
+      "observed_flows": {
+        "incoming_kzt": 129000,
+        "outgoing_kzt": 45000,
+        "in_degree": 1,
+        "out_degree": 1,
+        "in_tx": 2,
+        "out_tx": 1
+      },
+      "evidence": "1 отправителей · 1 получателей · 129 000 KZT входящих в демонстрационном графе.",
+      "seed_reach_count": null,
+      "role_scores": {
+        "consolidator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "coordinator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "transit": {
+          "score": 0.86,
+          "applicable": true,
+          "reason": null
+        },
+        "distributor": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "terminal": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "peripheral": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        }
+      },
+      "priority_components": [
+        {
+          "key": "Роль и её значимость",
+          "weight": 0.3,
+          "value": 0.5,
+          "contribution": 0.15,
+          "computed": true
+        },
+        {
+          "key": "Схождение seed-веток",
+          "weight": 0.25,
+          "value": 0.49,
+          "contribution": 0.1225,
+          "computed": true
+        },
+        {
+          "key": "Центральность",
+          "weight": 0.15,
+          "value": 0.48,
+          "contribution": 0.072,
+          "computed": true
+        },
+        {
+          "key": "Наблюдаемый объём",
+          "weight": 0.15,
+          "value": 0.47,
+          "contribution": 0.0705,
+          "computed": true
+        },
+        {
+          "key": "Временные сигналы",
+          "weight": 0.1,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        },
+        {
+          "key": "Устойчивость",
+          "weight": 0.05,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        }
+      ],
+      "limitations": [
+        {
+          "code": "synthetic",
+          "message": "Синтетический пример интерфейса. Роли и приоритеты не являются результатом анализа датасета."
+        }
+      ],
+      "next_action": "Проверить источники поступлений и дальнейшее движение средств за пределами наблюдаемого периода.",
+      "edges": [
+        {
+          "src": "900000000000100010",
+          "dst": "900000000000100021",
+          "sum_kzt": 129000,
+          "n_tx": 2
+        },
+        {
+          "src": "900000000000100021",
+          "dst": "900000000000100025",
+          "sum_kzt": 45000,
+          "n_tx": 1
+        }
+      ]
+    },
+    {
+      "gid": "900000000000100022",
+      "role": "terminal",
+      "role_score": 0.82,
+      "priority_score": 0.3946,
+      "depth": 3,
+      "is_seed": false,
+      "cluster_id": 1,
+      "observed_flows": {
+        "incoming_kzt": 134200,
+        "outgoing_kzt": 0,
+        "in_degree": 1,
+        "out_degree": 0,
+        "in_tx": 2,
+        "out_tx": 0
+      },
+      "evidence": "1 отправителей · 0 получателей · 134 200 KZT входящих в демонстрационном графе.",
+      "seed_reach_count": null,
+      "role_scores": {
+        "consolidator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "coordinator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "transit": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "distributor": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "terminal": {
+          "score": 0.82,
+          "applicable": true,
+          "reason": null
+        },
+        "peripheral": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        }
+      },
+      "priority_components": [
+        {
+          "key": "Роль и её значимость",
+          "weight": 0.3,
+          "value": 0.476,
+          "contribution": 0.1428,
+          "computed": true
+        },
+        {
+          "key": "Схождение seed-веток",
+          "weight": 0.25,
+          "value": 0.46599999999999997,
+          "contribution": 0.1165,
+          "computed": true
+        },
+        {
+          "key": "Центральность",
+          "weight": 0.15,
+          "value": 0.45599999999999996,
+          "contribution": 0.0684,
+          "computed": true
+        },
+        {
+          "key": "Наблюдаемый объём",
+          "weight": 0.15,
+          "value": 0.44599999999999995,
+          "contribution": 0.0669,
+          "computed": true
+        },
+        {
+          "key": "Временные сигналы",
+          "weight": 0.1,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        },
+        {
+          "key": "Устойчивость",
+          "weight": 0.05,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        }
+      ],
+      "limitations": [
+        {
+          "code": "synthetic",
+          "message": "Синтетический пример интерфейса. Роли и приоритеты не являются результатом анализа датасета."
+        }
+      ],
+      "next_action": "Проверить источники поступлений и дальнейшее движение средств за пределами наблюдаемого периода.",
+      "edges": [
+        {
+          "src": "900000000000100010",
+          "dst": "900000000000100022",
+          "sum_kzt": 134200,
+          "n_tx": 2
+        }
+      ]
+    },
+    {
+      "gid": "900000000000100023",
+      "role": "peripheral",
+      "role_score": 0.38,
+      "priority_score": 0.3742,
+      "depth": 4,
+      "is_seed": false,
+      "cluster_id": 1,
+      "observed_flows": {
+        "incoming_kzt": 95000,
+        "outgoing_kzt": 0,
+        "in_degree": 1,
+        "out_degree": 0,
+        "in_tx": 2,
+        "out_tx": 0
+      },
+      "evidence": "1 отправителей · 0 получателей · 95 000 KZT входящих в демонстрационном графе.",
+      "seed_reach_count": null,
+      "role_scores": {
+        "consolidator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "coordinator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "transit": {
+          "score": 0.12,
+          "applicable": false,
+          "reason": "Не применяется на этой глубине"
+        },
+        "distributor": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "terminal": {
+          "score": 0.12,
+          "applicable": false,
+          "reason": "Не применяется на этой глубине"
+        },
+        "peripheral": {
+          "score": 0.38,
+          "applicable": true,
+          "reason": null
+        }
+      },
+      "priority_components": [
+        {
+          "key": "Роль и её значимость",
+          "weight": 0.3,
+          "value": 0.45199999999999996,
+          "contribution": 0.1356,
+          "computed": true
+        },
+        {
+          "key": "Схождение seed-веток",
+          "weight": 0.25,
+          "value": 0.44199999999999995,
+          "contribution": 0.1105,
+          "computed": true
+        },
+        {
+          "key": "Центральность",
+          "weight": 0.15,
+          "value": 0.43199999999999994,
+          "contribution": 0.0648,
+          "computed": true
+        },
+        {
+          "key": "Наблюдаемый объём",
+          "weight": 0.15,
+          "value": 0.42199999999999993,
+          "contribution": 0.0633,
+          "computed": true
+        },
+        {
+          "key": "Временные сигналы",
+          "weight": 0.1,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        },
+        {
+          "key": "Устойчивость",
+          "weight": 0.05,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        }
+      ],
+      "limitations": [
+        {
+          "code": "depth_boundary",
+          "message": "Граница наблюдения · глубина 4. Дальнейшие переводы не видны; отсутствие исходящих не доказывает удержание средств."
+        },
+        {
+          "code": "synthetic",
+          "message": "Синтетический пример интерфейса. Роли и приоритеты не являются результатом анализа датасета."
+        }
+      ],
+      "next_action": "Запросить исходящие переводы за пределами 4-го колена и проверить продолжение цепочки.",
+      "edges": [
+        {
+          "src": "900000000000100012",
+          "dst": "900000000000100023",
+          "sum_kzt": 95000,
+          "n_tx": 2
+        }
+      ]
+    },
+    {
+      "gid": "900000000000100024",
+      "role": "peripheral",
+      "role_score": 0.38,
+      "priority_score": 0.3538,
+      "depth": 4,
+      "is_seed": false,
+      "cluster_id": 1,
+      "observed_flows": {
+        "incoming_kzt": 79000,
+        "outgoing_kzt": 0,
+        "in_degree": 1,
+        "out_degree": 0,
+        "in_tx": 1,
+        "out_tx": 0
+      },
+      "evidence": "1 отправителей · 0 получателей · 79 000 KZT входящих в демонстрационном графе.",
+      "seed_reach_count": null,
+      "role_scores": {
+        "consolidator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "coordinator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "transit": {
+          "score": 0.12,
+          "applicable": false,
+          "reason": "Не применяется на этой глубине"
+        },
+        "distributor": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "terminal": {
+          "score": 0.12,
+          "applicable": false,
+          "reason": "Не применяется на этой глубине"
+        },
+        "peripheral": {
+          "score": 0.38,
+          "applicable": true,
+          "reason": null
+        }
+      },
+      "priority_components": [
+        {
+          "key": "Роль и её значимость",
+          "weight": 0.3,
+          "value": 0.42799999999999994,
+          "contribution": 0.1284,
+          "computed": true
+        },
+        {
+          "key": "Схождение seed-веток",
+          "weight": 0.25,
+          "value": 0.4179999999999999,
+          "contribution": 0.1045,
+          "computed": true
+        },
+        {
+          "key": "Центральность",
+          "weight": 0.15,
+          "value": 0.4079999999999999,
+          "contribution": 0.0612,
+          "computed": true
+        },
+        {
+          "key": "Наблюдаемый объём",
+          "weight": 0.15,
+          "value": 0.3979999999999999,
+          "contribution": 0.0597,
+          "computed": true
+        },
+        {
+          "key": "Временные сигналы",
+          "weight": 0.1,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        },
+        {
+          "key": "Устойчивость",
+          "weight": 0.05,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        }
+      ],
+      "limitations": [
+        {
+          "code": "depth_boundary",
+          "message": "Граница наблюдения · глубина 4. Дальнейшие переводы не видны; отсутствие исходящих не доказывает удержание средств."
+        },
+        {
+          "code": "synthetic",
+          "message": "Синтетический пример интерфейса. Роли и приоритеты не являются результатом анализа датасета."
+        }
+      ],
+      "next_action": "Запросить исходящие переводы за пределами 4-го колена и проверить продолжение цепочки.",
+      "edges": [
+        {
+          "src": "900000000000100013",
+          "dst": "900000000000100024",
+          "sum_kzt": 79000,
+          "n_tx": 1
+        }
+      ]
+    },
+    {
+      "gid": "900000000000100025",
+      "role": "peripheral",
+      "role_score": 0.38,
+      "priority_score": 0.3334,
+      "depth": 4,
+      "is_seed": false,
+      "cluster_id": 1,
+      "observed_flows": {
+        "incoming_kzt": 45000,
+        "outgoing_kzt": 0,
+        "in_degree": 1,
+        "out_degree": 0,
+        "in_tx": 1,
+        "out_tx": 0
+      },
+      "evidence": "1 отправителей · 0 получателей · 45 000 KZT входящих в демонстрационном графе.",
+      "seed_reach_count": null,
+      "role_scores": {
+        "consolidator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "coordinator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "transit": {
+          "score": 0.12,
+          "applicable": false,
+          "reason": "Не применяется на этой глубине"
+        },
+        "distributor": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "terminal": {
+          "score": 0.12,
+          "applicable": false,
+          "reason": "Не применяется на этой глубине"
+        },
+        "peripheral": {
+          "score": 0.38,
+          "applicable": true,
+          "reason": null
+        }
+      },
+      "priority_components": [
+        {
+          "key": "Роль и её значимость",
+          "weight": 0.3,
+          "value": 0.4039999999999999,
+          "contribution": 0.1212,
+          "computed": true
+        },
+        {
+          "key": "Схождение seed-веток",
+          "weight": 0.25,
+          "value": 0.3939999999999999,
+          "contribution": 0.0985,
+          "computed": true
+        },
+        {
+          "key": "Центральность",
+          "weight": 0.15,
+          "value": 0.3839999999999999,
+          "contribution": 0.0576,
+          "computed": true
+        },
+        {
+          "key": "Наблюдаемый объём",
+          "weight": 0.15,
+          "value": 0.3739999999999999,
+          "contribution": 0.0561,
+          "computed": true
+        },
+        {
+          "key": "Временные сигналы",
+          "weight": 0.1,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        },
+        {
+          "key": "Устойчивость",
+          "weight": 0.05,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        }
+      ],
+      "limitations": [
+        {
+          "code": "depth_boundary",
+          "message": "Граница наблюдения · глубина 4. Дальнейшие переводы не видны; отсутствие исходящих не доказывает удержание средств."
+        },
+        {
+          "code": "synthetic",
+          "message": "Синтетический пример интерфейса. Роли и приоритеты не являются результатом анализа датасета."
+        }
+      ],
+      "next_action": "Запросить исходящие переводы за пределами 4-го колена и проверить продолжение цепочки.",
+      "edges": [
+        {
+          "src": "900000000000100021",
+          "dst": "900000000000100025",
+          "sum_kzt": 45000,
+          "n_tx": 1
+        }
+      ]
+    },
+    {
+      "gid": "900000000000100026",
+      "role": "peripheral",
+      "role_score": 0.38,
+      "priority_score": 0.313,
+      "depth": 0,
+      "is_seed": true,
+      "cluster_id": 2,
+      "observed_flows": {
+        "incoming_kzt": 0,
+        "outgoing_kzt": 0,
+        "in_degree": 0,
+        "out_degree": 0,
+        "in_tx": 0,
+        "out_tx": 0
+      },
+      "evidence": "0 отправителей · 0 получателей · 0 KZT входящих в демонстрационном графе.",
+      "seed_reach_count": null,
+      "role_scores": {
+        "consolidator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "coordinator": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "transit": {
+          "score": 0.12,
+          "applicable": false,
+          "reason": "Не применяется на этой глубине"
+        },
+        "distributor": {
+          "score": 0.12,
+          "applicable": true,
+          "reason": null
+        },
+        "terminal": {
+          "score": 0.12,
+          "applicable": false,
+          "reason": "Не применяется на этой глубине"
+        },
+        "peripheral": {
+          "score": 0.38,
+          "applicable": true,
+          "reason": null
+        }
+      },
+      "priority_components": [
+        {
+          "key": "Роль и её значимость",
+          "weight": 0.3,
+          "value": 0.38,
+          "contribution": 0.114,
+          "computed": true
+        },
+        {
+          "key": "Схождение seed-веток",
+          "weight": 0.25,
+          "value": 0.37,
+          "contribution": 0.0925,
+          "computed": true
+        },
+        {
+          "key": "Центральность",
+          "weight": 0.15,
+          "value": 0.36,
+          "contribution": 0.054,
+          "computed": true
+        },
+        {
+          "key": "Наблюдаемый объём",
+          "weight": 0.15,
+          "value": 0.35,
+          "contribution": 0.0525,
+          "computed": true
+        },
+        {
+          "key": "Временные сигналы",
+          "weight": 0.1,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        },
+        {
+          "key": "Устойчивость",
+          "weight": 0.05,
+          "value": null,
+          "contribution": 0,
+          "computed": false
+        }
+      ],
+      "limitations": [
+        {
+          "code": "seed_inflow",
+          "message": "Входящие переводы seed-клиента неполны. Наблюдаемый входящий объём не отражает все поступления."
+        },
+        {
+          "code": "synthetic",
+          "message": "Синтетический пример интерфейса. Роли и приоритеты не являются результатом анализа датасета."
+        }
+      ],
+      "next_action": "Запросить полную историю входящих переводов за период.",
+      "edges": []
+    }
+  ],
+  "edges": [
+    {
+      "src": "900000000000100002",
+      "dst": "900000000000100001",
+      "sum_kzt": 312000,
+      "n_tx": 3
+    },
+    {
+      "src": "900000000000100003",
+      "dst": "900000000000100001",
+      "sum_kzt": 399000,
+      "n_tx": 4
+    },
+    {
+      "src": "900000000000100004",
+      "dst": "900000000000100001",
+      "sum_kzt": 486000,
+      "n_tx": 5
+    },
+    {
+      "src": "900000000000100005",
+      "dst": "900000000000100001",
+      "sum_kzt": 573000,
+      "n_tx": 6
+    },
+    {
+      "src": "900000000000100006",
+      "dst": "900000000000100001",
+      "sum_kzt": 660000,
+      "n_tx": 7
+    },
+    {
+      "src": "900000000000100007",
+      "dst": "900000000000100001",
+      "sum_kzt": 747000,
+      "n_tx": 8
+    },
+    {
+      "src": "900000000000100001",
+      "dst": "900000000000100008",
+      "sum_kzt": 480000,
+      "n_tx": 4
+    },
+    {
+      "src": "900000000000100001",
+      "dst": "900000000000100009",
+      "sum_kzt": 220000,
+      "n_tx": 3
+    },
+    {
+      "src": "900000000000100008",
+      "dst": "900000000000100010",
+      "sum_kzt": 435000,
+      "n_tx": 4
+    },
+    {
+      "src": "900000000000100010",
+      "dst": "900000000000100008",
+      "sum_kzt": 45000,
+      "n_tx": 1
+    },
+    {
+      "src": "900000000000100009",
+      "dst": "900000000000100011",
+      "sum_kzt": 180000,
+      "n_tx": 2
+    },
+    {
+      "src": "900000000000100011",
+      "dst": "900000000000100001",
+      "sum_kzt": 20000,
+      "n_tx": 1
+    },
+    {
+      "src": "900000000000100010",
+      "dst": "900000000000100012",
+      "sum_kzt": 82200,
+      "n_tx": 2
+    },
+    {
+      "src": "900000000000100010",
+      "dst": "900000000000100013",
+      "sum_kzt": 87400,
+      "n_tx": 2
+    },
+    {
+      "src": "900000000000100010",
+      "dst": "900000000000100014",
+      "sum_kzt": 92600,
+      "n_tx": 2
+    },
+    {
+      "src": "900000000000100010",
+      "dst": "900000000000100015",
+      "sum_kzt": 97800,
+      "n_tx": 2
+    },
+    {
+      "src": "900000000000100010",
+      "dst": "900000000000100016",
+      "sum_kzt": 103000,
+      "n_tx": 2
+    },
+    {
+      "src": "900000000000100010",
+      "dst": "900000000000100017",
+      "sum_kzt": 108200,
+      "n_tx": 2
+    },
+    {
+      "src": "900000000000100010",
+      "dst": "900000000000100018",
+      "sum_kzt": 113400,
+      "n_tx": 2
+    },
+    {
+      "src": "900000000000100010",
+      "dst": "900000000000100019",
+      "sum_kzt": 118600,
+      "n_tx": 2
+    },
+    {
+      "src": "900000000000100010",
+      "dst": "900000000000100020",
+      "sum_kzt": 123800,
+      "n_tx": 2
+    },
+    {
+      "src": "900000000000100010",
+      "dst": "900000000000100021",
+      "sum_kzt": 129000,
+      "n_tx": 2
+    },
+    {
+      "src": "900000000000100010",
+      "dst": "900000000000100022",
+      "sum_kzt": 134200,
+      "n_tx": 2
+    },
+    {
+      "src": "900000000000100012",
+      "dst": "900000000000100023",
+      "sum_kzt": 95000,
+      "n_tx": 2
+    },
+    {
+      "src": "900000000000100013",
+      "dst": "900000000000100024",
+      "sum_kzt": 79000,
+      "n_tx": 1
+    },
+    {
+      "src": "900000000000100021",
+      "dst": "900000000000100025",
+      "sum_kzt": 45000,
+      "n_tx": 1
+    }
+  ],
+  "top": [
+    {
+      "rank": 1,
+      "gid": "900000000000100001",
+      "role": "consolidator",
+      "priority_score": 0.823,
+      "why": "7 отправителей · 2 получателей · 3 197 000 KZT входящих в демонстрационном графе."
+    },
+    {
+      "rank": 2,
+      "gid": "900000000000100002",
+      "role": "distributor",
+      "priority_score": 0.8026,
+      "why": "0 отправителей · 1 получателей · 0 KZT входящих в демонстрационном графе."
+    },
+    {
+      "rank": 3,
+      "gid": "900000000000100003",
+      "role": "distributor",
+      "priority_score": 0.7822,
+      "why": "0 отправителей · 1 получателей · 0 KZT входящих в демонстрационном графе."
+    },
+    {
+      "rank": 4,
+      "gid": "900000000000100004",
+      "role": "distributor",
+      "priority_score": 0.7618,
+      "why": "0 отправителей · 1 получателей · 0 KZT входящих в демонстрационном графе."
+    },
+    {
+      "rank": 5,
+      "gid": "900000000000100005",
+      "role": "distributor",
+      "priority_score": 0.7414,
+      "why": "0 отправителей · 1 получателей · 0 KZT входящих в демонстрационном графе."
+    },
+    {
+      "rank": 6,
+      "gid": "900000000000100006",
+      "role": "distributor",
+      "priority_score": 0.721,
+      "why": "0 отправителей · 1 получателей · 0 KZT входящих в демонстрационном графе."
+    },
+    {
+      "rank": 7,
+      "gid": "900000000000100007",
+      "role": "distributor",
+      "priority_score": 0.7006,
+      "why": "0 отправителей · 1 получателей · 0 KZT входящих в демонстрационном графе."
+    },
+    {
+      "rank": 8,
+      "gid": "900000000000100008",
+      "role": "transit",
+      "priority_score": 0.6802,
+      "why": "2 отправителей · 1 получателей · 525 000 KZT входящих в демонстрационном графе."
+    },
+    {
+      "rank": 9,
+      "gid": "900000000000100009",
+      "role": "transit",
+      "priority_score": 0.6598,
+      "why": "1 отправителей · 1 получателей · 220 000 KZT входящих в демонстрационном графе."
+    },
+    {
+      "rank": 10,
+      "gid": "900000000000100010",
+      "role": "distributor",
+      "priority_score": 0.6394,
+      "why": "1 отправителей · 12 получателей · 435 000 KZT входящих в демонстрационном графе."
+    },
+    {
+      "rank": 11,
+      "gid": "900000000000100011",
+      "role": "coordinator",
+      "priority_score": 0.619,
+      "why": "1 отправителей · 1 получателей · 180 000 KZT входящих в демонстрационном графе."
+    },
+    {
+      "rank": 12,
+      "gid": "900000000000100012",
+      "role": "transit",
+      "priority_score": 0.5986,
+      "why": "1 отправителей · 1 получателей · 82 200 KZT входящих в демонстрационном графе."
+    },
+    {
+      "rank": 13,
+      "gid": "900000000000100013",
+      "role": "transit",
+      "priority_score": 0.5782,
+      "why": "1 отправителей · 1 получателей · 87 400 KZT входящих в демонстрационном графе."
+    },
+    {
+      "rank": 14,
+      "gid": "900000000000100014",
+      "role": "terminal",
+      "priority_score": 0.5578,
+      "why": "1 отправителей · 0 получателей · 92 600 KZT входящих в демонстрационном графе."
+    },
+    {
+      "rank": 15,
+      "gid": "900000000000100015",
+      "role": "terminal",
+      "priority_score": 0.5374,
+      "why": "1 отправителей · 0 получателей · 97 800 KZT входящих в демонстрационном графе."
+    },
+    {
+      "rank": 16,
+      "gid": "900000000000100016",
+      "role": "terminal",
+      "priority_score": 0.517,
+      "why": "1 отправителей · 0 получателей · 103 000 KZT входящих в демонстрационном графе."
+    },
+    {
+      "rank": 17,
+      "gid": "900000000000100017",
+      "role": "terminal",
+      "priority_score": 0.4966,
+      "why": "1 отправителей · 0 получателей · 108 200 KZT входящих в демонстрационном графе."
+    },
+    {
+      "rank": 18,
+      "gid": "900000000000100018",
+      "role": "terminal",
+      "priority_score": 0.4762,
+      "why": "1 отправителей · 0 получателей · 113 400 KZT входящих в демонстрационном графе."
+    },
+    {
+      "rank": 19,
+      "gid": "900000000000100019",
+      "role": "terminal",
+      "priority_score": 0.4558,
+      "why": "1 отправителей · 0 получателей · 118 600 KZT входящих в демонстрационном графе."
+    },
+    {
+      "rank": 20,
+      "gid": "900000000000100020",
+      "role": "terminal",
+      "priority_score": 0.4354,
+      "why": "1 отправителей · 0 получателей · 123 800 KZT входящих в демонстрационном графе."
+    }
+  ],
+  "clusters": [
+    {
+      "cluster_id": 0,
+      "n_nodes": 11,
+      "n_seed": 6,
+      "sum_kzt_internal": 4557000,
+      "top_gids": [
+        "900000000000100001",
+        "900000000000100002",
+        "900000000000100003"
+      ],
+      "hypothesis": "Демонстрационная группа для проверки навигации и структуры карточки. Аналитическая гипотеза ещё не рассчитана."
+    },
+    {
+      "cluster_id": 1,
+      "n_nodes": 14,
+      "n_seed": 0,
+      "sum_kzt_internal": 219000,
+      "top_gids": [
+        "900000000000100012",
+        "900000000000100013",
+        "900000000000100014"
+      ],
+      "hypothesis": "Демонстрационная группа для проверки навигации и структуры карточки. Аналитическая гипотеза ещё не рассчитана."
+    },
+    {
+      "cluster_id": 2,
+      "n_nodes": 1,
+      "n_seed": 1,
+      "sum_kzt_internal": 0,
+      "top_gids": [
+        "900000000000100026"
+      ],
+      "hypothesis": "Изолированный seed в демонстрационном наборе."
+    }
+  ]
+}
