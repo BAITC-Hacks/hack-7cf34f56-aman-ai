@@ -26,3 +26,5 @@
 - **ADR-021:** JSON artifacts are generated locally; API serves one snapshot loaded at startup. API/AI dependencies stay in separate optional requirements.
 
 - **ADR-022:** Completion tested Python 3.14.0 / NetworkX 3.7 in a clean environment. Reciprocal KZT is summed before log1p; repeated Louvain yields 65 communities and 10 multi-seed communities. Do not match the alternative 3.6.1 result by tuning.
+- **ADR-023:** OpenAI remains the tool-calling investigator over deterministic facts. NVIDIA is an optional evidence critic with validated JSON output; critic configuration, timeout, provider, or parsing failure is fail-open and cannot block a grounded OpenAI response or any deterministic endpoint.
+- **ADR-024:** AI explanations share one authoritative field glossary with deterministic tool payloads. A local answer validator enforces high-risk metric semantics and factual values; it permits one tool-free correction turn, then uses a deterministic conservative fallback. Generic observation-boundary questions use a methodology tool, and seed-path results distinguish the target gid and its seed status from source seeds.
