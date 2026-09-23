@@ -20,7 +20,7 @@ Parquet → validate → directed graph → feature table → Louvain communitie
 ## Non-negotiable data rules
 
 - Preserve gid as a string at the API/frontend boundary; JavaScript numbers would round it.
-- Directed edges go only from depth `n` to `n+1`. Do not pitch cycles or return flows for this export.
+- The canonical graph is directed and is not a DAG. `nodes.depth` is minimum discovery generation; every `edges.depth` equals `src.depth + 1`, while destinations may be at the same or an earlier depth. Keep all edges. Cycle analysis is optional, not P0.
 - Transactions have dates, not times. Temporal claims are same day or one to two days, never minutes.
 - `depth=4` is an observation boundary. A zero outgoing degree there is never sufficient terminal evidence.
 - Louvain uses a weighted undirected projection only for communities; flow analysis retains the directed graph.
@@ -36,7 +36,7 @@ For each gid, calculate: in/out degree, unique senders/recipients, observed inbo
 
 ### Seed convergence
 
-Give each of the 81 seeds one bit in an 81-bit mask. Process nodes from depth 0 to 4; OR inbound masks at every node. The popcount is `seed_reach_count`, the number of distinct seed branches that can reach a node. Normalize it as `seed_convergence_score`. This is the primary differentiator, but remains evidence of convergence rather than proof that the same funds arrived.
+Sort the 81 seed gids and all directed adjacency lists by gid. Give each seed one bit and run a directed BFS from that seed over the complete canonical graph, with a visited set. OR that bit into each reached node's mask. The popcount is `seed_reach_count`, the number of distinct seed gids with at least one observed directed path to the node; multiple paths from one seed count once. This costs `O(S × (V + E))`, handles cycles without discarding cross-level edges, and remains evidence of convergence rather than proof that the same funds arrived.
 
 Use `transactions.parquet` for same-day/one-to-two-day pass-through, daily bursts, and synchronized incoming activity. Keep duplicate transaction rows because no transaction ID exists.
 
@@ -72,7 +72,7 @@ Evidence is template-based and uses actual values. Example: `Признаки к
 
 ## Formal scoring specification
 
-This section is the implementation contract for the second hour. `pct_depth(x)` is the tie-aware percentile rank of `x` among nodes at the same depth; a constant or unavailable feature receives `0`. Keep raw values for evidence. The feature `seed_convergence` is `pct_depth(seed_reach_count)`: raw `seed_reach_count` means the number of distinct seed gids having at least one observed directed path to the node, not independent paths.
+This section is the implementation contract for the second hour. `pct_depth(x)` is calculated only among nodes at the same depth. For a valid non-constant depth group of size `N > 1`, calculate ascending average ranks for ties and return `(average_rank(x) - 1) / (N - 1)`, clipped to `[0,1]`. Return `0` for `N == 1`, an unavailable/invalid value, or a constant group. Keep raw values for evidence. The feature `seed_convergence` is `pct_depth(seed_reach_count)`: raw `seed_reach_count` means the number of distinct seed gids having at least one observed directed path to the node, not independent paths.
 
 `retention_obs = incoming_kzt / (incoming_kzt + outgoing_kzt)` when the denominator is positive, otherwise `0`. `flow_balance = max(0, 1 - abs(log((outgoing_kzt + 1)/(incoming_kzt + 1))))`. Values are clipped to `[0,1]`.
 
@@ -104,7 +104,7 @@ Choose the highest eligible role score. If every non-peripheral score is below `
 
 For priority, define `centrality=.5*pagerank_pct+.5*betweenness_pct`, `temporal=max(timing_consistent_turnover, burst_pct, synchronous_incoming_pct)`, and use zero for unavailable optional components. `role_weight` is 1.0 for coordinator/consolidator, .85 for transit, .80 for distributor, .45 for terminal, and .15 for peripheral.
 
-`resilience_pct` is calculated one node at a time for the candidate set of the top 50 preliminary-priority nodes. Let `L0` be the largest weak-component size and `R0` the count of reachable ordered `(seed, non-seed)` pairs in the directed graph. After removing the node and its incident edges, calculate `L1` and `R1`; `resilience_raw=.5*((L0-L1)/L0)+.5*((R0-R1)/R0)`, with zero-safe denominators. `resilience_pct` is the percentile rank of `resilience_raw` within that candidate set; all other nodes receive zero.
+Define `preliminary_priority` as the final priority formula with `resilience_pct=0`. Sort it by `preliminary_priority DESC, gid ASC` and use the first 50 nodes as the resilience candidate set. `resilience_pct` is calculated one node at a time only for that set; all other nodes receive zero. Let `L0` be the largest weak-component size and `R0` the count of reachable ordered `(seed, non-seed)` pairs in the directed graph. After removing the node and its incident edges, calculate `L1` and `R1`; `resilience_raw=.5*((L0-L1)/L0)+.5*((R0-R1)/R0)`, with zero-safe denominators. `resilience_pct` is the percentile rank of `resilience_raw` within that candidate set; all other nodes receive zero.
 
 ```text
 priority = .30*(role_weight*role_score) + .25*seed_convergence

@@ -28,3 +28,7 @@ build/
 # Logs
 *.log
 npm-debug.log*
+# Local HackAlem data remains local unless already tracked intentionally
+data/*.parquet
+.env.*
+**/__pycache__/

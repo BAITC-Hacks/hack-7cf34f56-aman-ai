@@ -1,0 +1,267 @@
+{
+  "data": {
+    "node_count": 2248,
+    "edge_count": 3119,
+    "transaction_count": 4840,
+    "seed_count": 81,
+    "depth_distribution": {
+      "0": 81,
+      "1": 472,
+      "2": 462,
+      "3": 789,
+      "4": 444
+    },
+    "edge_depth_delta_distribution": {
+      "-3": 20,
+      "-2": 56,
+      "-1": 433,
+      "0": 236,
+      "1": 2374
+    },
+    "zero_edge_amount_count": 0,
+    "zero_transaction_amount_count": 0,
+    "duplicate_transaction_row_count": 97,
+    "cross_level_edge_count": 745,
+    "checks": {
+      "edge_depth_is_source_step": true,
+      "transaction_aggregate_matches_edges": true
+    },
+    "warnings": [
+      "Duplicate transaction rows are retained because transactions have no transaction ID."
+    ]
+  },
+  "graph": {
+    "weak_component_count": 35,
+    "scc_count": 2023,
+    "cyclic_scc_count": 84,
+    "nodes_in_cyclic_sccs": 309,
+    "largest_cyclic_scc": 85,
+    "internal_cyclic_scc_edges": 548,
+    "self_loop_count": 0
+  },
+  "communities": {
+    "community_count": 65,
+    "community_size_distribution": {
+      "1": 19,
+      "2": 2,
+      "3": 2,
+      "4": 2,
+      "5": 2,
+      "6": 4,
+      "7": 1,
+      "8": 2,
+      "9": 1,
+      "11": 1,
+      "12": 1,
+      "13": 1,
+      "15": 2,
+      "17": 1,
+      "21": 1,
+      "26": 1,
+      "29": 1,
+      "39": 2,
+      "40": 1,
+      "43": 1,
+      "44": 1,
+      "51": 1,
+      "54": 1,
+      "55": 1,
+      "60": 2,
+      "69": 1,
+      "86": 1,
+      "89": 1,
+      "105": 1,
+      "111": 1,
+      "120": 1,
+      "157": 1,
+      "164": 1,
+      "174": 1,
+      "187": 1,
+      "239": 1
+    },
+    "seed_count_per_community": {
+      "1": 4,
+      "2": 3,
+      "3": 5,
+      "4": 4,
+      "5": 8,
+      "6": 2,
+      "7": 0,
+      "8": 0,
+      "9": 2,
+      "10": 1,
+      "11": 3,
+      "12": 0,
+      "13": 0,
+      "14": 0,
+      "15": 1,
+      "16": 0,
+      "17": 0,
+      "18": 0,
+      "19": 1,
+      "20": 0,
+      "21": 0,
+      "22": 1,
+      "23": 0,
+      "24": 0,
+      "25": 0,
+      "26": 0,
+      "27": 1,
+      "28": 1,
+      "29": 1,
+      "30": 0,
+      "31": 1,
+      "32": 1,
+      "33": 0,
+      "34": 0,
+      "35": 0,
+      "36": 0,
+      "37": 0,
+      "38": 14,
+      "39": 1,
+      "40": 1,
+      "41": 1,
+      "42": 1,
+      "43": 1,
+      "44": 1,
+      "45": 0,
+      "46": 1,
+      "47": 1,
+      "48": 1,
+      "49": 1,
+      "50": 1,
+      "51": 1,
+      "52": 1,
+      "53": 1,
+      "54": 1,
+      "55": 1,
+      "56": 1,
+      "57": 1,
+      "58": 1,
+      "59": 1,
+      "60": 2,
+      "61": 1,
+      "62": 1,
+      "63": 1,
+      "64": 1,
+      "65": 1
+    }
+  },
+  "features": {
+    "pagerank": {
+      "min": 0.0002855692942172909,
+      "median": 0.00031346754888346624,
+      "max": 0.0059957331954744305
+    },
+    "betweenness": {
+      "min": 0.0,
+      "median": 0.0,
+      "max": 0.008627313909393785
+    },
+    "incoming_kzt": {
+      "min": 0.0,
+      "median": 50000.0,
+      "max": 4500000.0
+    },
+    "outgoing_kzt": {
+      "min": 0.0,
+      "median": 0.0,
+      "max": 23001375.0
+    }
+  },
+  "seed_convergence": {
+    "min": 1,
+    "median": 7.0,
+    "mean": 5.6961743772241995,
+    "max": 16,
+    "counts_at_least": {
+      "2": 1639,
+      "3": 1598,
+      "5": 1596,
+      "10": 148
+    },
+    "top_20": [
+      {
+        "gid": "100000005523088100",
+        "seed_reach_count": 16
+      },
+      {
+        "gid": "100000004041163100",
+        "seed_reach_count": 15
+      },
+      {
+        "gid": "100000005382566100",
+        "seed_reach_count": 15
+      },
+      {
+        "gid": "100000004019124100",
+        "seed_reach_count": 12
+      },
+      {
+        "gid": "100000005493505100",
+        "seed_reach_count": 12
+      },
+      {
+        "gid": "100000000806727100",
+        "seed_reach_count": 11
+      },
+      {
+        "gid": "100000001346560100",
+        "seed_reach_count": 11
+      },
+      {
+        "gid": "100000001616816100",
+        "seed_reach_count": 11
+      },
+      {
+        "gid": "100000001641789100",
+        "seed_reach_count": 11
+      },
+      {
+        "gid": "100000001641951100",
+        "seed_reach_count": 11
+      },
+      {
+        "gid": "100000001904863100",
+        "seed_reach_count": 11
+      },
+      {
+        "gid": "100000001924185100",
+        "seed_reach_count": 11
+      },
+      {
+        "gid": "100000001937767100",
+        "seed_reach_count": 11
+      },
+      {
+        "gid": "100000002537811100",
+        "seed_reach_count": 11
+      },
+      {
+        "gid": "100000002605308100",
+        "seed_reach_count": 11
+      },
+      {
+        "gid": "100000002836052100",
+        "seed_reach_count": 11
+      },
+      {
+        "gid": "100000002957306100",
+        "seed_reach_count": 11
+      },
+      {
+        "gid": "100000003115284100",
+        "seed_reach_count": 11
+      },
+      {
+        "gid": "100000003360542100",
+        "seed_reach_count": 11
+      },
+      {
+        "gid": "100000003390036100",
+        "seed_reach_count": 11
+      }
+    ]
+  },
+  "runtime_seconds": 0.994622
+}
