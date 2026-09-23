@@ -381,8 +381,7 @@ button:not(:disabled), [role=button] { cursor: pointer; }
 .chat-sources { display: flex; flex-wrap: wrap; gap: 6px; }
 .chat-composer { padding: 12px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 8px; }
 .chat-composer textarea { min-height: 78px; max-height: 160px; }
-.chat-composer-actions { display: flex; justify-content: space-between; gap: 8px; align-items: center; }
-.chat-composer-actions [data-slot=select-trigger] { min-width: 0; max-width: 260px; flex: 1; }
+.chat-composer-actions { display: flex; justify-content: flex-end; gap: 8px; align-items: center; }
 .chat-composer > p { font-size: 10px; color: var(--muted-foreground); }
 [data-slot=sheet-content] > .side-panel { flex: 1; border: none; border-radius: 0; }
 @media (max-width: 1279px) {

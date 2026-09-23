@@ -17,8 +17,8 @@ export const chatApi = {
     if (!response.ok) throw new Error('AI-ассистент не подключён. Основные инструменты анализа доступны.')
     return statusSchema.parse(await response.json())
   },
-  async send(message: string, selectedGid: string | null, history: ChatMessage[], review: boolean, signal: AbortSignal) {
-    const response = await fetch('/api/agent/chat', { method: 'POST', signal, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message, selectedGid, history: history.slice(-10).map(m => ({ role: m.role, content: m.content.slice(0, 6000) })), dataMode, review }) })
+  async send(message: string, selectedGid: string | null, history: ChatMessage[], signal: AbortSignal) {
+    const response = await fetch('/api/agent/chat', { method: 'POST', signal, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message, selectedGid, history: history.slice(-10).map(m => ({ role: m.role, content: m.content.slice(0, 6000) })), dataMode, review: false }) })
     const body = await response.json().catch(() => null)
     if (!response.ok) throw new Error(body?.error || 'Ассистент недоступен. Повторите запрос позже.')
     const parsed = replySchema.safeParse(body)

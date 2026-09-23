@@ -127,7 +127,7 @@ npm run test:agent
 .venv/bin/python -m unittest discover -s apps/frontend/scripts -p 'test_export_project_data.py'
 ```
 
-Tests cover data contracts, exact GIDs, unknown metrics, directed neighborhoods, filters, reciprocal links, logarithmic scaling, full-size fixture integrity, project data loading, API endpoint reuse, exports, server-side tool calls, data-mode isolation, and NVIDIA review failure handling. Generate project data before running the assistant tests (`npm run build` above does this in project mode).
+Tests cover data contracts, exact GIDs, unknown metrics, directed neighborhoods, filters, reciprocal links, logarithmic scaling, full-size fixture integrity, project data loading, API endpoint reuse, exports, server-side tool calls, and data-mode isolation. Legacy server tests also cover NVIDIA review failure handling for compatibility; the browser chat does not enable that path. Generate project data before running the assistant tests (`npm run build` above does this in project mode).
 
 With the default project server running, verify real data workflows from this directory:
 
@@ -162,13 +162,13 @@ Regenerate the original 26 examples with `npm run fixtures`. `src/lib/graph-demo
 
 ## Analyst assistant
 
-The single **AI-помощник** button in the header opens AI chat. The selected client remains its context; press Send to submit a question. Source links reopen a client. The conversation supports follow-ups, cancellation, retry, and a new conversation action. The optional NVIDIA mode provides a separate critique of OpenAI's answer.
+The single **AI-помощник** button in the header opens AI chat powered by OpenAI through the application's server. The selected client remains its context; press Send to submit a question. Source links reopen a client. The conversation supports follow-ups, cancellation, retry, and a new conversation action. There is no provider selector or separate review step in the browser chat.
 
-Use the repository-root `.env.example` as a template. Set `OPENAI_API_KEY` and optionally `NVIDIA_API_KEY` only in the root `.env`, then restart the dev server. `OPENAI_MODEL` and `NVIDIA_MODEL` can override model defaults. Do not use `VITE_` prefixes for keys. No AI request is needed for graph exploration or client inspection.
+Use the repository-root `.env.example` as a template. Set `OPENAI_API_KEY` only in the root `.env`, then restart the dev server. The default chat model is `gpt-4.1-mini`; `OPENAI_MODEL` overrides it. The server uses the official OpenAI SDK and Responses API with tools that retrieve calculated graph facts. The key stays on the server; never give it a `VITE_` prefix. No AI request is needed for graph exploration or client inspection.
 
 `npm run dev` includes the server-side bridge at `/api/agent/status` and `/api/agent/chat`. `npm run preview` includes the same bridge for local production-build checks. In project mode, the bridge reads the same validated `public/project-data.json` as the UI. In API mode, also set `ANALYTICS_API_BASE_URL` to the analytical server used by `VITE_API_BASE_URL`; the bridge retrieves and validates its own facts. For a deployed static frontend, run `npm run agent` (loopback port 8787, configurable with `AGENT_PORT`) and route `/api/agent/*` through a same-origin reverse proxy. Add authentication before a multi-user deployment.
 
-Live checks on 2026-09-23 returned authentication failures for both configured providers. UI and orchestration are tested with synthetic data and mocked model responses; live answers require valid keys. No credentials were changed.
+The latest live check on 2026-09-23 completed a minimal OpenAI Responses request using the application's server environment and `gpt-4.1-mini`. It confirmed working OpenAI credentials and model access without submitting graph data. Earlier same-day authentication failures describe the prior configuration and are superseded for OpenAI by this check. NVIDIA was not retested and is not enabled by the browser chat. Automated orchestration tests use mocked model responses.
 
 See [requirements and pipeline handoff](../../docs/frontend-requirements-and-pipeline.md) for the mandatory features, backend responsibilities, current gaps, and AI tool contract.
 
