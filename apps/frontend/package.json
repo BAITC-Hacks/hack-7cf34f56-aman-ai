@@ -8,6 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
+    "start": "node server/production.mjs",
+    "test:server": "node --test server/production.node-test.mjs",
     "test": "vitest run",
     "fixtures": "node scripts/generate-demo.mjs",
     "qa:browser": "node scripts/browser-qa.mjs",
@@ -20,7 +22,9 @@
     "prebuild": "node scripts/prepare-project-data.mjs production",
     "qa:project": "node scripts/project-browser-qa.mjs",
     "qa:csv": "node scripts/csv-browser-qa.mjs",
-    "test:agent": "vitest run --config vitest.agent.config.ts"
+    "test:agent": "vitest run --config vitest.agent.config.ts",
+    "qa:agent:live": "node scripts/agent-live-qa.mjs",
+    "qa:agent": "node scripts/agent-browser-qa.mjs"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.3.0",

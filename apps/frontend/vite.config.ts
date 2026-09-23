@@ -13,6 +13,10 @@ export default defineConfig(({ mode }) => {
     envDir,
     plugins: [react(), tailwindcss(), {
       name: 'moneygraph-agent',
+      generateBundle() {
+        // Bind the deployed server to the same data mode compiled into the UI.
+        this.emitFile({ type: 'asset', fileName: 'runtime-config.json', source: JSON.stringify({ dataMode: agentOptions.dataMode }) })
+      },
       configureServer(server) { server.middlewares.use(createAgentHandler(agentOptions)) },
       configurePreviewServer(server) { server.middlewares.use(createAgentHandler(agentOptions)) },
     }],

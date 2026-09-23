@@ -7,5 +7,9 @@ const envFile = fileURLToPath(new URL('../../../.env', import.meta.url))
 if (existsSync(envFile)) process.loadEnvFile(envFile)
 const handler = createAgentHandler({ env: process.env, dataMode: process.env.VITE_DATA_MODE === 'demo' ? 'demo' : process.env.VITE_DATA_MODE === 'api' ? 'api' : 'project' })
 const server = createServer((req, res) => handler(req, res, () => { res.writeHead(404); res.end() }))
+server.headersTimeout = 15000
+server.requestTimeout = 100000
+server.maxHeadersCount = 40
+server.maxRequestsPerSocket = 100
 const port = Number(process.env.AGENT_PORT || 8787)
 server.listen(port, '127.0.0.1', () => console.log(`MoneyGraph agent: http://127.0.0.1:${port}`))

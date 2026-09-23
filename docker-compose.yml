@@ -1,0 +1,14 @@
+services:
+  moneygraph:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "127.0.0.1:8080:3000"
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: "3000"
+      # Explicit public access is limited to this machine by the loopback binding.
+      APP_ACCESS_MODE: public
+    init: true

@@ -20,8 +20,8 @@ describe('server-side analyst agent', () => {
     expect(result.trace).toEqual([{ tool: 'get_node', status: 'completed' }, { tool: 'get_node', status: 'completed' }])
     const submitted = client.responses.create.mock.calls[0][0]
     expect(submitted.store).toBe(false)
-    expect(submitted.input.find(i => i.role === 'developer').content).toContain('3197000')
-    expect(submitted.input.some(i => i.type === 'function_call_output' && i.output.includes('900000000000100002'))).toBe(true)
+    expect(submitted.input.find(i => i.type === 'function_call_output').output).toContain('3197000')
+    expect(client.responses.create.mock.calls[1][0].input.some(i => i.type === 'function_call_output' && i.output.includes('900000000000100002'))).toBe(true)
   })
   it('does not substitute demo data after a backend failure', async () => {
     const client = stub(done)
@@ -66,12 +66,12 @@ describe('server-side analyst agent', () => {
     )
     const fetchImpl = vi.fn(() => { throw new Error('Network is forbidden in this test') })
     const service = createAgentService({ env: {}, openai: client, fetchImpl })
-    expect(service.status()).toEqual({ available: true, reviewerAvailable: false, dataMode: 'project' })
+    expect(service.status()).toMatchObject({ available: true, reviewerAvailable: false, dataMode: 'project', verification: 'unverified' })
     const result = await service.chat({ ...request, selectedGid: null, dataMode: 'project' })
     expect(result.dataMode).toBe('project')
     expect(result.sources[0].gid).toBe(gid)
-    const input = client.responses.create.mock.calls[0][0].input
-    const initialContext = input.find(item => item.role === 'developer').content
+    const input = client.responses.create.mock.calls.at(-1)[0].input
+    const initialContext = input.find(item => item.type === 'function_call_output').output
     expect(initialContext).toContain(`"gid":"${gid}"`)
     expect(initialContext).toContain(`"priority_score":${priority}`)
     expect(initialContext).not.toContain('900000000000100001')
@@ -87,7 +87,7 @@ describe('server-side analyst agent', () => {
     const result = await createAgentService({ env: {}, openai: client }).chat({ ...request, selectedGid: '123', dataMode: 'project' })
     expect(result.sources).toEqual([])
     expect(result.trace).toEqual([{ tool: 'get_node', status: 'not_found' }])
-    expect(client.responses.create.mock.calls[0][0].input.find(item => item.role === 'developer').content).toContain('Клиент или кластер не найден.')
+    expect(client.responses.create.mock.calls[0][0].input.find(item => item.type === 'function_call_output').output).toContain('Клиент или кластер не найден.')
   })
   it('reports a missing project export as unavailable before inference', async () => {
     const client = stub(done)

@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: moneygraph-investigator
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    autoDeployTrigger: "off"
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0
+      - key: PORT
+        value: "10000"
+      - key: APP_ACCESS_USER
+        value: judge
+      - key: APP_ACCESS_PASSWORD
+        generateValue: true
