@@ -24,3 +24,18 @@ Use small synthetic fixtures plus integration validation on supplied Parquets.
 - **API:** 200/400/404, gid-string handling, hop and node caps.
 - **Integration:** `python main.py` from raw Parquets creates all three CSVs under
   five minutes without frontend, API, LLM, internet, or database.
+
+Depth-4 retention is retained as observed data but excluded from consolidator inference; it is unreliable because the observation boundary truncates outgoing visibility. Consumer views must show role eligibility separately from theoretical score.
+
+## Completion regressions
+- Peripheral complement uses eligible roles at depths 0/4 and the same .55 floor.
+- Explorer explains every selected real role, including Peripheral and Transit.
+- Temporal offsets 0/1/2 qualify, 3 does not; multiple incoming days cannot count
+  an outgoing amount twice; unique same-day senders and incident counts are tested.
+- Global Top-20 membership is checked against all node outputs.
+- Real-data temporal/priority reconstruction, eligibility and candidate-only resilience.
+- Product JSON score applicability, string gids, graph endpoints and priority sums.
+- Read-only API known/missing/malformed inputs, both hops, cap, cluster/search and
+  missing artifacts; optional AI unavailable state.
+- Seven bounded tools, cycle safety, unreachable paths and mocked SDK Responses
+  roundtrip, invalid tool calls and budgets.

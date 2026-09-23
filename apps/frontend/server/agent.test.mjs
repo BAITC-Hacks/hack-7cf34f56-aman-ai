@@ -1,4 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
+import { readFileSync } from 'node:fs'
 import { createAgentService, chatRequest } from './agent.mjs'
 
 // Real-source integration cases need `npm run data:project` once before this
@@ -56,7 +57,8 @@ describe('server-side analyst agent', () => {
     expect(result.trace[1].status).toBe('not_found')
   })
   it('uses project results by default and retrieves real top, node and cluster facts locally', async () => {
-    const gid = '100000003115284100'
+    const [, gid, role, priorityText] = readFileSync(new URL('../../../results/top_nodes.csv', import.meta.url), 'utf8').split(/\r?\n/)[1].split(',')
+    const priority = Number(priorityText)
     const client = stub(
       { output: [{ type: 'function_call', name: 'get_node', call_id: 'node', arguments: JSON.stringify({ gid }) }] },
       { output: [{ type: 'function_call', name: 'get_cluster', call_id: 'cluster', arguments: '{"cluster_id":1}' }] },
@@ -71,11 +73,11 @@ describe('server-side analyst agent', () => {
     const input = client.responses.create.mock.calls[0][0].input
     const initialContext = input.find(item => item.role === 'developer').content
     expect(initialContext).toContain(`"gid":"${gid}"`)
-    expect(initialContext).toContain('"priority_score":0.862398')
+    expect(initialContext).toContain(`"priority_score":${priority}`)
     expect(initialContext).not.toContain('900000000000100001')
     const nodeOutput = JSON.parse(input.find(item => item.call_id === 'node' && item.type === 'function_call_output').output)
     expect(nodeOutput.source).toBe('project')
-    expect(nodeOutput.result).toMatchObject({ gid, role: 'consolidator', priority_score: 0.862398 })
+    expect(nodeOutput.result).toMatchObject({ gid, role, priority_score: priority })
     const clusterOutput = JSON.parse(input.find(item => item.call_id === 'cluster' && item.type === 'function_call_output').output)
     expect(clusterOutput.result).toMatchObject({ cluster_id: 1, n_nodes: 239, n_seed: 4 })
     expect(fetchImpl).not.toHaveBeenCalled()

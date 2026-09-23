@@ -34,9 +34,9 @@ To refresh after a backend pipeline run:
 npm --prefix apps/frontend run data:project
 ```
 
-Reload the browser to load the refreshed export. The normal startup/build hooks also refresh it from existing results. They do not automatically run `main.py`. `transactions.parquet` is used by backend analytics when supported; the frontend export uses aggregated canonical edges and does not invent calendar-date patterns.
+Reload the browser to load the refreshed export. The normal startup/build hooks also refresh it from existing results. They do not automatically run `main.py`. The backend uses `transactions.parquet` for calendar-date temporal signals; the frontend export uses aggregated canonical edges and the resulting CSV roles/priorities. Detailed temporal and priority breakdowns are not yet mapped from the backend's product JSON into this view.
 
-The graph supports exact-ID search and selection, hover neighborhoods, directed weighted links, reciprocal curves, zoom/pan, 1–4-hop local traversal, flow tracing, priority/volume/role/cluster/depth/seed filters, top-20/50/100 filtering, color modes, and display/force settings. The inspector, cluster summaries, copying, browser history, priority queue, and transfer CSV export remain available. Scores and account totals are never inferred from the visible filtered graph.
+The graph supports exact-ID search and selection, hover neighborhoods, directed weighted links, reciprocal curves, zoom/pan, 1–4-hop local traversal, priority/volume/role/cluster/depth/seed filters, top-20/50/100 filtering, color modes, and display/force settings. The inspector, cluster summaries, copying, browser history, priority queue, and transfer CSV export remain available. Scores and account totals are never inferred from the visible filtered graph.
 
 The graph fills the browser workspace. Open **Приоритеты** to choose a ranked client; selecting any node shows its immediate neighborhood. Use **Входящие / Исходящие / Все связи**, 1–4 steps, **В центре**, and **Предыдущий клиент** to investigate. **Вся выборка** restores the overview. Filters, client details, and the single **AI-помощник** launcher open one auxiliary panel at a time. **Данные и запуск** explains the official Parquet inputs. On mobile, selecting a node leaves the graph visible; open **Карточка** for details. Keyboard controls while the canvas is focused: arrows pan, +/− zoom, F centers the selected neighborhood, 0 fits visible nodes, Escape clears selection.
 
@@ -94,7 +94,7 @@ Setup references: [Agentation MCP](https://www.agentation.com/mcp), [Codex MCP](
 
 ## Optional HTTP API mode
 
-Inspection of backend `main` at `ff8d22e` found the deterministic CSV pipeline, with no analytical HTTP API implementation. Project mode integrates its actual files. The frontend's future API adapter remains available when a compatible server exists:
+Backend commit `b835960` provides a working analytical HTTP API; see its [actual contract](../../docs/backend/frontend-handoff.md). Default project mode integrates its CSV files and remains the verified startup path. The frontend API adapter from `05f7b0f` still expects different card/search/subgraph payloads and needs alignment before use with that server. Its configuration is:
 
 ```bash
 VITE_DATA_MODE=api VITE_API_BASE_URL=http://127.0.0.1:8000 npm run dev
@@ -114,7 +114,7 @@ All gid fields must arrive as decimal strings. Missing optional metrics are `nul
 
 In API mode, `api.network(gid)` adapts the two-hop subgraph and enriches it with the selected card and loaded top list. There is no global graph endpoint. The API's 250-node cap and coverage metadata remain visible, and local traversal operates only on loaded nodes. Graph nodes may optionally supply scores, volume, and degree metrics; unknown values remain neutral or explicitly unavailable. `risk_score` is used only when supplied; otherwise coloring is labeled investigation priority and uses `priority_score`.
 
-See [UI contract](../../docs/moneygraph-ui-design-contract.md) for backend agreement points, including the data's cycles and the seed-reachability calculation. Advanced temporal signals remain future work; the CSV dashboard supplies calendar-day totals when dates are provided. The loaded priority list and observed transfer table can be exported as CSV; these exports do not replace the three mandatory pipeline artifacts.
+See [UI contract](../../docs/moneygraph-ui-design-contract.md) for backend agreement points, including the data's cycles and the seed-reachability calculation. Backend temporal signals now contribute to the loaded roles and priorities; their separate breakdown is not displayed in project mode. The CSV dashboard supplies calendar-day totals when dates are provided. The loaded priority list and observed transfer table can be exported as CSV; these exports do not replace the three mandatory pipeline artifacts.
 
 ## Verification
 

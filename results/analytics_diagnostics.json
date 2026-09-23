@@ -1,0 +1,2227 @@
+{
+  "role_distribution": {
+    "consolidator": 141,
+    "coordinator": 60,
+    "distributor": 522,
+    "peripheral": 511,
+    "terminal": 954,
+    "transit": 60
+  },
+  "priority_distribution": {
+    "min": 0.10954119638826185,
+    "median": 0.42645126674680267,
+    "max": 0.9583164272078258
+  },
+  "temporal_distributions": {
+    "timing_consistent_turnover": {
+      "min": 0.0,
+      "median": 0.0,
+      "max": 1.0
+    },
+    "burst_pct": {
+      "min": 0.1125,
+      "median": 0.35596446700507617,
+      "max": 1.0
+    },
+    "synchronous_incoming_pct": {
+      "min": 0.25625,
+      "median": 0.4612944162436548,
+      "max": 1.0
+    },
+    "temporal": {
+      "min": 0.25625,
+      "median": 0.4612944162436548,
+      "max": 1.0
+    }
+  },
+  "pass_through_count": 72,
+  "pass_through_candidates": [
+    {
+      "gid": "100000000031787100",
+      "depth": 2,
+      "incoming_kzt": 90000.0,
+      "outgoing_kzt": 90000.0,
+      "observed_ratio": 1.0,
+      "timing_consistent_turnover": 0.4444444444444444,
+      "transit_score": 0.7565829115449505,
+      "role": "distributor",
+      "role_score": 0.7941973969631236
+    },
+    {
+      "gid": "100000000201868100",
+      "depth": 2,
+      "incoming_kzt": 190000.0,
+      "outgoing_kzt": 190000.0,
+      "observed_ratio": 1.0,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.8794739696312364,
+      "role": "transit",
+      "role_score": 0.8794739696312364
+    },
+    {
+      "gid": "100000000291906100",
+      "depth": 2,
+      "incoming_kzt": 388000.0,
+      "outgoing_kzt": 455854.0,
+      "observed_ratio": 1.1748814432989692,
+      "timing_consistent_turnover": 0.4186735226629579,
+      "transit_score": 0.754935459459706,
+      "role": "distributor",
+      "role_score": 0.8196854663774403
+    },
+    {
+      "gid": "100000000489417100",
+      "depth": 2,
+      "incoming_kzt": 73504.0,
+      "outgoing_kzt": 80000.0,
+      "observed_ratio": 1.0883761427949499,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.9194153301708021,
+      "role": "transit",
+      "role_score": 0.9194153301708021
+    },
+    {
+      "gid": "100000000656682100",
+      "depth": 3,
+      "incoming_kzt": 71000.0,
+      "outgoing_kzt": 80000.0,
+      "observed_ratio": 1.1267605633802817,
+      "timing_consistent_turnover": 0.0,
+      "transit_score": 0.6259191637920649,
+      "role": "distributor",
+      "role_score": 0.8624682741116751
+    },
+    {
+      "gid": "100000000661912100",
+      "depth": 1,
+      "incoming_kzt": 393036.0,
+      "outgoing_kzt": 430700.0,
+      "observed_ratio": 1.0958283719557496,
+      "timing_consistent_turnover": 0.75156721615974,
+      "transit_score": 0.8846955966006287,
+      "role": "transit",
+      "role_score": 0.8846955966006287
+    },
+    {
+      "gid": "100000000785800100",
+      "depth": 2,
+      "incoming_kzt": 19000.0,
+      "outgoing_kzt": 19000.0,
+      "observed_ratio": 1.0,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.8794739696312364,
+      "role": "transit",
+      "role_score": 0.8794739696312364
+    },
+    {
+      "gid": "100000000850297100",
+      "depth": 2,
+      "incoming_kzt": 17520.0,
+      "outgoing_kzt": 17520.0,
+      "observed_ratio": 1.0,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.8794739696312364,
+      "role": "transit",
+      "role_score": 0.8794739696312364
+    },
+    {
+      "gid": "100000000922570100",
+      "depth": 1,
+      "incoming_kzt": 47101.0,
+      "outgoing_kzt": 50000.0,
+      "observed_ratio": 1.0615485870788306,
+      "timing_consistent_turnover": 0.0,
+      "transit_score": 0.6126549857289572,
+      "role": "distributor",
+      "role_score": 0.7290339702760085
+    },
+    {
+      "gid": "100000000976943100",
+      "depth": 3,
+      "incoming_kzt": 70000.0,
+      "outgoing_kzt": 84000.0,
+      "observed_ratio": 1.2,
+      "timing_consistent_turnover": 0.13095238095238096,
+      "transit_score": 0.622791707958503,
+      "role": "distributor",
+      "role_score": 0.7615799492385787
+    },
+    {
+      "gid": "100000001102676100",
+      "depth": 2,
+      "incoming_kzt": 50000.0,
+      "outgoing_kzt": 50000.0,
+      "observed_ratio": 1.0,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.8794739696312364,
+      "role": "transit",
+      "role_score": 0.8794739696312364
+    },
+    {
+      "gid": "100000001382002100",
+      "depth": 2,
+      "incoming_kzt": 55000.0,
+      "outgoing_kzt": 56500.0,
+      "observed_ratio": 1.0272727272727273,
+      "timing_consistent_turnover": 0.0,
+      "transit_score": 0.6214018785636024,
+      "role": "distributor",
+      "role_score": 0.6884490238611713
+    },
+    {
+      "gid": "100000001601320100",
+      "depth": 2,
+      "incoming_kzt": 43500.0,
+      "outgoing_kzt": 46200.0,
+      "observed_ratio": 1.0620689655172413,
+      "timing_consistent_turnover": 0.0,
+      "transit_score": 0.6645540508951526,
+      "role": "distributor",
+      "role_score": 0.6835683297180043
+    },
+    {
+      "gid": "100000001616816100",
+      "depth": 0,
+      "incoming_kzt": 176195.0,
+      "outgoing_kzt": 181326.0,
+      "observed_ratio": 1.0291211441868384,
+      "timing_consistent_turnover": 0.6939214453525694,
+      "transit_score": 0.8765876055365922,
+      "role": "coordinator",
+      "role_score": 0.9275000000000001
+    },
+    {
+      "gid": "100000001660397100",
+      "depth": 1,
+      "incoming_kzt": 48600.0,
+      "outgoing_kzt": 49000.0,
+      "observed_ratio": 1.008230452674897,
+      "timing_consistent_turnover": 0.7551020408163265,
+      "transit_score": 0.889872793701961,
+      "role": "transit",
+      "role_score": 0.889872793701961
+    },
+    {
+      "gid": "100000002293421100",
+      "depth": 2,
+      "incoming_kzt": 41000.0,
+      "outgoing_kzt": 47000.0,
+      "observed_ratio": 1.146341463414634,
+      "timing_consistent_turnover": 0.3191489361702128,
+      "transit_score": 0.7374326442733832,
+      "role": "distributor",
+      "role_score": 0.7800976138828634
+    },
+    {
+      "gid": "100000002433697100",
+      "depth": 3,
+      "incoming_kzt": 130000.0,
+      "outgoing_kzt": 110000.0,
+      "observed_ratio": 0.8461538461538461,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.8446335596601824,
+      "role": "transit",
+      "role_score": 0.8446335596601824
+    },
+    {
+      "gid": "100000002531406100",
+      "depth": 3,
+      "incoming_kzt": 520000.0,
+      "outgoing_kzt": 500000.0,
+      "observed_ratio": 0.9615384615384616,
+      "timing_consistent_turnover": 0.0,
+      "transit_score": 0.6329831746131269,
+      "role": "distributor",
+      "role_score": 0.7898159898477157
+    },
+    {
+      "gid": "100000002575080100",
+      "depth": 3,
+      "incoming_kzt": 13000.0,
+      "outgoing_kzt": 12500.0,
+      "observed_ratio": 0.9615384615384616,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.8829840745407518,
+      "role": "transit",
+      "role_score": 0.8829840745407518
+    },
+    {
+      "gid": "100000002738256100",
+      "depth": 2,
+      "incoming_kzt": 150200.0,
+      "outgoing_kzt": 175000.0,
+      "observed_ratio": 1.1651131824234353,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.8336287823026114,
+      "role": "transit",
+      "role_score": 0.8336287823026114
+    },
+    {
+      "gid": "100000002781227100",
+      "depth": 1,
+      "incoming_kzt": 191167.62,
+      "outgoing_kzt": 212420.0,
+      "observed_ratio": 1.1111714421092862,
+      "timing_consistent_turnover": 0.8116938141417945,
+      "transit_score": 0.8748554301867024,
+      "role": "transit",
+      "role_score": 0.8748554301867024
+    },
+    {
+      "gid": "100000003163256100",
+      "depth": 1,
+      "incoming_kzt": 13485.0,
+      "outgoing_kzt": 15000.0,
+      "observed_ratio": 1.1123470522803114,
+      "timing_consistent_turnover": 0.0,
+      "transit_score": 0.5986338218373344,
+      "role": "distributor",
+      "role_score": 0.7088641188959659
+    },
+    {
+      "gid": "100000003254277100",
+      "depth": 3,
+      "incoming_kzt": 49200.0,
+      "outgoing_kzt": 44997.0,
+      "observed_ratio": 0.9145731707317073,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.8679605942352029,
+      "role": "transit",
+      "role_score": 0.8679605942352029
+    },
+    {
+      "gid": "100000003265158100",
+      "depth": 1,
+      "incoming_kzt": 146100.4,
+      "outgoing_kzt": 154200.0,
+      "observed_ratio": 1.055438588806054,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.946392804333192,
+      "role": "transit",
+      "role_score": 0.946392804333192
+    },
+    {
+      "gid": "100000003299365100",
+      "depth": 1,
+      "incoming_kzt": 200000.0,
+      "outgoing_kzt": 200000.0,
+      "observed_ratio": 1.0,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.8805732484076434,
+      "role": "transit",
+      "role_score": 0.8805732484076434
+    },
+    {
+      "gid": "100000003509750100",
+      "depth": 2,
+      "incoming_kzt": 82290.0,
+      "outgoing_kzt": 78400.0,
+      "observed_ratio": 0.9527281565196257,
+      "timing_consistent_turnover": 0.7448979591836735,
+      "transit_score": 0.8906503330584092,
+      "role": "transit",
+      "role_score": 0.8906503330584092
+    },
+    {
+      "gid": "100000003635170100",
+      "depth": 1,
+      "incoming_kzt": 268500.0,
+      "outgoing_kzt": 253500.0,
+      "observed_ratio": 0.9441340782122905,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.9568781426596149,
+      "role": "transit",
+      "role_score": 0.9568781426596149
+    },
+    {
+      "gid": "100000003747133100",
+      "depth": 2,
+      "incoming_kzt": 237068.0,
+      "outgoing_kzt": 250000.0,
+      "observed_ratio": 1.0545497494389795,
+      "timing_consistent_turnover": 0.92,
+      "transit_score": 0.9331548331378514,
+      "role": "transit",
+      "role_score": 0.9331548331378514
+    },
+    {
+      "gid": "100000003942602100",
+      "depth": 1,
+      "incoming_kzt": 30000.0,
+      "outgoing_kzt": 30000.0,
+      "observed_ratio": 1.0,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.8805732484076434,
+      "role": "transit",
+      "role_score": 0.8805732484076434
+    },
+    {
+      "gid": "100000003946524100",
+      "depth": 1,
+      "incoming_kzt": 133757.0,
+      "outgoing_kzt": 144750.0,
+      "observed_ratio": 1.0821863528637754,
+      "timing_consistent_turnover": 0.0,
+      "transit_score": 0.672563113437256,
+      "role": "distributor",
+      "role_score": 0.8251061571125266
+    },
+    {
+      "gid": "100000004094958100",
+      "depth": 1,
+      "incoming_kzt": 39000.0,
+      "outgoing_kzt": 40000.0,
+      "observed_ratio": 1.0256410256410255,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.8729780983151794,
+      "role": "transit",
+      "role_score": 0.8729780983151794
+    },
+    {
+      "gid": "100000004135268100",
+      "depth": 1,
+      "incoming_kzt": 1239000.0,
+      "outgoing_kzt": 1000200.0,
+      "observed_ratio": 0.8072639225181598,
+      "timing_consistent_turnover": 0.8498300339932013,
+      "transit_score": 0.8517824427838467,
+      "role": "distributor",
+      "role_score": 0.8986199575371551
+    },
+    {
+      "gid": "100000004325327100",
+      "depth": 1,
+      "incoming_kzt": 70817.0,
+      "outgoing_kzt": 70000.0,
+      "observed_ratio": 0.988463222107686,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.9297726120949237,
+      "role": "transit",
+      "role_score": 0.9297726120949237
+    },
+    {
+      "gid": "100000004336312100",
+      "depth": 2,
+      "incoming_kzt": 90415.0,
+      "outgoing_kzt": 72650.0,
+      "observed_ratio": 0.8035171155228668,
+      "timing_consistent_turnover": 0.5182381280110117,
+      "transit_score": 0.7747521775178026,
+      "role": "distributor",
+      "role_score": 0.7898590021691974
+    },
+    {
+      "gid": "100000004386331100",
+      "depth": 3,
+      "incoming_kzt": 20000.0,
+      "outgoing_kzt": 17500.0,
+      "observed_ratio": 0.875,
+      "timing_consistent_turnover": 0.0,
+      "transit_score": 0.6216654406910369,
+      "role": "distributor",
+      "role_score": 0.8348667512690355
+    },
+    {
+      "gid": "100000004676985100",
+      "depth": 3,
+      "incoming_kzt": 32260.0,
+      "outgoing_kzt": 27102.0,
+      "observed_ratio": 0.8401115933044018,
+      "timing_consistent_turnover": 0.0,
+      "transit_score": 0.5924849712349363,
+      "role": "distributor",
+      "role_score": 0.7403236040609138
+    },
+    {
+      "gid": "100000004697956100",
+      "depth": 3,
+      "incoming_kzt": 10000.0,
+      "outgoing_kzt": 10000.0,
+      "observed_ratio": 1.0,
+      "timing_consistent_turnover": 0.0,
+      "transit_score": 0.6447493654822335,
+      "role": "distributor",
+      "role_score": 0.7243020304568528
+    },
+    {
+      "gid": "100000004707703100",
+      "depth": 1,
+      "incoming_kzt": 239300.0,
+      "outgoing_kzt": 231650.0,
+      "observed_ratio": 0.9680317592979524,
+      "timing_consistent_turnover": 0.8892726095402547,
+      "transit_score": 0.9224967688913184,
+      "role": "transit",
+      "role_score": 0.9224967688913184
+    },
+    {
+      "gid": "100000004737477100",
+      "depth": 1,
+      "incoming_kzt": 49598.0,
+      "outgoing_kzt": 40500.0,
+      "observed_ratio": 0.8165651840800032,
+      "timing_consistent_turnover": 0.37037037037037035,
+      "transit_score": 0.7150531059700431,
+      "role": "distributor",
+      "role_score": 0.7242569002123143
+    },
+    {
+      "gid": "100000004739664100",
+      "depth": 1,
+      "incoming_kzt": 12000.0,
+      "outgoing_kzt": 10000.0,
+      "observed_ratio": 0.8333333333333334,
+      "timing_consistent_turnover": 0.0,
+      "transit_score": 0.5758817809111657,
+      "role": "distributor",
+      "role_score": 0.7054140127388535
+    },
+    {
+      "gid": "100000004770073100",
+      "depth": 3,
+      "incoming_kzt": 5462.4,
+      "outgoing_kzt": 5466.97,
+      "observed_ratio": 1.0008366285881665,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.8944985277409672,
+      "role": "transit",
+      "role_score": 0.8944985277409672
+    },
+    {
+      "gid": "100000004820260100",
+      "depth": 2,
+      "incoming_kzt": 234200.0,
+      "outgoing_kzt": 215350.0,
+      "observed_ratio": 0.9195132365499573,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.8784331508974856,
+      "role": "transit",
+      "role_score": 0.8784331508974856
+    },
+    {
+      "gid": "100000005171642100",
+      "depth": 3,
+      "incoming_kzt": 696800.0,
+      "outgoing_kzt": 683600.0,
+      "observed_ratio": 0.9810562571756601,
+      "timing_consistent_turnover": 0.96255119953189,
+      "transit_score": 0.9392148867196068,
+      "role": "transit",
+      "role_score": 0.9392148867196068
+    },
+    {
+      "gid": "100000005186131100",
+      "depth": 3,
+      "incoming_kzt": 10000.0,
+      "outgoing_kzt": 10000.0,
+      "observed_ratio": 1.0,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.8947493654822334,
+      "role": "transit",
+      "role_score": 0.8947493654822334
+    },
+    {
+      "gid": "100000005363908100",
+      "depth": 1,
+      "incoming_kzt": 19500.0,
+      "outgoing_kzt": 19500.0,
+      "observed_ratio": 1.0,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.8805732484076434,
+      "role": "transit",
+      "role_score": 0.8805732484076434
+    },
+    {
+      "gid": "100000005367445100",
+      "depth": 3,
+      "incoming_kzt": 5000.0,
+      "outgoing_kzt": 5000.0,
+      "observed_ratio": 1.0,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.8947493654822334,
+      "role": "transit",
+      "role_score": 0.8947493654822334
+    },
+    {
+      "gid": "100000005519998100",
+      "depth": 2,
+      "incoming_kzt": 182000.0,
+      "outgoing_kzt": 188000.0,
+      "observed_ratio": 1.032967032967033,
+      "timing_consistent_turnover": 0.32978723404255317,
+      "transit_score": 0.7916696406473405,
+      "role": "distributor",
+      "role_score": 0.8535791757049891
+    },
+    {
+      "gid": "100000005619339100",
+      "depth": 2,
+      "incoming_kzt": 5000.0,
+      "outgoing_kzt": 5442.6,
+      "observed_ratio": 1.0885200000000002,
+      "timing_consistent_turnover": 0.0,
+      "transit_score": 0.6040331553510587,
+      "role": "distributor",
+      "role_score": 0.6526572668112798
+    },
+    {
+      "gid": "100000005661829100",
+      "depth": 3,
+      "incoming_kzt": 37790.0,
+      "outgoing_kzt": 40362.0,
+      "observed_ratio": 1.0680603334215402,
+      "timing_consistent_turnover": 0.837173579109063,
+      "transit_score": 0.8512633471016469,
+      "role": "transit",
+      "role_score": 0.8512633471016469
+    },
+    {
+      "gid": "100000005873152100",
+      "depth": 3,
+      "incoming_kzt": 10000.0,
+      "outgoing_kzt": 10000.0,
+      "observed_ratio": 1.0,
+      "timing_consistent_turnover": 0.0,
+      "transit_score": 0.6447493654822335,
+      "role": "coordinator",
+      "role_score": 0.7478426395939085
+    },
+    {
+      "gid": "100000006020215100",
+      "depth": 3,
+      "incoming_kzt": 30000.0,
+      "outgoing_kzt": 33800.0,
+      "observed_ratio": 1.1266666666666667,
+      "timing_consistent_turnover": 0.0,
+      "transit_score": 0.6259448137129826,
+      "role": "distributor",
+      "role_score": 0.8456535532994923
+    },
+    {
+      "gid": "100000006069103100",
+      "depth": 1,
+      "incoming_kzt": 228818.0,
+      "outgoing_kzt": 270000.0,
+      "observed_ratio": 1.1799770997036947,
+      "timing_consistent_turnover": 0.16666666666666666,
+      "transit_score": 0.7118962765834629,
+      "role": "distributor",
+      "role_score": 0.8784501061571125
+    },
+    {
+      "gid": "100000006111439100",
+      "depth": 3,
+      "incoming_kzt": 20570.0,
+      "outgoing_kzt": 24000.0,
+      "observed_ratio": 1.166747690811862,
+      "timing_consistent_turnover": 0.0,
+      "transit_score": 0.6934251325415431,
+      "role": "distributor",
+      "role_score": 0.8940355329949239
+    },
+    {
+      "gid": "100000006518161100",
+      "depth": 1,
+      "incoming_kzt": 594200.0,
+      "outgoing_kzt": 595899.0,
+      "observed_ratio": 1.002859306630764,
+      "timing_consistent_turnover": 0.7147167556918202,
+      "transit_score": 0.890402240220109,
+      "role": "transit",
+      "role_score": 0.890402240220109
+    },
+    {
+      "gid": "100000006641671100",
+      "depth": 3,
+      "incoming_kzt": 22000.0,
+      "outgoing_kzt": 25000.0,
+      "observed_ratio": 1.1363636363636365,
+      "timing_consistent_turnover": 0.8,
+      "transit_score": 0.8659663456529392,
+      "role": "transit",
+      "role_score": 0.8659663456529392
+    },
+    {
+      "gid": "100000006664478100",
+      "depth": 3,
+      "incoming_kzt": 55000.0,
+      "outgoing_kzt": 60000.0,
+      "observed_ratio": 1.0909090909090908,
+      "timing_consistent_turnover": 0.6666666666666666,
+      "transit_score": 0.8022864238433529,
+      "role": "distributor",
+      "role_score": 0.8580266497461928
+    },
+    {
+      "gid": "100000006704530100",
+      "depth": 3,
+      "incoming_kzt": 450500.0,
+      "outgoing_kzt": 428000.0,
+      "observed_ratio": 0.9500554938956715,
+      "timing_consistent_turnover": 0.0,
+      "transit_score": 0.6528560934104125,
+      "role": "distributor",
+      "role_score": 0.9290926395939086
+    },
+    {
+      "gid": "100000007131370100",
+      "depth": 3,
+      "incoming_kzt": 30000.0,
+      "outgoing_kzt": 30000.0,
+      "observed_ratio": 1.0,
+      "timing_consistent_turnover": 0.0,
+      "transit_score": 0.6447493654822335,
+      "role": "distributor",
+      "role_score": 0.7422271573604061
+    },
+    {
+      "gid": "100000007170072100",
+      "depth": 3,
+      "incoming_kzt": 100000.0,
+      "outgoing_kzt": 99500.0,
+      "observed_ratio": 0.995,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.910218968264203,
+      "role": "transit",
+      "role_score": 0.910218968264203
+    },
+    {
+      "gid": "100000007544358100",
+      "depth": 1,
+      "incoming_kzt": 322500.0,
+      "outgoing_kzt": 350000.0,
+      "observed_ratio": 1.0852713178294573,
+      "timing_consistent_turnover": 0.2857142857142857,
+      "transit_score": 0.7301333545427033,
+      "role": "distributor",
+      "role_score": 0.7635350318471337
+    },
+    {
+      "gid": "100000008086440100",
+      "depth": 3,
+      "incoming_kzt": 199733.0,
+      "outgoing_kzt": 161300.0,
+      "observed_ratio": 0.8075781167859092,
+      "timing_consistent_turnover": 0.23558586484810912,
+      "transit_score": 0.6677675833314758,
+      "role": "distributor",
+      "role_score": 0.9430520304568528
+    },
+    {
+      "gid": "100000008165763100",
+      "depth": 1,
+      "incoming_kzt": 1165815.0,
+      "outgoing_kzt": 1267858.0,
+      "observed_ratio": 1.087529324978663,
+      "timing_consistent_turnover": 0.6805848919989462,
+      "transit_score": 0.8936467450698597,
+      "role": "distributor",
+      "role_score": 0.9846072186836519
+    },
+    {
+      "gid": "100000008192264100",
+      "depth": 3,
+      "incoming_kzt": 162810.0,
+      "outgoing_kzt": 187910.0,
+      "observed_ratio": 1.1541674344327744,
+      "timing_consistent_turnover": 0.8749933478793039,
+      "transit_score": 0.8204841741630489,
+      "role": "transit",
+      "role_score": 0.8204841741630489
+    },
+    {
+      "gid": "100000008314203100",
+      "depth": 0,
+      "incoming_kzt": 382076.0,
+      "outgoing_kzt": 327000.0,
+      "observed_ratio": 0.8558506684533967,
+      "timing_consistent_turnover": 0.48623853211009177,
+      "transit_score": 0.7537682040341198,
+      "role": "consolidator",
+      "role_score": 0.7889504686380585
+    },
+    {
+      "gid": "100000008324800100",
+      "depth": 2,
+      "incoming_kzt": 526500.0,
+      "outgoing_kzt": 511000.0,
+      "observed_ratio": 0.9705603038936372,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.9358565360871984,
+      "role": "transit",
+      "role_score": 0.9358565360871984
+    },
+    {
+      "gid": "100000008379273100",
+      "depth": 3,
+      "incoming_kzt": 36000.0,
+      "outgoing_kzt": 38000.0,
+      "observed_ratio": 1.0555555555555556,
+      "timing_consistent_turnover": 0.0,
+      "transit_score": 0.7143481656045614,
+      "role": "distributor",
+      "role_score": 0.9035532994923858
+    },
+    {
+      "gid": "100000008493007100",
+      "depth": 3,
+      "incoming_kzt": 26150.0,
+      "outgoing_kzt": 26150.0,
+      "observed_ratio": 1.0,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.8947493654822334,
+      "role": "transit",
+      "role_score": 0.8947493654822334
+    },
+    {
+      "gid": "100000008501413100",
+      "depth": 3,
+      "incoming_kzt": 5000.0,
+      "outgoing_kzt": 5100.0,
+      "observed_ratio": 1.02,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.8888097535310266,
+      "role": "transit",
+      "role_score": 0.8888097535310266
+    },
+    {
+      "gid": "100000008561016100",
+      "depth": 3,
+      "incoming_kzt": 180000.0,
+      "outgoing_kzt": 185000.0,
+      "observed_ratio": 1.0277777777777777,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.8865297182705973,
+      "role": "transit",
+      "role_score": 0.8865297182705973
+    },
+    {
+      "gid": "100000008582730100",
+      "depth": 3,
+      "incoming_kzt": 5000.0,
+      "outgoing_kzt": 5000.0,
+      "observed_ratio": 1.0,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.8947493654822334,
+      "role": "transit",
+      "role_score": 0.8947493654822334
+    },
+    {
+      "gid": "100000008692291100",
+      "depth": 3,
+      "incoming_kzt": 160000.0,
+      "outgoing_kzt": 156000.0,
+      "observed_ratio": 0.975,
+      "timing_consistent_turnover": 0.1346153846153846,
+      "transit_score": 0.7629716229011678,
+      "role": "distributor",
+      "role_score": 0.9133883248730964
+    },
+    {
+      "gid": "100000008723830100",
+      "depth": 1,
+      "incoming_kzt": 459785.0,
+      "outgoing_kzt": 455000.0,
+      "observed_ratio": 0.9895929619278576,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.9301152513707627,
+      "role": "transit",
+      "role_score": 0.9301152513707627
+    }
+  ],
+  "top_transit_scores": [
+    {
+      "gid": "100000003635170100",
+      "depth": 1,
+      "incoming_kzt": 268500.0,
+      "outgoing_kzt": 253500.0,
+      "observed_ratio": 0.9441340782122905,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.9568781426596149,
+      "role": "transit",
+      "role_score": 0.9568781426596149
+    },
+    {
+      "gid": "100000003265158100",
+      "depth": 1,
+      "incoming_kzt": 146100.4,
+      "outgoing_kzt": 154200.0,
+      "observed_ratio": 1.055438588806054,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.946392804333192,
+      "role": "transit",
+      "role_score": 0.946392804333192
+    },
+    {
+      "gid": "100000005171642100",
+      "depth": 3,
+      "incoming_kzt": 696800.0,
+      "outgoing_kzt": 683600.0,
+      "observed_ratio": 0.9810562571756601,
+      "timing_consistent_turnover": 0.96255119953189,
+      "transit_score": 0.9392148867196068,
+      "role": "transit",
+      "role_score": 0.9392148867196068
+    },
+    {
+      "gid": "100000008324800100",
+      "depth": 2,
+      "incoming_kzt": 526500.0,
+      "outgoing_kzt": 511000.0,
+      "observed_ratio": 0.9705603038936372,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.9358565360871984,
+      "role": "transit",
+      "role_score": 0.9358565360871984
+    },
+    {
+      "gid": "100000003747133100",
+      "depth": 2,
+      "incoming_kzt": 237068.0,
+      "outgoing_kzt": 250000.0,
+      "observed_ratio": 1.0545497494389795,
+      "timing_consistent_turnover": 0.92,
+      "transit_score": 0.9331548331378514,
+      "role": "transit",
+      "role_score": 0.9331548331378514
+    },
+    {
+      "gid": "100000008723830100",
+      "depth": 1,
+      "incoming_kzt": 459785.0,
+      "outgoing_kzt": 455000.0,
+      "observed_ratio": 0.9895929619278576,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.9301152513707627,
+      "role": "transit",
+      "role_score": 0.9301152513707627
+    },
+    {
+      "gid": "100000004325327100",
+      "depth": 1,
+      "incoming_kzt": 70817.0,
+      "outgoing_kzt": 70000.0,
+      "observed_ratio": 0.988463222107686,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.9297726120949237,
+      "role": "transit",
+      "role_score": 0.9297726120949237
+    },
+    {
+      "gid": "100000004707703100",
+      "depth": 1,
+      "incoming_kzt": 239300.0,
+      "outgoing_kzt": 231650.0,
+      "observed_ratio": 0.9680317592979524,
+      "timing_consistent_turnover": 0.8892726095402547,
+      "transit_score": 0.9224967688913184,
+      "role": "transit",
+      "role_score": 0.9224967688913184
+    },
+    {
+      "gid": "100000000489417100",
+      "depth": 2,
+      "incoming_kzt": 73504.0,
+      "outgoing_kzt": 80000.0,
+      "observed_ratio": 1.0883761427949499,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.9194153301708021,
+      "role": "transit",
+      "role_score": 0.9194153301708021
+    },
+    {
+      "gid": "100000007170072100",
+      "depth": 3,
+      "incoming_kzt": 100000.0,
+      "outgoing_kzt": 99500.0,
+      "observed_ratio": 0.995,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.910218968264203,
+      "role": "transit",
+      "role_score": 0.910218968264203
+    },
+    {
+      "gid": "100000002448088100",
+      "depth": 3,
+      "incoming_kzt": 20000.0,
+      "outgoing_kzt": 25000.0,
+      "observed_ratio": 1.25,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.896495848176327,
+      "role": "transit",
+      "role_score": 0.896495848176327
+    },
+    {
+      "gid": "100000005186131100",
+      "depth": 3,
+      "incoming_kzt": 10000.0,
+      "outgoing_kzt": 10000.0,
+      "observed_ratio": 1.0,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.8947493654822334,
+      "role": "transit",
+      "role_score": 0.8947493654822334
+    },
+    {
+      "gid": "100000005367445100",
+      "depth": 3,
+      "incoming_kzt": 5000.0,
+      "outgoing_kzt": 5000.0,
+      "observed_ratio": 1.0,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.8947493654822334,
+      "role": "transit",
+      "role_score": 0.8947493654822334
+    },
+    {
+      "gid": "100000008493007100",
+      "depth": 3,
+      "incoming_kzt": 26150.0,
+      "outgoing_kzt": 26150.0,
+      "observed_ratio": 1.0,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.8947493654822334,
+      "role": "transit",
+      "role_score": 0.8947493654822334
+    },
+    {
+      "gid": "100000008582730100",
+      "depth": 3,
+      "incoming_kzt": 5000.0,
+      "outgoing_kzt": 5000.0,
+      "observed_ratio": 1.0,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.8947493654822334,
+      "role": "transit",
+      "role_score": 0.8947493654822334
+    },
+    {
+      "gid": "100000004770073100",
+      "depth": 3,
+      "incoming_kzt": 5462.4,
+      "outgoing_kzt": 5466.97,
+      "observed_ratio": 1.0008366285881665,
+      "timing_consistent_turnover": 1.0,
+      "transit_score": 0.8944985277409672,
+      "role": "transit",
+      "role_score": 0.8944985277409672
+    },
+    {
+      "gid": "100000008165763100",
+      "depth": 1,
+      "incoming_kzt": 1165815.0,
+      "outgoing_kzt": 1267858.0,
+      "observed_ratio": 1.087529324978663,
+      "timing_consistent_turnover": 0.6805848919989462,
+      "transit_score": 0.8936467450698597,
+      "role": "distributor",
+      "role_score": 0.9846072186836519
+    },
+    {
+      "gid": "100000003509750100",
+      "depth": 2,
+      "incoming_kzt": 82290.0,
+      "outgoing_kzt": 78400.0,
+      "observed_ratio": 0.9527281565196257,
+      "timing_consistent_turnover": 0.7448979591836735,
+      "transit_score": 0.8906503330584092,
+      "role": "transit",
+      "role_score": 0.8906503330584092
+    },
+    {
+      "gid": "100000006518161100",
+      "depth": 1,
+      "incoming_kzt": 594200.0,
+      "outgoing_kzt": 595899.0,
+      "observed_ratio": 1.002859306630764,
+      "timing_consistent_turnover": 0.7147167556918202,
+      "transit_score": 0.890402240220109,
+      "role": "transit",
+      "role_score": 0.890402240220109
+    },
+    {
+      "gid": "100000001660397100",
+      "depth": 1,
+      "incoming_kzt": 48600.0,
+      "outgoing_kzt": 49000.0,
+      "observed_ratio": 1.008230452674897,
+      "timing_consistent_turnover": 0.7551020408163265,
+      "transit_score": 0.889872793701961,
+      "role": "transit",
+      "role_score": 0.889872793701961
+    }
+  ],
+  "depth_role_counts": [
+    {
+      "depth": 0,
+      "role": "consolidator",
+      "count": 16
+    },
+    {
+      "depth": 0,
+      "role": "coordinator",
+      "count": 8
+    },
+    {
+      "depth": 0,
+      "role": "distributor",
+      "count": 27
+    },
+    {
+      "depth": 0,
+      "role": "peripheral",
+      "count": 30
+    },
+    {
+      "depth": 1,
+      "role": "consolidator",
+      "count": 28
+    },
+    {
+      "depth": 1,
+      "role": "coordinator",
+      "count": 10
+    },
+    {
+      "depth": 1,
+      "role": "distributor",
+      "count": 120
+    },
+    {
+      "depth": 1,
+      "role": "peripheral",
+      "count": 32
+    },
+    {
+      "depth": 1,
+      "role": "terminal",
+      "count": 264
+    },
+    {
+      "depth": 1,
+      "role": "transit",
+      "count": 18
+    },
+    {
+      "depth": 2,
+      "role": "consolidator",
+      "count": 20
+    },
+    {
+      "depth": 2,
+      "role": "coordinator",
+      "count": 13
+    },
+    {
+      "depth": 2,
+      "role": "distributor",
+      "count": 148
+    },
+    {
+      "depth": 2,
+      "role": "peripheral",
+      "count": 27
+    },
+    {
+      "depth": 2,
+      "role": "terminal",
+      "count": 238
+    },
+    {
+      "depth": 2,
+      "role": "transit",
+      "count": 16
+    },
+    {
+      "depth": 3,
+      "role": "consolidator",
+      "count": 28
+    },
+    {
+      "depth": 3,
+      "role": "coordinator",
+      "count": 21
+    },
+    {
+      "depth": 3,
+      "role": "distributor",
+      "count": 227
+    },
+    {
+      "depth": 3,
+      "role": "peripheral",
+      "count": 35
+    },
+    {
+      "depth": 3,
+      "role": "terminal",
+      "count": 452
+    },
+    {
+      "depth": 3,
+      "role": "transit",
+      "count": 26
+    },
+    {
+      "depth": 4,
+      "role": "consolidator",
+      "count": 49
+    },
+    {
+      "depth": 4,
+      "role": "coordinator",
+      "count": 8
+    },
+    {
+      "depth": 4,
+      "role": "peripheral",
+      "count": 387
+    }
+  ],
+  "cluster_role_counts": [
+    {
+      "cluster_id": 1,
+      "role": "consolidator",
+      "count": 7
+    },
+    {
+      "cluster_id": 1,
+      "role": "coordinator",
+      "count": 4
+    },
+    {
+      "cluster_id": 1,
+      "role": "distributor",
+      "count": 71
+    },
+    {
+      "cluster_id": 1,
+      "role": "peripheral",
+      "count": 64
+    },
+    {
+      "cluster_id": 1,
+      "role": "terminal",
+      "count": 84
+    },
+    {
+      "cluster_id": 1,
+      "role": "transit",
+      "count": 9
+    },
+    {
+      "cluster_id": 2,
+      "role": "consolidator",
+      "count": 4
+    },
+    {
+      "cluster_id": 2,
+      "role": "coordinator",
+      "count": 1
+    },
+    {
+      "cluster_id": 2,
+      "role": "distributor",
+      "count": 15
+    },
+    {
+      "cluster_id": 2,
+      "role": "peripheral",
+      "count": 17
+    },
+    {
+      "cluster_id": 2,
+      "role": "terminal",
+      "count": 22
+    },
+    {
+      "cluster_id": 2,
+      "role": "transit",
+      "count": 1
+    },
+    {
+      "cluster_id": 3,
+      "role": "consolidator",
+      "count": 5
+    },
+    {
+      "cluster_id": 3,
+      "role": "coordinator",
+      "count": 5
+    },
+    {
+      "cluster_id": 3,
+      "role": "distributor",
+      "count": 26
+    },
+    {
+      "cluster_id": 3,
+      "role": "peripheral",
+      "count": 10
+    },
+    {
+      "cluster_id": 3,
+      "role": "terminal",
+      "count": 40
+    },
+    {
+      "cluster_id": 3,
+      "role": "transit",
+      "count": 3
+    },
+    {
+      "cluster_id": 4,
+      "role": "consolidator",
+      "count": 13
+    },
+    {
+      "cluster_id": 4,
+      "role": "coordinator",
+      "count": 8
+    },
+    {
+      "cluster_id": 4,
+      "role": "distributor",
+      "count": 24
+    },
+    {
+      "cluster_id": 4,
+      "role": "peripheral",
+      "count": 5
+    },
+    {
+      "cluster_id": 4,
+      "role": "terminal",
+      "count": 54
+    },
+    {
+      "cluster_id": 4,
+      "role": "transit",
+      "count": 1
+    },
+    {
+      "cluster_id": 5,
+      "role": "consolidator",
+      "count": 11
+    },
+    {
+      "cluster_id": 5,
+      "role": "coordinator",
+      "count": 9
+    },
+    {
+      "cluster_id": 5,
+      "role": "distributor",
+      "count": 58
+    },
+    {
+      "cluster_id": 5,
+      "role": "peripheral",
+      "count": 29
+    },
+    {
+      "cluster_id": 5,
+      "role": "terminal",
+      "count": 73
+    },
+    {
+      "cluster_id": 5,
+      "role": "transit",
+      "count": 7
+    },
+    {
+      "cluster_id": 6,
+      "role": "consolidator",
+      "count": 18
+    },
+    {
+      "cluster_id": 6,
+      "role": "coordinator",
+      "count": 4
+    },
+    {
+      "cluster_id": 6,
+      "role": "distributor",
+      "count": 46
+    },
+    {
+      "cluster_id": 6,
+      "role": "peripheral",
+      "count": 43
+    },
+    {
+      "cluster_id": 6,
+      "role": "terminal",
+      "count": 48
+    },
+    {
+      "cluster_id": 6,
+      "role": "transit",
+      "count": 5
+    },
+    {
+      "cluster_id": 7,
+      "role": "consolidator",
+      "count": 1
+    },
+    {
+      "cluster_id": 7,
+      "role": "coordinator",
+      "count": 1
+    },
+    {
+      "cluster_id": 7,
+      "role": "distributor",
+      "count": 18
+    },
+    {
+      "cluster_id": 7,
+      "role": "peripheral",
+      "count": 32
+    },
+    {
+      "cluster_id": 7,
+      "role": "terminal",
+      "count": 29
+    },
+    {
+      "cluster_id": 7,
+      "role": "transit",
+      "count": 5
+    },
+    {
+      "cluster_id": 8,
+      "role": "consolidator",
+      "count": 7
+    },
+    {
+      "cluster_id": 8,
+      "role": "coordinator",
+      "count": 2
+    },
+    {
+      "cluster_id": 8,
+      "role": "distributor",
+      "count": 29
+    },
+    {
+      "cluster_id": 8,
+      "role": "peripheral",
+      "count": 48
+    },
+    {
+      "cluster_id": 8,
+      "role": "terminal",
+      "count": 65
+    },
+    {
+      "cluster_id": 8,
+      "role": "transit",
+      "count": 6
+    },
+    {
+      "cluster_id": 9,
+      "role": "consolidator",
+      "count": 2
+    },
+    {
+      "cluster_id": 9,
+      "role": "coordinator",
+      "count": 2
+    },
+    {
+      "cluster_id": 9,
+      "role": "distributor",
+      "count": 22
+    },
+    {
+      "cluster_id": 9,
+      "role": "peripheral",
+      "count": 10
+    },
+    {
+      "cluster_id": 9,
+      "role": "terminal",
+      "count": 24
+    },
+    {
+      "cluster_id": 10,
+      "role": "distributor",
+      "count": 4
+    },
+    {
+      "cluster_id": 10,
+      "role": "peripheral",
+      "count": 1
+    },
+    {
+      "cluster_id": 10,
+      "role": "terminal",
+      "count": 1
+    },
+    {
+      "cluster_id": 11,
+      "role": "consolidator",
+      "count": 1
+    },
+    {
+      "cluster_id": 11,
+      "role": "coordinator",
+      "count": 5
+    },
+    {
+      "cluster_id": 11,
+      "role": "distributor",
+      "count": 9
+    },
+    {
+      "cluster_id": 11,
+      "role": "peripheral",
+      "count": 2
+    },
+    {
+      "cluster_id": 11,
+      "role": "terminal",
+      "count": 24
+    },
+    {
+      "cluster_id": 11,
+      "role": "transit",
+      "count": 3
+    },
+    {
+      "cluster_id": 12,
+      "role": "consolidator",
+      "count": 1
+    },
+    {
+      "cluster_id": 12,
+      "role": "distributor",
+      "count": 5
+    },
+    {
+      "cluster_id": 12,
+      "role": "peripheral",
+      "count": 6
+    },
+    {
+      "cluster_id": 12,
+      "role": "terminal",
+      "count": 2
+    },
+    {
+      "cluster_id": 12,
+      "role": "transit",
+      "count": 1
+    },
+    {
+      "cluster_id": 13,
+      "role": "distributor",
+      "count": 4
+    },
+    {
+      "cluster_id": 13,
+      "role": "peripheral",
+      "count": 6
+    },
+    {
+      "cluster_id": 13,
+      "role": "terminal",
+      "count": 5
+    },
+    {
+      "cluster_id": 14,
+      "role": "distributor",
+      "count": 9
+    },
+    {
+      "cluster_id": 14,
+      "role": "peripheral",
+      "count": 9
+    },
+    {
+      "cluster_id": 14,
+      "role": "terminal",
+      "count": 2
+    },
+    {
+      "cluster_id": 14,
+      "role": "transit",
+      "count": 1
+    },
+    {
+      "cluster_id": 15,
+      "role": "peripheral",
+      "count": 1
+    },
+    {
+      "cluster_id": 16,
+      "role": "coordinator",
+      "count": 4
+    },
+    {
+      "cluster_id": 16,
+      "role": "distributor",
+      "count": 11
+    },
+    {
+      "cluster_id": 16,
+      "role": "peripheral",
+      "count": 13
+    },
+    {
+      "cluster_id": 16,
+      "role": "terminal",
+      "count": 23
+    },
+    {
+      "cluster_id": 17,
+      "role": "coordinator",
+      "count": 1
+    },
+    {
+      "cluster_id": 17,
+      "role": "distributor",
+      "count": 3
+    },
+    {
+      "cluster_id": 17,
+      "role": "peripheral",
+      "count": 3
+    },
+    {
+      "cluster_id": 18,
+      "role": "distributor",
+      "count": 5
+    },
+    {
+      "cluster_id": 18,
+      "role": "peripheral",
+      "count": 11
+    },
+    {
+      "cluster_id": 18,
+      "role": "terminal",
+      "count": 103
+    },
+    {
+      "cluster_id": 18,
+      "role": "transit",
+      "count": 1
+    },
+    {
+      "cluster_id": 19,
+      "role": "distributor",
+      "count": 3
+    },
+    {
+      "cluster_id": 19,
+      "role": "peripheral",
+      "count": 2
+    },
+    {
+      "cluster_id": 19,
+      "role": "terminal",
+      "count": 1
+    },
+    {
+      "cluster_id": 20,
+      "role": "consolidator",
+      "count": 1
+    },
+    {
+      "cluster_id": 20,
+      "role": "distributor",
+      "count": 12
+    },
+    {
+      "cluster_id": 20,
+      "role": "peripheral",
+      "count": 12
+    },
+    {
+      "cluster_id": 20,
+      "role": "terminal",
+      "count": 30
+    },
+    {
+      "cluster_id": 21,
+      "role": "distributor",
+      "count": 4
+    },
+    {
+      "cluster_id": 21,
+      "role": "peripheral",
+      "count": 4
+    },
+    {
+      "cluster_id": 22,
+      "role": "distributor",
+      "count": 7
+    },
+    {
+      "cluster_id": 22,
+      "role": "peripheral",
+      "count": 1
+    },
+    {
+      "cluster_id": 22,
+      "role": "terminal",
+      "count": 5
+    },
+    {
+      "cluster_id": 23,
+      "role": "coordinator",
+      "count": 1
+    },
+    {
+      "cluster_id": 23,
+      "role": "distributor",
+      "count": 14
+    },
+    {
+      "cluster_id": 23,
+      "role": "peripheral",
+      "count": 12
+    },
+    {
+      "cluster_id": 23,
+      "role": "terminal",
+      "count": 15
+    },
+    {
+      "cluster_id": 23,
+      "role": "transit",
+      "count": 1
+    },
+    {
+      "cluster_id": 24,
+      "role": "distributor",
+      "count": 5
+    },
+    {
+      "cluster_id": 24,
+      "role": "peripheral",
+      "count": 3
+    },
+    {
+      "cluster_id": 24,
+      "role": "terminal",
+      "count": 31
+    },
+    {
+      "cluster_id": 25,
+      "role": "consolidator",
+      "count": 2
+    },
+    {
+      "cluster_id": 25,
+      "role": "distributor",
+      "count": 9
+    },
+    {
+      "cluster_id": 25,
+      "role": "peripheral",
+      "count": 16
+    },
+    {
+      "cluster_id": 25,
+      "role": "terminal",
+      "count": 11
+    },
+    {
+      "cluster_id": 25,
+      "role": "transit",
+      "count": 1
+    },
+    {
+      "cluster_id": 26,
+      "role": "consolidator",
+      "count": 4
+    },
+    {
+      "cluster_id": 26,
+      "role": "coordinator",
+      "count": 2
+    },
+    {
+      "cluster_id": 26,
+      "role": "distributor",
+      "count": 13
+    },
+    {
+      "cluster_id": 26,
+      "role": "peripheral",
+      "count": 19
+    },
+    {
+      "cluster_id": 26,
+      "role": "terminal",
+      "count": 15
+    },
+    {
+      "cluster_id": 26,
+      "role": "transit",
+      "count": 1
+    },
+    {
+      "cluster_id": 27,
+      "role": "distributor",
+      "count": 3
+    },
+    {
+      "cluster_id": 27,
+      "role": "peripheral",
+      "count": 13
+    },
+    {
+      "cluster_id": 27,
+      "role": "terminal",
+      "count": 94
+    },
+    {
+      "cluster_id": 27,
+      "role": "transit",
+      "count": 1
+    },
+    {
+      "cluster_id": 28,
+      "role": "distributor",
+      "count": 8
+    },
+    {
+      "cluster_id": 28,
+      "role": "peripheral",
+      "count": 1
+    },
+    {
+      "cluster_id": 28,
+      "role": "terminal",
+      "count": 8
+    },
+    {
+      "cluster_id": 29,
+      "role": "consolidator",
+      "count": 52
+    },
+    {
+      "cluster_id": 29,
+      "role": "coordinator",
+      "count": 1
+    },
+    {
+      "cluster_id": 29,
+      "role": "distributor",
+      "count": 30
+    },
+    {
+      "cluster_id": 29,
+      "role": "peripheral",
+      "count": 21
+    },
+    {
+      "cluster_id": 29,
+      "role": "terminal",
+      "count": 67
+    },
+    {
+      "cluster_id": 29,
+      "role": "transit",
+      "count": 3
+    },
+    {
+      "cluster_id": 30,
+      "role": "distributor",
+      "count": 3
+    },
+    {
+      "cluster_id": 30,
+      "role": "peripheral",
+      "count": 3
+    },
+    {
+      "cluster_id": 30,
+      "role": "terminal",
+      "count": 3
+    },
+    {
+      "cluster_id": 31,
+      "role": "distributor",
+      "count": 1
+    },
+    {
+      "cluster_id": 31,
+      "role": "terminal",
+      "count": 1
+    },
+    {
+      "cluster_id": 31,
+      "role": "transit",
+      "count": 1
+    },
+    {
+      "cluster_id": 32,
+      "role": "coordinator",
+      "count": 1
+    },
+    {
+      "cluster_id": 32,
+      "role": "distributor",
+      "count": 1
+    },
+    {
+      "cluster_id": 32,
+      "role": "terminal",
+      "count": 1
+    },
+    {
+      "cluster_id": 32,
+      "role": "transit",
+      "count": 1
+    },
+    {
+      "cluster_id": 33,
+      "role": "consolidator",
+      "count": 4
+    },
+    {
+      "cluster_id": 33,
+      "role": "coordinator",
+      "count": 3
+    },
+    {
+      "cluster_id": 33,
+      "role": "distributor",
+      "count": 9
+    },
+    {
+      "cluster_id": 33,
+      "role": "peripheral",
+      "count": 25
+    },
+    {
+      "cluster_id": 33,
+      "role": "terminal",
+      "count": 27
+    },
+    {
+      "cluster_id": 33,
+      "role": "transit",
+      "count": 1
+    },
+    {
+      "cluster_id": 34,
+      "role": "coordinator",
+      "count": 2
+    },
+    {
+      "cluster_id": 34,
+      "role": "distributor",
+      "count": 11
+    },
+    {
+      "cluster_id": 34,
+      "role": "peripheral",
+      "count": 2
+    },
+    {
+      "cluster_id": 34,
+      "role": "terminal",
+      "count": 22
+    },
+    {
+      "cluster_id": 34,
+      "role": "transit",
+      "count": 3
+    },
+    {
+      "cluster_id": 35,
+      "role": "distributor",
+      "count": 3
+    },
+    {
+      "cluster_id": 35,
+      "role": "peripheral",
+      "count": 5
+    },
+    {
+      "cluster_id": 35,
+      "role": "terminal",
+      "count": 3
+    },
+    {
+      "cluster_id": 36,
+      "role": "distributor",
+      "count": 5
+    },
+    {
+      "cluster_id": 36,
+      "role": "peripheral",
+      "count": 4
+    },
+    {
+      "cluster_id": 36,
+      "role": "terminal",
+      "count": 3
+    },
+    {
+      "cluster_id": 37,
+      "role": "consolidator",
+      "count": 1
+    },
+    {
+      "cluster_id": 37,
+      "role": "distributor",
+      "count": 1
+    },
+    {
+      "cluster_id": 37,
+      "role": "peripheral",
+      "count": 27
+    },
+    {
+      "cluster_id": 38,
+      "role": "consolidator",
+      "count": 7
+    },
+    {
+      "cluster_id": 38,
+      "role": "coordinator",
+      "count": 4
+    },
+    {
+      "cluster_id": 38,
+      "role": "distributor",
+      "count": 8
+    },
+    {
+      "cluster_id": 38,
+      "role": "peripheral",
+      "count": 4
+    },
+    {
+      "cluster_id": 38,
+      "role": "terminal",
+      "count": 2
+    },
+    {
+      "cluster_id": 38,
+      "role": "transit",
+      "count": 1
+    },
+    {
+      "cluster_id": 39,
+      "role": "distributor",
+      "count": 2
+    },
+    {
+      "cluster_id": 39,
+      "role": "peripheral",
+      "count": 1
+    },
+    {
+      "cluster_id": 39,
+      "role": "terminal",
+      "count": 1
+    },
+    {
+      "cluster_id": 40,
+      "role": "distributor",
+      "count": 1
+    },
+    {
+      "cluster_id": 40,
+      "role": "peripheral",
+      "count": 1
+    },
+    {
+      "cluster_id": 40,
+      "role": "terminal",
+      "count": 4
+    },
+    {
+      "cluster_id": 41,
+      "role": "distributor",
+      "count": 3
+    },
+    {
+      "cluster_id": 41,
+      "role": "terminal",
+      "count": 1
+    },
+    {
+      "cluster_id": 41,
+      "role": "transit",
+      "count": 1
+    },
+    {
+      "cluster_id": 42,
+      "role": "peripheral",
+      "count": 1
+    },
+    {
+      "cluster_id": 42,
+      "role": "terminal",
+      "count": 1
+    },
+    {
+      "cluster_id": 43,
+      "role": "peripheral",
+      "count": 1
+    },
+    {
+      "cluster_id": 44,
+      "role": "peripheral",
+      "count": 1
+    },
+    {
+      "cluster_id": 45,
+      "role": "distributor",
+      "count": 2
+    },
+    {
+      "cluster_id": 45,
+      "role": "peripheral",
+      "count": 3
+    },
+    {
+      "cluster_id": 45,
+      "role": "terminal",
+      "count": 3
+    },
+    {
+      "cluster_id": 46,
+      "role": "peripheral",
+      "count": 1
+    },
+    {
+      "cluster_id": 47,
+      "role": "peripheral",
+      "count": 1
+    },
+    {
+      "cluster_id": 47,
+      "role": "terminal",
+      "count": 1
+    },
+    {
+      "cluster_id": 48,
+      "role": "peripheral",
+      "count": 1
+    },
+    {
+      "cluster_id": 49,
+      "role": "distributor",
+      "count": 3
+    },
+    {
+      "cluster_id": 49,
+      "role": "terminal",
+      "count": 1
+    },
+    {
+      "cluster_id": 49,
+      "role": "transit",
+      "count": 2
+    },
+    {
+      "cluster_id": 50,
+      "role": "peripheral",
+      "count": 1
+    },
+    {
+      "cluster_id": 51,
+      "role": "distributor",
+      "count": 1
+    },
+    {
+      "cluster_id": 51,
+      "role": "terminal",
+      "count": 2
+    },
+    {
+      "cluster_id": 52,
+      "role": "peripheral",
+      "count": 1
+    },
+    {
+      "cluster_id": 53,
+      "role": "peripheral",
+      "count": 1
+    },
+    {
+      "cluster_id": 54,
+      "role": "peripheral",
+      "count": 1
+    },
+    {
+      "cluster_id": 55,
+      "role": "peripheral",
+      "count": 1
+    },
+    {
+      "cluster_id": 56,
+      "role": "peripheral",
+      "count": 1
+    },
+    {
+      "cluster_id": 57,
+      "role": "peripheral",
+      "count": 1
+    },
+    {
+      "cluster_id": 58,
+      "role": "peripheral",
+      "count": 1
+    },
+    {
+      "cluster_id": 59,
+      "role": "peripheral",
+      "count": 1
+    },
+    {
+      "cluster_id": 60,
+      "role": "distributor",
+      "count": 1
+    },
+    {
+      "cluster_id": 60,
+      "role": "peripheral",
+      "count": 2
+    },
+    {
+      "cluster_id": 60,
+      "role": "terminal",
+      "count": 2
+    },
+    {
+      "cluster_id": 61,
+      "role": "peripheral",
+      "count": 1
+    },
+    {
+      "cluster_id": 62,
+      "role": "peripheral",
+      "count": 1
+    },
+    {
+      "cluster_id": 63,
+      "role": "peripheral",
+      "count": 1
+    },
+    {
+      "cluster_id": 64,
+      "role": "peripheral",
+      "count": 1
+    },
+    {
+      "cluster_id": 65,
+      "role": "peripheral",
+      "count": 1
+    }
+  ],
+  "community_count": 65,
+  "multi_seed_count": 10,
+  "cluster_assignment_sha256": "ed50bc32ce5e8e10fb21dd2f65c3150693be9d35a495ab42f0ef0573e5a91517",
+  "calibration_warning": null
+}

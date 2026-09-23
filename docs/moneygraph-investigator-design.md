@@ -68,7 +68,7 @@ priority = 0.30 role importance/confidence
          + 0.05 resilience impact
 ```
 
-Evidence is template-based and uses actual values. Example: `Признаки консолидации: 11 отправителей, 6 seed-веток, входящий объём в топ-3% кластера.` Boundary limitations appear in the node card and lead to a next-data recommendation.
+Evidence is template-based and uses actual values. Example: `Признаки консолидации: 11 отправителей, достижим из 6 известных seed-узлов, входящий объём в топ-3% кластера.` Boundary limitations appear in the node card and lead to a next-data recommendation.
 
 ## Formal scoring specification
 
@@ -93,14 +93,14 @@ terminal = .50*inbound_volume_pct + .30*retention_obs + .20*no_observed_outgoing
 coordinator = .30*pagerank_pct + .30*betweenness_pct
             + .20*bridge_pct + .20*seed_convergence
 
-peripheral = 1 - max(consolidator, transit, distributor, terminal, coordinator)
+peripheral = clip(1 - max(eligible non-peripheral scores, default=0), 0, 1)
 ```
 
 `continuation` is 1 when a node has observed incoming and outgoing edges, otherwise 0. `timing_consistent_turnover` is the share of outgoing KZT on the same day or next two calendar days after a day with inbound activity; it is a timing-consistent signal, not transaction matching. If the temporal module is unavailable, it is 0. `bridge_pct` is the percentile rank of the number of distinct neighbouring communities. `PageRank` is weighted directed PageRank with `alpha=0.85`. Betweenness uses the directed graph with edge distance `1/log1p(sum_kzt)` so larger KZT values represent shorter, stronger routes.
 
 Operationally, an outgoing transaction on day `d` qualifies for timing-consistent turnover when the node has inbound activity on `d`, `d-1`, or `d-2`; divide qualifying outgoing KZT by all observed outgoing KZT. `burst_pct` is the percentile rank of a node's maximum daily transaction count among nodes at the same depth. `synchronous_incoming_pct` is the percentile rank of its maximum number of unique senders on one day. `observed_volume_pct` is `pct_depth(incoming_kzt + outgoing_kzt)`.
 
-Choose the highest eligible role score. If every non-peripheral score is below `.55`, select `peripheral`; otherwise select the highest non-peripheral score. Store all six scores, applicability flags, and limitation flags in the node-card payload.
+Choose the highest eligible role score. If every eligible non-peripheral score is below `.55`, select `peripheral`; otherwise select the highest non-peripheral score. Store all six scores, applicability flags, and limitation flags in the node-card payload.
 
 For priority, define `centrality=.5*pagerank_pct+.5*betweenness_pct`, `temporal=max(timing_consistent_turnover, burst_pct, synchronous_incoming_pct)`, and use zero for unavailable optional components. `role_weight` is 1.0 for coordinator/consolidator, .85 for transit, .80 for distributor, .45 for terminal, and .15 for peripheral.
 
@@ -181,3 +181,7 @@ Start at Top-20 and gid search. A node card shows role, confidence, priority, cl
 - No depth-4 node is terminal solely due to zero outgoing edges.
 - The UI finds any named gid and shows its directed links.
 - Two local pipeline runs on the same data produce identical required CSV files.
+
+Depth-4 retention is retained as observed data but excluded from consolidator inference; it is unreliable because the observation boundary truncates outgoing visibility. Consumer views must show role eligibility separately from theoretical score.
+
+Completion: daily incident transaction counts include both endpoints, preserving duplicate transactions; daily incoming sender counts are distinct. All product gids are strings and role scores expose eligibility. Published CSV/JSON ranking uses six-decimal priority then gid.

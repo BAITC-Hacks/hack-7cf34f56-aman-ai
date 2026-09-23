@@ -2,7 +2,42 @@ import { Client } from '@modelcontextprotocol/sdk/client/index.js'
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js'
 import { chromium } from '@playwright/test'
 import { resolve } from 'node:path'
-import { mkdirSync, writeFileSync } from 'node:fs'
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+
+// Read canonical pipeline outputs independently from the exported browser JSON.
+// Keep identifiers as strings; quoted evidence may contain commas or line breaks.
+function readCanonicalCsv(name, columns) {
+  const text = readFileSync(new URL(`../../../results/${name}.csv`, import.meta.url), 'utf8').replace(/^\uFEFF/, '')
+  const rows = []
+  let row = [], field = '', quoted = false
+  for (let index = 0; index < text.length; index++) {
+    const char = text[index]
+    if (char === '"') {
+      if (quoted && text[index + 1] === '"') { field += '"'; index++ }
+      else quoted = !quoted
+    } else if (char === ',' && !quoted) { row.push(field); field = '' }
+    else if ((char === '\n' || char === '\r') && !quoted) {
+      if (char === '\r' && text[index + 1] === '\n') index++
+      row.push(field); rows.push(row); row = []; field = ''
+    } else field += char
+  }
+  if (quoted) throw new Error(`${name}.csv: unterminated quoted field`)
+  if (row.length || field.length) rows.push([...row, field])
+  const header = rows.shift()
+  if (header?.join(',') !== columns.join(',')) throw new Error(`${name}.csv: unexpected canonical columns`)
+  return rows.map((values, index) => {
+    if (values.length !== columns.length) throw new Error(`${name}.csv: invalid row ${index + 2}; regenerate canonical results before QA`)
+    return Object.fromEntries(columns.map((column, position) => [column, values[position]]))
+  })
+}
+
+const canonicalTop = readCanonicalCsv('top_nodes', ['rank', 'gid', 'role', 'priority_score', 'why'])
+  .map(row => ({ ...row, rank: Number(row.rank), priority_score: Number(row.priority_score) }))
+const topIds = new Set(canonicalTop.map(row => row.gid))
+const canonicalNodes = readCanonicalCsv('nodes_roles', ['gid', 'role', 'role_score', 'cluster_id', 'priority_score', 'evidence'])
+  .filter(row => topIds.has(row.gid))
+  .map(row => ({ ...row, role_score: Number(row.role_score), cluster_id: Number(row.cluster_id), priority_score: Number(row.priority_score) }))
+const canonical = { top: canonicalTop, nodes: canonicalNodes }
 
 const baseUrl = process.env.QA_BASE_URL || 'http://127.0.0.1:5173/'
 if (!['localhost', '127.0.0.1'].includes(new URL(baseUrl).hostname)) throw new Error('QA requires a local server')
@@ -11,7 +46,7 @@ const client = new Client({ name: 'moneygraph-project-qa', version: '2.0' })
 try {
   await client.connect(new StdioClientTransport({ command: process.execPath, args: [resolve('node_modules/@playwright/mcp/cli.js'), '--headless', '--isolated', '--executable-path', chromium.executablePath(), '--output-dir', resolve('qa')] }))
   const tool = (await client.listTools()).tools.find(item => /^browser_run_code/.test(item.name))
-  const scenario = async (page, base) => {
+  const scenario = async (page, base, expected) => {
     const passed = [], errors = [], requests = [], screenshots = []
     page.on('pageerror', error => errors.push(error.message))
     page.on('console', message => { if (message.type() === 'error') errors.push(message.text()) })
@@ -21,7 +56,12 @@ try {
     const fixture = await (await page.request.get(base.replace(/\/$/, '') + '/project-data.json')).json()
     assert(fixture.metadata.source === 'project', 'Authoritative project provenance')
     assert(fixture.nodes.length === 2248 && fixture.edges.length === 3119 && fixture.clusters.length === 65, 'Real dataset counts')
-    assert(fixture.top[0].gid === '100000003115284100' && fixture.top[0].priority_score === .862398, 'Real CSV Top1 score')
+    assert(expected.top.length > 1 && fixture.top.length === expected.top.length && expected.top.every((row, index) =>
+      ['rank', 'gid', 'role', 'priority_score', 'why'].every(key => fixture.top[index]?.[key] === row[key])), 'Exported ranking, exact GIDs, scores and explanations match canonical top_nodes.csv')
+    assert(expected.nodes.length === expected.top.length && expected.nodes.every(row => {
+      const node = fixture.nodes.find(item => item.gid === row.gid)
+      return node && ['gid', 'role', 'role_score', 'cluster_id', 'priority_score', 'evidence'].every(key => node[key] === row[key])
+    }), 'Top-node cards independently match canonical nodes_roles.csv')
     const canvas = page.locator('.aml-canvas')
     const waitSelection = gid => page.locator(`.aml-canvas[data-selected-gid="${gid}"]`).waitFor()
     const search = async gid => {
@@ -82,7 +122,8 @@ try {
     await page.locator('.node-gid').filter({ hasText: top.gid }).waitFor()
     assert(await page.locator('.canvas-drawer-left').count() === 0 && await page.locator('.canvas-drawer-right').count() === 1, 'Selecting priority replaces list with same-node inspector')
     await checkNeighborhood(top.gid, 1, 'both', 'Selection automatically opens exact one-step neighborhood')
-    assert(await page.locator('.inspector .evidence-text').first().innerText() === card.evidence, 'Inspector uses exact CSV evidence')
+    const canonicalCard = expected.nodes.find(node => node.gid === top.gid)
+    assert(await page.locator('.inspector .evidence-text').first().innerText() === canonicalCard.evidence, 'Inspector uses exact canonical CSV evidence')
     const format = value => new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 2 }).format(value)
     const flow = await page.locator('.inspector .flow-number').allTextContents()
     assert(flow[0].includes(format(card.observed_flows.incoming_kzt)) && flow[1].includes(format(card.observed_flows.outgoing_kzt)), 'Inspector flows match complete canonical edges')
@@ -263,7 +304,7 @@ try {
     assert(errors.every(error => error.includes('503')), 'Only intentional HTTP errors after recovery checks')
     return { passed, expected503: true, screenshots, nodeCount: fixture.nodes.length, linkCount: fixture.edges.length, clusters: fixture.clusters.length, totalKzt: fixture.metadata.total_kzt }
   }
-  const result = await client.callTool({ name: tool.name, arguments: { code: `async (page) => { try { return await (${scenario.toString()})(page, ${JSON.stringify(baseUrl)}) } catch (error) { await page.screenshot({ path: 'qa/project-failure.png' }); throw error } }` } }, undefined, { timeout: 120000 })
+  const result = await client.callTool({ name: tool.name, arguments: { code: `async (page) => { try { return await (${scenario.toString()})(page, ${JSON.stringify(baseUrl)}, ${JSON.stringify(canonical)}) } catch (error) { await page.screenshot({ path: 'qa/project-failure.png' }); throw error } }` } }, undefined, { timeout: 120000 })
   writeFileSync('qa/project-browser-report.json', JSON.stringify(result, null, 2))
   for (const item of result.content ?? []) if (item.type === 'text') console.log(item.text.split('### Ran')[0])
   if (result.isError) process.exitCode = 1
