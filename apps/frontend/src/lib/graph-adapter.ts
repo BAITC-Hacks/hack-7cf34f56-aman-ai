@@ -3,13 +3,13 @@ import type { NodeCard, Role, Subgraph, TopNode } from './contracts'
 /** GIDs are decimal strings: the dataset's int64 identifiers exceed JS precision. */
 export type AMLGraphNode = {
   gid: string
-  role: Role
+  role: Role | null
   role_score: number | null
   priority_score: number | null
   risk_score?: number | null
-  cluster_id: number
-  depth: number
-  is_seed: boolean
+  cluster_id: number | null
+  depth: number | null
+  is_seed: boolean | null
   incoming_kzt: number | null
   outgoing_kzt: number | null
   total_volume_kzt: number | null
@@ -23,7 +23,7 @@ export type AMLGraphData = {
   nodes: AMLGraphNode[]
   links: AMLGraphLink[]
   coverage: { truncated: boolean; total_nodes: number | null; total_edges: number | null; limit: number }
-  scope: 'demo' | 'neighborhood'
+  scope: 'demo' | 'dataset' | 'neighborhood' | 'upload'
 }
 export type GraphDirection = 'both' | 'incoming' | 'outgoing'
 

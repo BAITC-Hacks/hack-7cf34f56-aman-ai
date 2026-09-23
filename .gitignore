@@ -32,3 +32,6 @@ npm-debug.log*
 data/*.parquet
 .env.*
 **/__pycache__/
+
+# Local startup verification includes machine-specific timings.
+results/reproducibility.json

@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useRef, useState, type FormEvent } from 'react'
-import { Network, Search, ShieldCheck, CalendarDays, ArrowRight, PanelRightOpen, Bot } from 'lucide-react'
+import { Network, Search, ShieldCheck, CalendarDays, ArrowRight, PanelRightOpen, Bot, Upload } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Field, FieldLabel } from '@/components/ui/field'
@@ -18,8 +18,10 @@ import { AnnotationBoundary } from '@/components/annotation-boundary'
 const GraphPanel = lazy(() => import('@/components/graph-panel').then(m => ({ default: m.GraphPanel })))
 import { useResource } from '@/lib/use-resource'
 import { useAgentChat } from '@/lib/use-agent-chat'
-import { api, isDemo } from '@/lib/api'
+import { api, isDemo, isLocal, dataMode } from '@/lib/api'
 import { cn } from '@/lib/utils'
+import { CsvDashboard } from '@/components/csv-dashboard'
+import type { CsvAnalysis } from '@/lib/csv-analytics'
 
 const Agentation = import.meta.env.DEV
   ? lazy(() => import('agentation').then(m => ({ default: m.Agentation })))
@@ -27,6 +29,14 @@ const Agentation = import.meta.env.DEV
 
 function locationState() { const p = new URLSearchParams(location.search); return { gid: p.get('gid'), hop: (p.get('hop') === '2' ? 2 : 1) as 1 | 2 } }
 export default function App() {
+  const [view, setView] = useState<'investigation' | 'csv'>('investigation')
+  const [analysis, setAnalysis] = useState<CsvAnalysis | null>(null)
+  return view === 'csv'
+    ? <TooltipProvider delayDuration={250}><CsvDashboard analysis={analysis} onAnalysis={setAnalysis} onBack={() => setView('investigation')} /></TooltipProvider>
+    : <InvestigationApp onUpload={() => setView('csv')} />
+}
+
+function InvestigationApp({ onUpload }: { onUpload: () => void }) {
   const [selection, setSelection] = useState(locationState)
   const [query, setQuery] = useState('')
   const [searchError, setSearchError] = useState('')
@@ -52,7 +62,7 @@ export default function App() {
   }, [])
   const top = useResource('top', api.top)
   const node = useResource(gid ? `node:${gid}` : null, signal => api.node(gid!, signal))
-  const graph = useResource(isDemo ? 'network:demo' : gid ? `network:${gid}` : null, signal => api.network(gid, signal))
+  const graph = useResource(isLocal ? `network:${dataMode}` : gid ? `network:${gid}` : null, signal => api.network(gid, signal))
   const cluster = useResource(clusterId === null ? null : `cluster:${clusterId}`, signal => api.cluster(clusterId!, signal))
   function navigate(nextGid: string, nextHop: 1 | 2 = 1) {
     searchController.current?.abort(); setSearching(false); setSearchError('')
@@ -68,7 +78,7 @@ export default function App() {
   async function search(event: FormEvent) {
     event.preventDefault(); searchController.current?.abort()
     const value = query.trim()
-    if (!/^\d+$/.test(value)) { setSearchError('Введите gid: только цифры, без пробелов.'); setSearching(false); return }
+    if (!/^\d+$/.test(value)) { setSearchError('GID должен содержать только цифры.'); setSearching(false); return }
     const controller = new AbortController(); searchController.current = controller
     setSearching(true); setSearchError('')
     try { const found = await api.search(value, controller.signal); if (!controller.signal.aborted) navigate(found) }
@@ -77,15 +87,15 @@ export default function App() {
   }
   function openChat(text?: string) { setSide('chat'); if (text) setQuestion(text); if (!desktop) setSheetOpen(true) }
   const inspector = <NodeInspector onExplain={() => openChat('Объясни роль и приоритет выбранного клиента. Укажи факты, ограничения и следующий шаг.')}  gid={gid} node={node.data} loading={node.loading} error={node.error} retry={node.retry} onSelect={navigate} onCluster={id => { setClusterId(id); setSheetOpen(false); setMobileTab('graph') }} />
-  const sidePanel = <Tabs value={side} onValueChange={setSide} className="side-panel panel"><div className="side-tabs"><TabsList className="w-full"><TabsTrigger value="details">3. Проверка клиента</TabsTrigger><TabsTrigger value="chat"><Bot />AI-помощник</TabsTrigger></TabsList></div><TabsContent value="details" forceMount className="inspector-slot" hidden={side !== 'details'}>{inspector}</TabsContent><TabsContent value="chat" forceMount className="chat-slot" hidden={side !== 'chat'}><AgentChat session={chatSession} gid={gid} active={side === 'chat'} question={question} setQuestion={setQuestion} onSelect={id => { navigate(id); setSide('details') }} /></TabsContent></Tabs>
+  const sidePanel = <Tabs value={side} onValueChange={setSide} className="side-panel panel"><div className="side-tabs"><TabsList className="w-full"><TabsTrigger value="details">Проверка клиента</TabsTrigger><TabsTrigger value="chat"><Bot />AI-помощник</TabsTrigger></TabsList></div><TabsContent value="details" forceMount className="inspector-slot" hidden={side !== 'details'}>{inspector}</TabsContent><TabsContent value="chat" forceMount className="chat-slot" hidden={side !== 'chat'}><AgentChat session={chatSession} gid={gid} active={side === 'chat'} question={question} setQuestion={setQuestion} onSelect={id => { navigate(id); setSide('details') }} /></TabsContent></Tabs>
   return <TooltipProvider delayDuration={250}><div className="app-shell">
     <header className="app-header"><a className="brand" href="./" aria-label="MoneyGraph — начало"><span className="brand-symbol"><Network /></span><span>MoneyGraph<small>INVESTIGATOR</small></span></a><div className="header-divider" /><div className="workspace-label">Финансовый мониторинг<br /><strong>Рабочее место аналитика</strong></div>
-      <form className="gid-search" onSubmit={search}><Field><FieldLabel htmlFor="gid-search" className="sr-only">Поиск по gid</FieldLabel><div className="search-row"><Search className="search-icon" /><Input id="gid-search" placeholder="Найти клиента по gid" value={query} inputMode="numeric" autoComplete="off" aria-invalid={!!searchError} aria-describedby={searchError ? 'search-error' : undefined} onChange={e => { searchController.current?.abort(); setSearching(false); setQuery(e.target.value); setSearchError('') }} /><Button type="submit" variant="secondary" disabled={searching}>{searching ? <Spinner /> : <ArrowRight />}<span className="sr-only">Найти</span></Button></div></Field>{searchError && <div id="search-error" className="search-error" role="alert">{searchError}</div>}</form>
-      <div className="header-status"><Badge variant="outline"><span className="status-dot" />{isDemo ? 'Демо-данные' : 'Данные анализа'}</Badge></div>
+      <form className="gid-search" onSubmit={search}><Field><FieldLabel htmlFor="gid-search" className="sr-only">Поиск по gid</FieldLabel><div className="search-row"><Search className="search-icon" /><Input id="gid-search" placeholder="GID" value={query} inputMode="numeric" autoComplete="off" aria-invalid={!!searchError} aria-describedby={searchError ? 'search-error' : undefined} onChange={e => { searchController.current?.abort(); setSearching(false); setQuery(e.target.value); setSearchError('') }} /><Button type="submit" variant="secondary" disabled={searching}>{searching ? <Spinner /> : <ArrowRight />}<span className="sr-only">Найти</span></Button></div></Field>{searchError && <div id="search-error" className="search-error" role="alert">{searchError}</div>}</form>
+      <div className="header-status"><Badge variant="outline"><span className="status-dot" />{isDemo ? 'Демо' : dataMode === 'project' ? 'Данные проекта' : 'API'}</Badge></div>
       <Button ref={chatTrigger} variant="outline" onClick={() => openChat()}><Bot data-icon="inline-start" />AI-помощник</Button>
     </header>
     <div className="dataset-bar"><div className="flex items-center gap-2"><CalendarDays className="size-3.5" /><span>{isDemo ? 'Демо-сценарий · июль 2026' : 'Выборка · июль 2026'}</span></div><Separator orientation="vertical" /><span>Внутрибанковские переводы</span><Separator orientation="vertical" /><span>От 5 000 KZT</span><Separator orientation="vertical" /><span>Глубина наблюдения 0–4</span><span className="dataset-end"><ShieldCheck className="size-3.5" />Локальное исследование</span></div>
-    <div className="page-heading"><div><h1>Исследование сети</h1><p>От структуры переводов — к объяснимой гипотезе.</p></div><span className="subtle">{isDemo ? 'Режим знакомства с интерфейсом' : 'Результаты аналитического пайплайна'}</span></div>
+    <div className="page-heading"><div><h1>Исследование сети</h1><p>Связи, наблюдаемые потоки и приоритеты проверки.</p></div><Button onClick={onUpload}><Upload data-icon="inline-start" />Загрузить CSV</Button></div>
     {isDemo && <Alert className="demo-notice"><AlertDescription>Демо: {graph.data?.nodes.length.toLocaleString('ru-RU') ?? '2 248'} синтетических клиентов. Роли и приоритеты — примеры интерфейса, не результаты анализа исходных данных.</AlertDescription></Alert>}
     <div className="mobile-navigation"><Tabs value={mobileTab} onValueChange={setMobileTab}><TabsList><TabsTrigger value="priorities">Приоритеты</TabsTrigger><TabsTrigger value="graph">Связи</TabsTrigger></TabsList></Tabs></div>
     <main className={cn('workspace', mobileTab === 'graph' && 'mobile-graph')}>

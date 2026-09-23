@@ -13,7 +13,7 @@ def pct_depth(values: pd.Series, depths: pd.Series) -> pd.Series:
     for depth in sorted(depths.dropna().unique()):
         index = depths.index[depths.eq(depth)]
         group = pd.to_numeric(values.loc[index], errors="coerce")
-        valid = group.dropna()
+        valid = group.where(np.isfinite(group)).dropna()
         if len(index) <= 1 or len(valid) != len(index) or valid.nunique(dropna=True) <= 1:
             continue
         ranks = valid.rank(method="average", ascending=True)

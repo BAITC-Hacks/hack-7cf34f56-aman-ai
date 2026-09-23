@@ -35,9 +35,9 @@ try {
     await page.getByText('Данные анализа',{exact:true}).waitFor();
     assert(await page.getByText('Демонстрационные данные',{exact:true}).count()===0,'API mode does not silently show demo mode');
     delayA=true;
-    await page.getByRole('button',{name:'Открыть клиент 900000000000100001'}).click();
+    await page.getByRole('button',{name:'Открыть клиента 900000000000100001'}).click();
     await page.locator('.inspector').getByRole('status',{name:'Загрузка данных'}).waitFor();
-    await page.getByRole('button',{name:'Открыть клиент 900000000000100002'}).click();
+    await page.getByRole('button',{name:'Открыть клиента 900000000000100002'}).click();
     await page.locator('.node-gid').filter({hasText:'900000000000100002'}).waitFor();
     release();
     await page.waitForTimeout(200);

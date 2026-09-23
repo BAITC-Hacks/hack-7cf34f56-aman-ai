@@ -1,0 +1,5 @@
+# Complete runtime versions used by the organizer startup and mandatory pipeline.
+-r apps/backend/requirements.txt
+numpy==2.5.3
+python-dateutil==2.9.0.post0
+six==1.17.0

@@ -22,20 +22,20 @@ try {
     const assert = (ok, text) => { if (!ok) throw new Error(text); passed.push(text); };
     await page.setViewportSize({width:1440,height:900});
     await page.goto(${JSON.stringify(baseUrl)});
-    await page.getByRole('button', {name:'Открыть клиент 900000000000100001'}).waitFor();
+    await page.getByRole('button', {name:'Открыть клиента 900000000000100001'}).waitFor();
     await page.locator('.aml-canvas').waitFor();
     await page.locator('.graph-bottom').filter({hasText:'2248 / 2248 клиентов'}).waitFor();
     await page.getByRole('button', {name:'Start feedback mode',exact:true}).waitFor();
     passed.push('Agentation resolves React and mounts alongside MoneyGraph');
-    assert(await page.locator('.inspector').getByText('Здесь начинается проверка').isVisible(), 'Initial full Canvas graph and empty inspector');
+    assert(await page.locator('.inspector').getByText('Выберите клиента').isVisible(), 'Initial full Canvas graph and empty inspector');
     assert(await page.getByRole('button', {name:/Открыть клиент/}).count() === 20, 'Top-20 complete');
     await page.locator('.aml-canvas[data-settled="true"]').waitFor();
     await page.waitForTimeout(650); // Let the Canvas camera finish its fit animation.
     await page.screenshot({animations:'disabled',path:${JSON.stringify(resolve('qa/initial-desktop.png'))}});
-    await page.getByRole('button', {name:'Открыть клиент 900000000000100001'}).click();
+    await page.getByRole('button', {name:'Открыть клиента 900000000000100001'}).click();
     await page.locator('.node-gid').filter({hasText:'900000000000100001'}).waitFor();
     await page.locator('.aml-canvas').waitFor();
-    await page.getByRole('radio', {name:'Локальный',exact:true}).click();
+    await page.getByRole('radio', {name:'Связи клиента',exact:true}).click();
     await page.locator('.graph-bottom').filter({hasText:'10 / 2248 клиентов'}).waitFor();
     passed.push('Local one-hop Canvas graph contains 10 clients');
     assert(await page.locator('[role=progressbar]').first().getAttribute('aria-valuenow') !== null, 'Score accessible value');
@@ -80,7 +80,7 @@ try {
     await page.setViewportSize({width:390,height:844});
     await page.goto(${JSON.stringify(baseUrl)});
     await page.getByRole('tab', {name:'Приоритеты',exact:true}).click();
-    await page.getByRole('button', {name:'Открыть клиент 900000000000100001'}).click();
+    await page.getByRole('button', {name:'Открыть клиента 900000000000100001'}).click();
     await page.getByRole('dialog').waitFor();
     await page.locator('.node-gid').waitFor();
     assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'Mobile no horizontal overflow');
@@ -99,7 +99,7 @@ try {
     await page.getByRole('status', {name:'Загрузка данных'}).first().waitFor();
     passed.push('Deterministic loading state');
     release();
-    await page.getByRole('button', {name:'Открыть клиент 900000000000100001'}).waitFor();
+    await page.getByRole('button', {name:'Открыть клиента 900000000000100001'}).waitFor();
     await page.unroute('**/demo.json');
     let fail=true;
     await page.route('**/demo.json', async route => { if(fail) await route.fulfill({status:503,body:'Unavailable'}); else await route.continue(); });
@@ -107,7 +107,7 @@ try {
     await page.getByText('Не удалось загрузить', {exact:true}).first().waitFor();
     fail=false;
     await page.getByRole('button', {name:'Повторить',exact:true}).first().click();
-    await page.getByRole('button', {name:'Открыть клиент 900000000000100001'}).waitFor();
+    await page.getByRole('button', {name:'Открыть клиента 900000000000100001'}).waitFor();
     passed.push('HTTP failure and retry recovery');
     await page.unroute('**/demo.json');
     await page.route('**/demo.json', async route => { const response=await route.fetch(); const body=await response.json(); body.nodes[0].gid=123; await route.fulfill({response,json:body}); });
@@ -119,7 +119,7 @@ try {
     await page.route('**/agentation.js*', route => route.fulfill({contentType:'application/javascript',body:'throw new Error("Simulated annotation module failure")'}));
     await page.goto(${JSON.stringify(baseUrl)});
     await page.getByText('Аннотации недоступны',{exact:true}).waitFor();
-    await page.getByRole('button',{name:'Открыть клиент 900000000000100001'}).click();
+    await page.getByRole('button',{name:'Открыть клиента 900000000000100001'}).click();
     await page.locator('.node-gid').filter({hasText:'900000000000100001'}).waitFor();
     await page.locator('.aml-canvas').waitFor();
     passed.push('Optional toolbar failure cannot blank the investigator');

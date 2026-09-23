@@ -3,7 +3,7 @@ import { RotateCcw } from 'lucide-react'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Field, FieldGroup, FieldLabel, FieldLegend, FieldSet } from '@/components/ui/field'
+import { Field, FieldDescription, FieldGroup, FieldLabel, FieldLegend, FieldSet } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Slider } from '@/components/ui/slider'
@@ -11,7 +11,7 @@ import { Switch } from '@/components/ui/switch'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { roles } from '@/lib/contracts'
 import { compact, roleLabels } from '@/lib/format'
-import { applyGraphPreset, type GraphPreset, type GraphSettings } from '@/lib/graph-settings'
+import { activeGraphFilterCount, applyGraphPreset, type GraphPreset, type GraphSettings } from '@/lib/graph-settings'
 
 export type GraphSettingsPanelProps = {
   settings: GraphSettings
@@ -44,36 +44,43 @@ function SettingSwitch({ label, checked, onChange }: { label: string; checked: b
 export function GraphSettingsPanel({ settings, onChange, clusters, maxVolume, onResetLayout, metricLabel = 'Приоритет проверки' }: GraphSettingsPanelProps) {
   const id = useId()
   const update = <K extends keyof GraphSettings>(key: K, value: GraphSettings[K]) => onChange({ ...settings, [key]: value })
+  const activeCount = activeGraphFilterCount(settings)
   const presets: [GraphPreset, string][] = [
-    ['priority', 'Топ приоритетов'], ['volume', 'Крупные потоки'], ['seeds', 'Сеть исходных'],
-    ['coordinators', 'Координаторы'], ['consolidators', 'Консолидаторы'],
+    ['priority', '20 приоритетных'], ['seeds', 'Исходные и их соседи'],
   ]
   return <div className="graph-settings-content p-4">
+    <div className="flex items-center justify-between gap-2 pb-3">
+      <span>Активных фильтров: {activeCount}</span>
+      <Button variant="ghost" size="sm" disabled={!activeCount} onClick={() => onChange(applyGraphPreset(settings, 'all', maxVolume))}><RotateCcw data-icon="inline-start" />Сбросить фильтры</Button>
+    </div>
+    <p className="pb-3 text-sm text-muted-foreground">Фильтры работают вместе. Остаются только связи между видимыми клиентами.</p>
     <div className="flex flex-wrap gap-1.5 pb-3" aria-label="Быстрые фильтры">
       {presets.map(([key, label]) => <Button key={key} size="sm" variant="outline" onClick={() => onChange(applyGraphPreset(settings, key, maxVolume))}>{label}</Button>)}
     </div>
     <Accordion type="multiple" defaultValue={['filters']}>
       <AccordionItem value="filters">
-        <AccordionTrigger>ФИЛЬТРЫ</AccordionTrigger>
+        <AccordionTrigger>Каких клиентов показать</AccordionTrigger>
         <AccordionContent>
           <FieldGroup className="gap-4 py-2">
             <Field>
               <FieldLabel id={`${id}-priority`}>{metricLabel}</FieldLabel>
               <ToggleGroup type="single" value={settings.priority} size="sm" variant="outline" className="flex-wrap" aria-labelledby={`${id}-priority`} onValueChange={value => value && update('priority', value as GraphSettings['priority'])}>
                 <ToggleGroupItem value="all">Все</ToggleGroupItem>
-                <ToggleGroupItem value="low" title="От 0 до 0,25">Низкий</ToggleGroupItem>
-                <ToggleGroupItem value="medium" title="От 0,25 до 0,50">Средний</ToggleGroupItem>
-                <ToggleGroupItem value="elevated" title="От 0,50 до 0,75">Повышенный</ToggleGroupItem>
-                <ToggleGroupItem value="high" title="От 0,75 до 1,00">Высокий</ToggleGroupItem>
+                <ToggleGroupItem value="low" aria-label="Оценка от 0 до 25, не включая 25">0–&lt;25</ToggleGroupItem>
+                <ToggleGroupItem value="medium" aria-label="Оценка от 25 до 50, не включая 50">25–&lt;50</ToggleGroupItem>
+                <ToggleGroupItem value="elevated" aria-label="Оценка от 50 до 75, не включая 75">50–&lt;75</ToggleGroupItem>
+                <ToggleGroupItem value="high" aria-label="Оценка от 75 до 100 включительно">75–100</ToggleGroupItem>
               </ToggleGroup>
+              <FieldDescription>Шкала от 0 до 100. Клиенты без оценки видны при выборе «Все».</FieldDescription>
             </Field>
             <Field>
-              <FieldLabel htmlFor={`${id}-volume`}>Мин. наблюдаемый оборот, ₸</FieldLabel>
+              <FieldLabel htmlFor={`${id}-volume`}>Минимальный объём клиента, ₸</FieldLabel>
               <Input id={`${id}-volume`} type="number" inputMode="decimal" min={0} value={settings.minVolume} onChange={event => update('minVolume', Math.max(0, Number(event.target.value) || 0))} />
-              <span className="text-xs text-muted-foreground">Максимум в загруженной сети: ₸{compact(maxVolume)}</span>
+              <FieldDescription>Сумма наблюдаемых входящих и исходящих переводов. 0 — без ограничения; максимум — ₸{compact(maxVolume)}.</FieldDescription>
             </Field>
             <FieldSet>
               <FieldLegend variant="label">Роль · гипотеза</FieldLegend>
+              <FieldDescription>Можно выбрать несколько ролей. Роль описывает структуру переводов.</FieldDescription>
               <FieldGroup className="gap-2">
                 {roles.map(role => <Field key={role} orientation="horizontal">
                   <Checkbox id={`${id}-${role}`} checked={settings.roles.includes(role)} onCheckedChange={checked => update('roles', checked ? [...settings.roles, role] : settings.roles.filter(value => value !== role))} />
@@ -82,47 +89,51 @@ export function GraphSettingsPanel({ settings, onChange, clusters, maxVolume, on
               </FieldGroup>
             </FieldSet>
             <Field>
-              <FieldLabel htmlFor={`${id}-cluster`}>Кластер</FieldLabel>
+              <FieldLabel htmlFor={`${id}-cluster`}>Сообщество клиентов</FieldLabel>
               <Select value={settings.cluster} onValueChange={value => update('cluster', value)}>
                 <SelectTrigger id={`${id}-cluster`} className="w-full"><SelectValue /></SelectTrigger>
                 <SelectContent><SelectGroup><SelectItem value="all">Все кластеры</SelectItem>{clusters.map(cluster => <SelectItem value={String(cluster)} key={cluster}>Кластер {cluster}</SelectItem>)}</SelectGroup></SelectContent>
               </Select>
+              <FieldDescription>Кластер объединяет клиентов с плотными связями внутри выборки.</FieldDescription>
             </Field>
             <Field>
-              <FieldLabel id={`${id}-depth`}>Колено от исходного клиента</FieldLabel>
+              <FieldLabel id={`${id}-depth`}>Колено обнаружения</FieldLabel>
               <ToggleGroup type="multiple" value={settings.depths.map(String)} variant="outline" size="sm" spacing={0} aria-labelledby={`${id}-depth`} onValueChange={values => update('depths', values.map(Number))}>
-                {[0, 1, 2, 3, 4].map(depth => <ToggleGroupItem key={depth} value={String(depth)}>{depth === 0 ? '0 · seed' : depth === 4 ? '4 · край' : depth}</ToggleGroupItem>)}
+                {[0, 1, 2, 3, 4].map(depth => <ToggleGroupItem key={depth} value={String(depth)} title={depth === 0 ? 'Исходные клиенты' : depth === 4 ? 'Граница наблюдения' : `Глубина ${depth}`}>{depth}</ToggleGroupItem>)}
               </ToggleGroup>
+              <FieldDescription>0 — исходные клиенты; 1–4 — колено, на котором клиент впервые найден. На 4-м колене наблюдение обрывается.</FieldDescription>
             </Field>
             <Field>
-              <FieldLabel id={`${id}-seed`}>Исходные клиенты</FieldLabel>
+              <FieldLabel id={`${id}-seed`}>Участие в исходном списке</FieldLabel>
               <ToggleGroup type="single" value={settings.seeds} variant="outline" size="sm" spacing={0} aria-labelledby={`${id}-seed`} onValueChange={value => value && update('seeds', value as GraphSettings['seeds'])}>
-                <ToggleGroupItem value="all">Все</ToggleGroupItem><ToggleGroupItem value="seeds">Только seed</ToggleGroupItem><ToggleGroupItem value="non-seeds">Без seed</ToggleGroupItem>
+                <ToggleGroupItem value="all">Все</ToggleGroupItem><ToggleGroupItem value="seeds">Исходные</ToggleGroupItem><ToggleGroupItem value="non-seeds">Остальные</ToggleGroupItem>
               </ToggleGroup>
+              <FieldDescription>Исходные клиенты — отправная точка сбора графа (seed).</FieldDescription>
             </Field>
+            <SettingSwitch label="Только исходные клиенты и их прямые соседи" checked={settings.seedNetwork} onChange={value => update('seedNetwork', value)} />
             <Field>
-              <FieldLabel htmlFor={`${id}-top`}>Топ по приоритету проверки</FieldLabel>
+              <FieldLabel htmlFor={`${id}-top`}>Число клиентов по приоритету</FieldLabel>
               <Select value={String(settings.topN)} onValueChange={value => update('topN', Number(value))}>
                 <SelectTrigger id={`${id}-top`} className="w-full"><SelectValue /></SelectTrigger>
-                <SelectContent><SelectGroup><SelectItem value="0">Все узлы</SelectItem>{[20, 50, 100].map(count => <SelectItem value={String(count)} key={count}>{count} приоритетов</SelectItem>)}</SelectGroup></SelectContent>
+                <SelectContent><SelectGroup><SelectItem value="0">Все узлы</SelectItem>{[20, 50, 100].map(count => <SelectItem value={String(count)} key={count}>Топ {count}</SelectItem>)}</SelectGroup></SelectContent>
               </Select>
+              <FieldDescription>Лимит применяется после остальных фильтров. Связи с клиентами вне списка скрываются.</FieldDescription>
             </Field>
-            <SettingSwitch label="Скрыть изолированные узлы" checked={settings.hideIsolated} onChange={value => update('hideIsolated', value)} />
-            <Button variant="ghost" size="sm" onClick={() => onChange(applyGraphPreset(settings, 'all', maxVolume))}><RotateCcw data-icon="inline-start" />Сбросить фильтры</Button>
+            <SettingSwitch label="Скрыть клиентов без видимых связей" checked={settings.hideIsolated} onChange={value => update('hideIsolated', value)} />
           </FieldGroup>
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="grouping">
-        <AccordionTrigger>ГРУППИРОВКА</AccordionTrigger>
+        <AccordionTrigger>Цвет узлов</AccordionTrigger>
         <AccordionContent><FieldGroup className="py-2"><Field>
           <FieldLabel id={`${id}-colors`}>Цвет узлов</FieldLabel>
           <ToggleGroup type="single" value={settings.colorBy} variant="outline" size="sm" spacing={0} aria-labelledby={`${id}-colors`} onValueChange={value => value && update('colorBy', value as GraphSettings['colorBy'])}>
-            <ToggleGroupItem value="risk">{metricLabel.includes('Риск') ? 'Риск' : 'Приоритет'}</ToggleGroupItem><ToggleGroupItem value="role">Роль</ToggleGroupItem><ToggleGroupItem value="cluster">Кластер</ToggleGroupItem>
+            <ToggleGroupItem value="risk">{/риск/i.test(metricLabel) ? 'Риск' : 'Приоритет'}</ToggleGroupItem><ToggleGroupItem value="role">Роль</ToggleGroupItem><ToggleGroupItem value="cluster">Кластер</ToggleGroupItem>
           </ToggleGroup>
         </Field></FieldGroup></AccordionContent>
       </AccordionItem>
       <AccordionItem value="display">
-        <AccordionTrigger>ОТОБРАЖЕНИЕ</AccordionTrigger>
+        <AccordionTrigger>Отображение</AccordionTrigger>
         <AccordionContent><FieldGroup className="gap-4 py-2">
           <SettingSwitch label="Стрелки переводов" checked={settings.showArrows} onChange={value => update('showArrows', value)} />
           <SettingSwitch label="Подписи GID" checked={settings.showLabels} onChange={value => update('showLabels', value)} />
@@ -135,8 +146,9 @@ export function GraphSettingsPanel({ settings, onChange, clusters, maxVolume, on
         </FieldGroup></AccordionContent>
       </AccordionItem>
       <AccordionItem value="forces">
-        <AccordionTrigger>СИЛЫ</AccordionTrigger>
+        <AccordionTrigger>Дополнительно: расположение узлов</AccordionTrigger>
         <AccordionContent><FieldGroup className="gap-5 py-2">
+          <FieldDescription>Эти настройки меняют только расположение графа, а не расчёты или связи.</FieldDescription>
           <SettingSlider label="Притяжение к центру" value={settings.centerForce} min={0} max={0.15} step={0.005} onChange={value => update('centerForce', value)} />
           <SettingSlider label="Отталкивание" value={settings.repulsion} min={10} max={400} step={5} onChange={value => update('repulsion', value)} />
           <SettingSlider label="Сила связей" value={settings.linkForce} min={0} max={1} step={0.05} onChange={value => update('linkForce', value)} />

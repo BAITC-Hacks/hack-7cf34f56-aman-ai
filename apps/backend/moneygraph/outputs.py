@@ -9,7 +9,8 @@ def validate_outputs(nodes,clusters,top):
  if list(nodes.columns)!=NODE_COLUMNS or list(clusters.columns)!=CLUSTER_COLUMNS or list(top.columns)!=TOP_COLUMNS: raise ValueError("CSV columns differ from contract")
  if len(nodes)!=2248 or nodes.gid.duplicated().any() or not set(nodes.role)<=ROLES: raise ValueError("invalid node output")
  if not nodes.role_score.between(0,1).all() or not nodes.priority_score.between(0,1).all() or nodes.cluster_id.isna().any(): raise ValueError("invalid node scores or clusters")
- if nodes.evidence.str.len().eq(0).any() or (nodes.evidence.str.len()>200).any(): raise ValueError("invalid evidence")
+ for evidence in (nodes.evidence, top.why):
+  if not evidence.map(lambda value: isinstance(value,str) and bool(value.strip()) and len(value)<=200).all(): raise ValueError("invalid evidence")
  expected=top.sort_values(["priority_score","gid"],ascending=[False,True],kind="stable").reset_index(drop=True)
  if len(top)!=20 or top["rank"].tolist()!=list(range(1,21)) or not top.reset_index(drop=True).equals(expected): raise ValueError("invalid top ordering")
 def write_outputs(features,clusters,output_dir):

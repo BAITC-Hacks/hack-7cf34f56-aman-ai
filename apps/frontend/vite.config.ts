@@ -8,7 +8,7 @@ export default defineConfig(({ mode }) => {
   const envDir = fileURLToPath(new URL('../../', import.meta.url))
   // Vite exposes only VITE_* variables to the browser. Provider keys stay here.
   const env = { ...loadEnv(mode, envDir, ''), ...process.env }
-  const agentOptions = { env, dataMode: env.VITE_DATA_MODE === 'api' ? 'api' as const : 'demo' as const }
+  const agentOptions = { env, dataMode: env.VITE_DATA_MODE === 'api' ? 'api' as const : env.VITE_DATA_MODE === 'demo' ? 'demo' as const : 'project' as const }
   return {
     envDir,
     plugins: [react(), tailwindcss(), {

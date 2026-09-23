@@ -14,7 +14,13 @@
     "qa:api": "node scripts/api-browser-qa.mjs",
     "agent": "node server/standalone.mjs",
     "qa:analyst": "node scripts/analyst-browser-qa.mjs",
-    "qa:graph": "node scripts/graph-browser-qa.mjs"
+    "qa:graph": "node scripts/graph-browser-qa.mjs",
+    "data:project": "node scripts/prepare-project-data.mjs export",
+    "predev": "node scripts/prepare-project-data.mjs development",
+    "prebuild": "node scripts/prepare-project-data.mjs production",
+    "qa:project": "node scripts/project-browser-qa.mjs",
+    "qa:csv": "node scripts/csv-browser-qa.mjs",
+    "test:agent": "vitest run --config vitest.agent.config.ts"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.3.0",

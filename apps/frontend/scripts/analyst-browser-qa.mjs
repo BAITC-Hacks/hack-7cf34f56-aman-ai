@@ -34,7 +34,7 @@ try {
     await page.getByRole('button',{name:'CSV связей'}).click();
     assert((await transferDownload).suggestedFilename()==='observed-transfers.csv','Observed transfers export');
     await page.getByRole('tab',{name:'Схема',exact:true}).click();
-    await page.getByRole('button',{name:'Объяснить с AI'}).click();
+    await page.getByRole('button',{name:'Объяснить с ИИ'}).click();
     const question=page.getByRole('textbox',{name:'Вопрос аналитику AI'});
     assert((await question.inputValue()).includes('Объясни роль'),'Explain action prefills question without automatic external request');
     let mode='success';let release; const gate=new Promise(resolve=>{release=resolve;});
@@ -46,7 +46,7 @@ try {
       await route.fulfill({json:{answer:'В демо у клиента [gid:900000000000100001] 7 отправителей. Гипотеза требует проверки.',dataMode:'demo',sources:[{gid,label:'Карточка клиента'}],trace:[{tool:'get_node',status:'completed'}],review:{status:body.review?'completed':'not_requested',text:body.review?'Ограничения выборки учтены.':null}}});
     });
     await page.getByRole('combobox',{name:'Проверка выводов NVIDIA'}).click();
-    await page.getByRole('option',{name:'OpenAI + проверка NVIDIA'}).click();
+    await page.getByRole('option',{name:'OpenAI + NVIDIA'}).click();
     await page.getByRole('button',{name:'Отправить вопрос'}).click();
     await page.getByText('Второе мнение · NVIDIA',{exact:true}).waitFor();
     assert(bodies[0].selectedGid===gid && bodies[0].review && !('facts' in bodies[0]),'Only question, selected string ID, history and review preference sent');

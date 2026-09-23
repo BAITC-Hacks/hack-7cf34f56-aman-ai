@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { AMLGraphData, AMLGraphNode } from './graph-adapter'
-import { applyGraphPreset, defaultGraphSettings, filterGraph } from './graph-settings'
+import { activeGraphFilterCount, applyGraphPreset, defaultGraphSettings, filterGraph, type GraphFilters } from './graph-settings'
 
 const node = (gid: string, priority_score: number | null, extra: Partial<AMLGraphNode> = {}): AMLGraphNode => ({
   gid, priority_score, role: 'transit', role_score: null, cluster_id: 0, depth: 1, is_seed: false,
@@ -27,12 +27,33 @@ const data: AMLGraphData = {
 const ids = (graph: AMLGraphData) => graph.nodes.map(item => item.gid)
 
 describe('AML graph filters', () => {
+  it('counts only active data restrictions and clears them with reset', () => {
+    const settings = { ...defaultGraphSettings, priority: 'high' as const, roles: ['transit'] as const, seedNetwork: true, repulsion: 200 }
+    const filters = { ...settings, roles: [...settings.roles] }
+    expect(activeGraphFilterCount(defaultGraphSettings)).toBe(0)
+    expect(activeGraphFilterCount(filters)).toBe(3)
+    expect(activeGraphFilterCount(applyGraphPreset(filters, 'all', 100))).toBe(0)
+  })
   it('preserves unknown measurements and data provenance in the unfiltered graph', () => {
     const result = filterGraph(data, defaultGraphSettings)
     expect(ids(result)).toEqual(ids(data))
     expect(result.nodes[0]).toBe(data.nodes[0])
     expect(result.links[0]).toBe(data.links[0])
     expect(result.coverage).toBe(data.coverage)
+  })
+
+  it('keeps uploaded nodes with unknown metadata visible without inventing classifications', () => {
+    const unknown = node('9007199254740993123', null, { role: null, cluster_id: null, depth: null, is_seed: null })
+    const uploaded: AMLGraphData = { ...data, scope: 'upload', nodes: [unknown], links: [] }
+    expect(filterGraph(uploaded, defaultGraphSettings).nodes).toEqual([unknown])
+    const narrowerFilters: Partial<GraphFilters>[] = [
+      { roles: ['peripheral'] }, { depths: [0] }, { cluster: '0' },
+      { seeds: 'seeds' }, { seeds: 'non-seeds' }, { priority: 'low' },
+    ]
+    for (const filter of narrowerFilters) {
+      expect(filterGraph(uploaded, { ...defaultGraphSettings, ...filter }).nodes).toEqual([])
+    }
+    expect(unknown).toMatchObject({ role: null, cluster_id: null, depth: null, is_seed: null, priority_score: null })
   })
 
   it('uses disjoint bands, supplied risk before priority, and never classifies unknown as low', () => {

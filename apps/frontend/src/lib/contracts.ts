@@ -30,6 +30,9 @@ export const topSchema = z.array(z.object({ rank: count.positive(), gid: gidSche
 export const subgraphSchema = z.object({ nodes: z.array(graphNodeSchema).max(250), edges: z.array(edgeSchema), coverage: z.object({ truncated: z.boolean(), total_nodes: count.nullable(), total_edges: count.nullable(), limit: count.positive() }) })
 export const clusterSchema = z.object({ cluster_id: count, n_nodes: count, n_seed: count, sum_kzt_internal: amount, top_gids: z.array(gidSchema), hypothesis: z.string() })
 export const fixtureSchema = z.object({ nodes: z.array(nodeSchema), top: topSchema, edges: z.array(edgeSchema), clusters: z.array(clusterSchema) })
+export const projectDataSchema = fixtureSchema.extend({
+  metadata: z.object({ source: z.literal('project'), node_count: count, edge_count: count, transaction_count: count, total_kzt: amount, generated_at: z.string(), files: z.array(z.string()) }),
+})
 export type NodeCard = z.infer<typeof nodeSchema>
 export type TopNode = z.infer<typeof topSchema>[number]
 export type Subgraph = z.infer<typeof subgraphSchema>

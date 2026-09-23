@@ -2,11 +2,11 @@ import OpenAI from 'openai'
 import { toResponseInputItems } from 'openai/lib/responses/ResponseInputItems'
 import { readFile } from 'node:fs/promises'
 import { z } from 'zod'
-import { fixtureSchema, nodeSchema, topSchema, clusterSchema, gidSchema } from '../src/lib/contracts.ts'
+import { fixtureSchema, projectDataSchema, nodeSchema, topSchema, clusterSchema, gidSchema } from '../src/lib/contracts.ts'
 
 export const chatRequest = z.object({
   message: z.string().trim().min(1).max(2000),
-  selectedGid: gidSchema.nullable(), dataMode: z.enum(['demo', 'api']),
+  selectedGid: gidSchema.nullable(), dataMode: z.enum(['project', 'demo', 'api']),
   review: z.boolean().default(false),
   history: z.array(z.object({ role: z.enum(['user', 'assistant']), content: z.string().max(6000) })).max(10).default([]),
 }).strict()
@@ -26,15 +26,19 @@ const tools = [
 export class AgentError extends Error {
   constructor(message, status = 502) { super(message); this.status = status }
 }
-export function createAgentService({ env = process.env, dataMode = 'demo', openai, fetchImpl = fetch } = {}) {
+export function createAgentService({ env = process.env, dataMode = 'project', openai, fetchImpl = fetch, projectDataPath = new URL('../public/project-data.json', import.meta.url) } = {}) {
   const client = openai ?? (env.OPENAI_API_KEY ? new OpenAI({ apiKey: env.OPENAI_API_KEY, maxRetries: 0, timeout: 45000 }) : null)
   const model = env.OPENAI_MODEL || 'gpt-4.1-mini'
   const nvidiaModel = env.NVIDIA_MODEL || 'nvidia/nemotron-3-nano-omni-30b-a3b-reasoning'
   async function facts(name, args, signal) {
     const gid = name === 'get_node' ? gidSchema.parse(args.gid) : null
     const clusterId = name === 'get_cluster' ? z.number().int().nonnegative().parse(args.cluster_id) : null
-    if (dataMode === 'demo') {
-      const data = fixtureSchema.parse(JSON.parse(await readFile(new URL('../public/demo.json', import.meta.url), 'utf8')))
+    if (dataMode === 'demo' || dataMode === 'project') {
+      // Project facts come from the same validated local export as the UI.
+      // This server-owned path cannot be supplied by a browser chat request.
+      const path = dataMode === 'project' ? projectDataPath : new URL('../public/demo.json', import.meta.url)
+      const schema = dataMode === 'project' ? projectDataSchema : fixtureSchema
+      const data = schema.parse(JSON.parse(await readFile(path, 'utf8')))
       const value = name === 'get_top_nodes' ? data.top : name === 'get_node' ? data.nodes.find(n => n.gid === gid) : data.clusters.find(c => c.cluster_id === clusterId)
       if (!value) throw new AgentError('Клиент или кластер не найден.', 404)
       return value

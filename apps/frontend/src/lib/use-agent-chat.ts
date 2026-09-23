@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useResource } from './use-resource'
 import { chatApi, type ChatMessage } from './chat'
-import { isDemo } from './api'
+import { dataMode } from './api'
 
 export function useAgentChat(gid: string | null, clearQuestion: () => void) {
   const status = useResource('agent-status', chatApi.status)
@@ -12,7 +12,7 @@ export function useAgentChat(gid: string | null, clearQuestion: () => void) {
   const [failed, setFailed] = useState<{ text: string; gid: string | null; history: ChatMessage[] } | null>(null)
   const controller = useRef<AbortController | null>(null)
   useEffect(() => () => controller.current?.abort(), [])
-  const available = status.data?.available && status.data.dataMode === (isDemo ? 'demo' : 'api')
+  const available = status.data?.available && status.data.dataMode === dataMode
   async function send(text: string, context = gid, history = messages, retry = false) {
     if (!text.trim() || pending || !available) return
     const abort = new AbortController(); controller.current = abort

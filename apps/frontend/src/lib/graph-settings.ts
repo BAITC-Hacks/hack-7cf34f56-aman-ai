@@ -55,6 +55,16 @@ export function applyGraphPreset(settings: GraphSettings, preset: GraphPreset | 
 /** Intersect filters, then retain only links with both endpoints visible. */
 export type GraphFilters = Pick<GraphSettings, 'priority' | 'minVolume' | 'roles' | 'cluster' | 'depths' | 'seeds' | 'seedNetwork' | 'hideIsolated' | 'topN'>
 
+/** Count restrictions on the data; display and layout choices are not filters. */
+export function activeGraphFilterCount(settings: GraphFilters): number {
+  return [
+    settings.priority !== 'all', settings.minVolume > 0,
+    roles.some(role => !settings.roles.includes(role)), settings.cluster !== 'all',
+    [0, 1, 2, 3, 4].some(depth => !settings.depths.includes(depth)),
+    settings.seeds !== 'all', settings.seedNetwork, settings.hideIsolated, settings.topN > 0,
+  ].filter(Boolean).length
+}
+
 export function filterGraph(data: AMLGraphData, settings: GraphFilters): AMLGraphData {
   const selectedRoles = new Set(settings.roles)
   const selectedDepths = new Set(settings.depths)
@@ -70,9 +80,11 @@ export function filterGraph(data: AMLGraphData, settings: GraphFilters): AMLGrap
   const bounds = { low: [0, 0.25], medium: [0.25, 0.5], elevated: [0.5, 0.75], high: [0.75, 1] } as const
   let nodes = data.nodes.filter(node => {
     if (seedNeighborhood && !seedNeighborhood.has(node.gid)) return false
-    if (!selectedRoles.has(node.role) || !selectedDepths.has(node.depth)) return false
+    // Unknown metadata stays visible until the analyst chooses a narrower filter.
+    if (node.role === null ? selectedRoles.size !== roles.length : !selectedRoles.has(node.role)) return false
+    if (node.depth === null ? selectedDepths.size !== 5 : !selectedDepths.has(node.depth)) return false
     if (settings.cluster !== 'all' && String(node.cluster_id) !== settings.cluster) return false
-    if (settings.seeds === 'seeds' && !node.is_seed || settings.seeds === 'non-seeds' && node.is_seed) return false
+    if (settings.seeds === 'seeds' && node.is_seed !== true || settings.seeds === 'non-seeds' && node.is_seed !== false) return false
     if (settings.priority !== 'all') {
       const score = nodeScore(node)
       const [low, high] = bounds[settings.priority]

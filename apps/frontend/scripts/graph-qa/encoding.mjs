@@ -13,7 +13,7 @@ export default async (page, baseUrl) => {
  if(!colors.some(c=>{const [r,g,b]=rgb(c);return g>r*1.5&&g>b}))throw new Error('No green fill');
  if(!colors.some(c=>{const [r,g]=rgb(c);return r>g*1.5&&r>180}))throw new Error('No high-priority red fill');
  if(!(encoding.minRadius<=3&&encoding.maxRadius>=17&&encoding.curves>0))throw new Error('Expected sized nodes and curved links');
- await page.getByRole('button',{name:'Открыть клиент 900000000000100001'}).click();await page.locator('.node-gid').waitFor();
+ await page.getByRole('button',{name:'Открыть клиента 900000000000100001'}).click();await page.locator('.node-gid').waitFor();
  await page.waitForTimeout(750);
  const empty=await page.locator('.aml-canvas canvas').first().evaluate(canvas=>{
   const box=canvas.getBoundingClientRect();const ctx=canvas.getContext('2d');const scale=canvas.width/box.width;

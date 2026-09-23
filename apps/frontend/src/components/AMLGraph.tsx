@@ -6,7 +6,7 @@ import { type AMLGraphData, type AMLGraphNode, nodeVolume, nodeScore, priorityCo
 import type { GraphSettings } from '@/lib/graph-settings'
 import { roleLabels } from '@/lib/format'
 
-import { roleColors, clusterColor, money } from '@/lib/graph-presentation'
+import { roleColors, clusterColor, graphPalette, money } from '@/lib/graph-presentation'
 
 type SimNode = NodeObject<AMLGraphNode>
 type SimLink = LinkObject<SimNode, { sum_kzt: number; n_tx: number | null; key: string; reciprocal: boolean }>
@@ -29,8 +29,8 @@ export function AMLGraph({ data, selected, onSelect, onClear, settings, trace, h
   // The Canvas engine owns mutable simulation objects; the cache preserves positions across filters.
   /* oxlint-disable react/refs */
   const sim = useMemo(() => {
-    const clusters = [...new Set(data.nodes.map(n => n.cluster_id))].sort((a,b) => a-b)
-    const counts = new Map<number, number>()
+    const clusters = [...new Set(data.nodes.map(n => n.cluster_id))].sort((a,b) => (a ?? -1) - (b ?? -1))
+    const counts = new Map<number | null, number>()
     const pairs = new Set(data.links.map(l => `${l.source}->${l.target}`))
     return {
       nodes: data.nodes.map(n => {
@@ -57,7 +57,7 @@ export function AMLGraph({ data, selected, onSelect, onClear, settings, trace, h
     const volume = nodeVolume(n)
     return (volume === null ? 3 + (n.priority_score ?? 0) * 8 : logScale(volume, maxima.volume, 3, 17)) * settings.nodeScale
   }, [maxima.volume, settings.nodeScale])
-  const color = useCallback((n: AMLGraphNode) => settings.colorBy === 'role' ? roleColors[n.role] : settings.colorBy === 'cluster' ? clusterColor(n.cluster_id) : priorityColor(nodeScore(n)), [settings.colorBy])
+  const color = useCallback((n: AMLGraphNode) => settings.colorBy === 'role' ? n.role === null ? graphPalette.unknown : roleColors[n.role] : settings.colorBy === 'cluster' ? clusterColor(n.cluster_id) : priorityColor(nodeScore(n)), [settings.colorBy])
   useEffect(() => {
     const observer = new ResizeObserver(entries => {
       const { width, height } = entries[0].contentRect
@@ -72,7 +72,7 @@ export function AMLGraph({ data, selected, onSelect, onClear, settings, trace, h
     fg.d3Force('charge')?.strength(-settings.repulsion).distanceMax(500)
     fg.d3Force('link')?.distance(settings.linkDistance).strength(settings.linkForce)
     // A weak, stable community attraction keeps the overview from collapsing into one knot.
-    const clusterIds = [...new Set(data.nodes.map(n=>n.cluster_id))].sort((a,b)=>a-b)
+    const clusterIds = [...new Set(data.nodes.map(n=>n.cluster_id))].sort((a,b)=>(a ?? -1)-(b ?? -1))
     const anchors = new Map(clusterIds.map((id,i) => [id, {x: Math.cos(i / clusterIds.length * Math.PI * 2) * (data.nodes.length > 100 ? 550 : 100), y: Math.sin(i / clusterIds.length * Math.PI * 2) * (data.nodes.length > 100 ? 550 : 100)}]))
     let nodes: SimNode[] = []
     const communityForce = (alpha: number) => { for (const n of nodes) { const anchor=anchors.get(n.cluster_id); if (!anchor) continue; n.vx=(n.vx??0)+(anchor.x-(n.x??0))*settings.centerForce*alpha; n.vy=(n.vy??0)+(anchor.y-(n.y??0))*settings.centerForce*alpha } }
@@ -107,15 +107,16 @@ export function AMLGraph({ data, selected, onSelect, onClear, settings, trace, h
     ctx.beginPath(); ctx.arc(x,y,r*(isSelected?1.12:1),0,2*Math.PI)
     if (visible && (isSelected || isHover || ((nodeScore(n)??0)>=.85 && scale>.45))) { ctx.shadowBlur=9; ctx.shadowColor=fill }
     ctx.fillStyle=fill; ctx.fill(); ctx.shadowBlur=0
-    if ((n.is_seed && settings.showSeedRings) || isSelected) { ctx.beginPath(); ctx.arc(x,y,r+3/scale,0,2*Math.PI); ctx.strokeStyle=isSelected?'#ffffff':'#fff0bd'; ctx.lineWidth=(isSelected?2:1)/scale;ctx.stroke() }
+    ctx.strokeStyle='rgba(32,52,50,.2)'; ctx.lineWidth=.6/scale; ctx.stroke()
+    if ((n.is_seed && settings.showSeedRings) || isSelected) { ctx.beginPath(); ctx.arc(x,y,r+3/scale,0,2*Math.PI); ctx.strokeStyle=isSelected?graphPalette.primary:graphPalette.seed; ctx.lineWidth=(isSelected?2:1)/scale;ctx.stroke() }
     const showLabel = isSelected || isHover || (settings.showLabels && ((scale*settings.labelVisibility>1.6) || (prominent.has(n.gid) && scale*settings.labelVisibility>.4)))
     if (showLabel && visible) {
       const text=isSelected||isHover ? n.gid : `…${n.gid.slice(-6)}`
       ctx.font=`${11/scale}px ui-monospace, monospace`; const width=ctx.measureText(text).width
       const labelX=isSelected||isHover?x-width/2:x+r+9/scale
       const labelY=isSelected||isHover?y-r-12/scale:y
-      ctx.fillStyle='rgba(9,11,16,.88)'; ctx.fillRect(labelX-4/scale,labelY-9/scale,width+8/scale,18/scale)
-      ctx.fillStyle=isSelected||isHover?'#ffffff':'#bfc9d9';ctx.textBaseline='middle';ctx.fillText(text,labelX,labelY)
+      ctx.fillStyle=graphPalette.labelBackground; ctx.fillRect(labelX-4/scale,labelY-9/scale,width+8/scale,18/scale)
+      ctx.fillStyle=isSelected||isHover?graphPalette.foreground:graphPalette.muted;ctx.textBaseline='middle';ctx.fillText(text,labelX,labelY)
     }
     ctx.restore()
   }, [radius,color,selected,hover,highlighted,settings.showSeedRings,settings.showLabels,settings.labelVisibility,prominent])
@@ -124,7 +125,11 @@ export function AMLGraph({ data, selected, onSelect, onClear, settings, trace, h
     if (!settings.showAmounts || (scale < 1.2 && !activeLink(link))) return
     const a=link.source as SimNode, b=link.target as SimNode
     if (!a || !b || a.x===undefined || b.x===undefined || (highlighted&&!activeLink(link))) return
-    ctx.save();ctx.font=`${10/scale}px sans-serif`;ctx.fillStyle='#c4cfdf';ctx.fillText(money(link.sum_kzt),(a.x+b.x)/2,((a.y??0)+(b.y??0))/2);ctx.restore()
+    const label=money(link.sum_kzt), x=(a.x+b.x)/2, y=((a.y??0)+(b.y??0))/2
+    ctx.save();ctx.font=`${10/scale}px sans-serif`
+    const width=ctx.measureText(label).width
+    ctx.fillStyle=graphPalette.labelBackground;ctx.fillRect(x-3/scale,y-11/scale,width+6/scale,15/scale)
+    ctx.fillStyle=graphPalette.foreground;ctx.fillText(label,x,y);ctx.restore()
   }
   return <div className="aml-canvas" ref={container} data-node-count={data.nodes.length} data-link-count={data.links.length} data-reciprocal-count={sim.links.filter(l=>l.reciprocal).length} data-settled={settled} tabIndex={0} role="region" aria-label="Интерактивный граф переводов. Поиск GID и таблица доступны с клавиатуры." onKeyDown={event=>{
     const fg=graph.current;if(!fg)return
@@ -133,16 +138,16 @@ export function AMLGraph({ data, selected, onSelect, onClear, settings, trace, h
     else if(event.key==='-'){event.preventDefault();fg.zoom(fg.zoom()/1.25,150)}
     else if(event.key.startsWith('Arrow')){event.preventDefault();const p=fg.centerAt();fg.centerAt(p.x+(event.key==='ArrowRight'?60:event.key==='ArrowLeft'?-60:0)/fg.zoom(),p.y+(event.key==='ArrowDown'?60:event.key==='ArrowUp'?-60:0)/fg.zoom(),100)}
   }}>
-    <ForceGraph2D<SimNode,SimLink> ref={graph} width={size.width} height={size.height} graphData={sim} nodeId="gid" backgroundColor="#090B10" minZoom={.08} maxZoom={5}
+    <ForceGraph2D<SimNode,SimLink> ref={graph} width={size.width} height={size.height} graphData={sim} nodeId="gid" backgroundColor="rgba(0,0,0,0)" minZoom={.08} maxZoom={5}
       nodeCanvasObject={paintNode} nodeVal={n=>(radius(n)/4)**2} nodeLabel="" linkLabel=""
       nodePointerAreaPaint={(n,c,ctx,scale)=>{ctx.fillStyle=c;ctx.beginPath();ctx.arc(n.x??0,n.y??0,radius(n)+4/scale,0,2*Math.PI);ctx.fill()}}
-      linkColor={l=>activeLink(l)?'rgba(220,230,255,.8)':highlighted?'rgba(130,140,160,.035)':'rgba(130,140,160,.23)'}
+      linkColor={l=>activeLink(l)?'rgba(22,126,112,.8)':highlighted?'rgba(104,125,121,.08)':'rgba(104,125,121,.35)'}
       linkWidth={l=>logScale(l.sum_kzt,maxima.amount,.3,2.3)*settings.linkScale*(activeLink(l)?1.3:1)}
       // Both directed links use positive curvature: reversing endpoints bends to the other side.
       linkCurvature={l=>endpointId(l.source)===endpointId(l.target)?.65:l.reciprocal?.18:0}
       linkDirectionalArrowLength={l=>(settings.showArrows||trace)?(activeLink(l)?7:4):0} linkDirectionalArrowRelPos={.8}
-      linkDirectionalArrowColor={l=>activeLink(l)?'#dce6ff':highlighted?'#29303c':'#778293'}
-      linkDirectionalParticles={l=>!reducedMotion.current&&(trace||settings.animateFlow)&&(!highlighted||activeLink(l))?1:0} linkDirectionalParticleWidth={2} linkDirectionalParticleSpeed={.004} linkDirectionalParticleColor={()=> '#e3edff'}
+      linkDirectionalArrowColor={l=>activeLink(l)?graphPalette.primary:highlighted?'#dbe4e1':graphPalette.muted}
+      linkDirectionalParticles={l=>!reducedMotion.current&&(trace||settings.animateFlow)&&(!highlighted||activeLink(l))?1:0} linkDirectionalParticleWidth={2} linkDirectionalParticleSpeed={.004} linkDirectionalParticleColor={()=>graphPalette.primary}
       linkCanvasObject={paintAmount} linkCanvasObjectMode={()=>'after'} linkHoverPrecision={5}
       onNodeHover={n=>{setHover(n);setHoverLink(null)}} onLinkHover={setHoverLink}
       onNodeClick={n=>onSelect(n.gid)} onBackgroundClick={()=>{setHover(null);setHoverLink(null);onClear()}}
@@ -153,7 +158,7 @@ export function AMLGraph({ data, selected, onSelect, onClear, settings, trace, h
     <div className="aml-map-status"><span className={settled?'settled':'settling'} />{settled?'Сеть готова к исследованию':'Расчёт расположения…'}</div>
     <div className="aml-zoom-controls"><Button variant="secondary" size="icon-sm" aria-label="Увеличить граф" onClick={()=>graph.current?.zoom((graph.current.zoom()??1)*1.4,200)}><Plus /></Button><Button variant="secondary" size="icon-sm" aria-label="Уменьшить граф" onClick={()=>graph.current?.zoom((graph.current.zoom()??1)/1.4,200)}><Minus /></Button><Button variant="secondary" size="icon-sm" aria-label="Вписать граф" onClick={()=>graph.current?.zoomToFit(selectedDuration(),50)}><Maximize /></Button></div>
     <div className="aml-map-help">Прокрутка — масштаб · перетаскивание — панорама</div>
-    {hover && <div className="aml-tooltip" role="tooltip"><strong>GID {hover.gid}</strong><span>{hover.risk_score!=null?'Риск сети':'Приоритет проверки'} <b>{nodeScore(hover)?.toFixed(2)??'Нет данных'}</b></span><span>{(nodeScore(hover)??0)>=.75?'Высокий приоритет проверки':nodeScore(hover)===null?'Оценка неизвестна':'Наблюдаемый структурный сигнал'}</span><dl><dt>Гипотеза роли</dt><dd>{roleLabels[hover.role]}</dd><dt>Наблюдаемый объём</dt><dd>{money(nodeVolume(hover))}</dd><dt>Входящие / исходящие связи</dt><dd>{hover.in_degree??'—'} / {hover.out_degree??'—'}</dd><dt>Кластер · глубина</dt><dd>#{hover.cluster_id} · {hover.depth}</dd><dt>Исходный клиент</dt><dd>{hover.is_seed?'Да':'Нет'}</dd></dl></div>}
+    {hover && <div className="aml-tooltip" role="tooltip"><strong>GID {hover.gid}</strong><span>{hover.risk_score!=null?'Оценка риска':'Приоритет проверки'} <b>{nodeScore(hover) === null ? 'Нет данных' : `${Math.round(nodeScore(hover)! * 100)} / 100`}</b></span><dl><dt>Гипотеза роли</dt><dd>{hover.role === null ? 'Не рассчитана' : roleLabels[hover.role]}</dd><dt>Наблюдаемый объём</dt><dd>{money(nodeVolume(hover))}</dd><dt>Входящие / исходящие связи</dt><dd>{hover.in_degree??'—'} / {hover.out_degree??'—'}</dd><dt>Кластер</dt><dd>{hover.cluster_id === null ? 'Не рассчитан' : `№ ${hover.cluster_id}`}</dd><dt>Глубина</dt><dd>{hover.depth ?? 'Нет данных'}</dd><dt>Исходный клиент</dt><dd>{hover.is_seed === null ? 'Нет данных' : hover.is_seed?'Да':'Нет'}</dd></dl></div>}
     {!hover && hoverLink && <div className="aml-tooltip" role="tooltip"><strong>Направление: отправитель → получатель</strong><span>От: GID {endpointId(hoverLink.source)}</span><span>Кому: GID {endpointId(hoverLink.target)}</span><span>Сумма: {money(hoverLink.sum_kzt)}</span><span>Переводов: {hoverLink.n_tx??'Нет данных'}</span></div>}
   </div>
 }

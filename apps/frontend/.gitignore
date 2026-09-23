@@ -26,3 +26,7 @@ dist-ssr
 # Generated browser QA artifacts
 qa/
 .playwright-mcp/
+
+# Generated from authoritative backend CSVs and canonical Parquet data
+public/project-data.json
+public/.project-data.json.*.tmp
