@@ -9,9 +9,10 @@ from moneygraph.investigator import investigate, InvestigatorUnavailable
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("question")
+    parser.add_argument("--context-gid")
     args = parser.parse_args()
     try:
-        result = investigate(args.question)
+        result = investigate(args.question, context_gid=args.context_gid)
     except (InvestigatorUnavailable, ValueError) as error:
         print(str(error), file=sys.stderr)
         return 2

@@ -10,6 +10,7 @@ from .store import ArtifactStore, ROOT
 
 class InvestigationRequest(BaseModel):
     question: str = Field(min_length=1, max_length=2000)
+    context_gid: str | None = Field(default=None, pattern=r"^[0-9]{1,20}$")
 
 
 def create_app(results_dir=None):
@@ -67,8 +68,15 @@ def create_app(results_dir=None):
     def investigate_endpoint(request: InvestigationRequest):
         from .investigator import investigate, InvestigatorUnavailable
         snapshot = store()
+        if request.context_gid is not None:
+            try:
+                snapshot.node(request.context_gid)
+            except KeyError:
+                raise HTTPException(404, "Unknown context_gid") from None
+            except ValueError as error:
+                raise HTTPException(400, str(error)) from None
         try:
-            return investigate(request.question, snapshot)
+            return investigate(request.question, snapshot, context_gid=request.context_gid)
         except InvestigatorUnavailable as error:
             raise HTTPException(503, str(error)) from None
         except ValueError as error:

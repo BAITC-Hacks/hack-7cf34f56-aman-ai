@@ -37,5 +37,9 @@ Depth-4 retention is retained as observed data but excluded from consolidator in
 - Product JSON score applicability, string gids, graph endpoints and priority sums.
 - Read-only API known/missing/malformed inputs, both hops, cap, cluster/search and
   missing artifacts; optional AI unavailable state.
-- Seven bounded tools, cycle safety, unreachable paths and mocked SDK Responses
+- Eight bounded tools, cycle safety, unreachable paths and mocked SDK Responses
   roundtrip, invalid tool calls and budgets.
+- Semantic grounding rejects degree-as-transaction, percentile-as-raw-percentage,
+  unsupported depth limitations and mismatched authoritative values. Tests cover
+  one correction turn followed by deterministic fallback, repeated-call caching,
+  generic depth-4 methodology routing and explicit seed target semantics.

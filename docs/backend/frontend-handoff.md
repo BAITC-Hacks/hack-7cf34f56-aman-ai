@@ -57,8 +57,11 @@ and do not match individual incoming funds to outgoing transactions.
 Read actual generated cards for integration; examples/*.mock.json are historical
 mock examples, not authoritative output.
 
-Optional `POST /api/investigate` accepts `{"question":"..."}` (1–2000 characters).
-It returns answer, tool_calls (tool, arguments, result), limitations. Missing
-OpenAI configuration/SDK or exhausted evidence budget: 503; provider failure:
-502. Treat model prose as unverified explanation; tool results are authoritative
-and do not change roles or priority. The frontend never receives an API key.
+Optional `POST /api/investigate` accepts `question` (1–2000 characters) and
+optional string `context_gid`. It returns answer, ordered tools_used, compact
+evidence, limitations, critic status, and bounded tool_calls. Missing OpenAI
+configuration/SDK or exhausted evidence budget: 503; OpenAI provider failure:
+502; unknown context: 404. NVIDIA failure keeps the OpenAI answer and returns
+`critic.used=false`. Treat model prose as an investigation hypothesis; tool
+results are authoritative and do not change roles or priority. The frontend
+never receives either provider key. Exact schema: [ai-chat-handoff.md](ai-chat-handoff.md).

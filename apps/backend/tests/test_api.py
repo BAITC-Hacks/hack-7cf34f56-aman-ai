@@ -74,3 +74,28 @@ def test_subgraph_cap_preserves_center_and_direction():
     assert data["nodes"][0]["gid"] == "0" and data["total_nodes"] == 301
     assert len(data["edges"]) == 249
     assert all(e["src"] == "0" for e in data["edges"])
+
+
+def test_investigate_context_gid_contract(client, monkeypatch):
+    import moneygraph.investigator as module
+    gid = client.get("/api/top-nodes").json()[0]["gid"]
+    seen = {}
+
+    def fake(question, store, *, context_gid=None):
+        seen.update(question=question, context_gid=context_gid)
+        return {"answer": "ok", "tools_used": ["get_node"], "evidence": [],
+                "limitations": ["observed_graph_only"],
+                "critic": {"used": False, "approved": None, "issues": [],
+                           "corrected_answer": None, "status": "not_configured"},
+                "tool_calls": []}
+
+    monkeypatch.setattr(module, "investigate", fake)
+    response = client.post("/api/investigate", json={
+        "question": "Почему узел важен?", "context_gid": gid})
+    assert response.status_code == 200
+    assert seen == {"question": "Почему узел важен?", "context_gid": gid}
+    assert response.json()["tools_used"] == ["get_node"]
+    assert client.post("/api/investigate", json={
+        "question": "x", "context_gid": "999"}).status_code == 404
+    assert client.post("/api/investigate", json={
+        "question": "x", "context_gid": int(gid)}).status_code == 422

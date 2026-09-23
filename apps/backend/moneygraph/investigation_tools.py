@@ -2,6 +2,7 @@
 from collections import Counter, deque
 import math
 
+from .semantics import definitions, methodology
 from .store import ArtifactStore
 
 
@@ -34,7 +35,12 @@ class InvestigationTools:
         # Only the requested card, with bounded incident-edge examples.
         return {**card, "incoming_edges": card["incoming_edges"][:10],
                 "outgoing_edges": card["outgoing_edges"][:10],
-                "edges_truncated": len(card["incoming_edges"]) > 10 or len(card["outgoing_edges"]) > 10}
+                "edges_truncated": len(card["incoming_edges"]) > 10 or len(card["outgoing_edges"]) > 10,
+                "field_definitions": definitions(
+                    "in_degree", "out_degree", "n_tx", "unique_senders",
+                    "unique_recipients", "seed_reach_count", "depth",
+                    "pagerank_pct", "betweenness_pct", "burst_pct",
+                    "synchronous_incoming_pct")}
 
     def get_cluster(self, cluster_id):
         bounded_integer(cluster_id, 1, 1000000, "cluster_id")
@@ -120,7 +126,9 @@ class InvestigationTools:
                     queue.append(previous)
         seeds = sorted(s for s in paths if self.store.cards[s]["is_seed"])
         selected = seeds[:5]
-        return {"gid": gid, "seed_reach_count": self.store.cards[gid]["metrics"]["seed_reach_count"],
+        return {"gid": gid, "target_gid": gid,
+                "target_is_seed": bool(self.store.cards[gid]["is_seed"]),
+                "seed_reach_count": self.store.cards[gid]["metrics"]["seed_reach_count"],
                 "paths": [{"seed_gid": s, "path": list(paths[s])} for s in selected],
                 "max_edges": 4, "bounded_seed_count": len(seeds),
                 "truncated": len(seeds) > 5,
@@ -133,19 +141,34 @@ class InvestigationTools:
         names = ("timing_consistent_turnover", "timing_qualifying_outgoing_kzt",
                  "burst_raw", "burst_pct", "synchronous_incoming_raw", "synchronous_incoming_pct")
         return {"gid": gid, "metrics": {n: card["metrics"][n] for n in names},
+                "field_definitions": definitions(*names),
                 "interpretation": "Outgoing on day d qualifies with observed incoming on d, d-1 or d-2.",
                 "limitations": card["limitations"] + ["calendar_dates_only", "not_fund_matching"]}
 
+    def get_methodology_context(self, topic):
+        return methodology(topic)
+
     def compare_nodes(self, gids):
         gids = self._gids(gids)
-        keys = ("gid", "role", "role_score", "priority_score", "priority_components",
-                "evidence", "limitations")
-        return {"nodes": [{k: self.store.cards[g][k] for k in keys} for g in gids],
+        keys = ("gid", "is_seed", "depth", "role", "role_score", "priority_score",
+                "priority_components", "evidence", "limitations")
+        metrics = ("incoming_kzt", "outgoing_kzt", "unique_senders",
+                   "unique_recipients", "seed_reach_count")
+        nodes = []
+        for gid in gids:
+            card = self.store.cards[gid]
+            node = {k: card[k] for k in keys}
+            node["metrics"] = {name: card["metrics"][name] for name in metrics}
+            nodes.append(node)
+        return {"nodes": nodes,
+                "field_definitions": definitions("unique_senders", "unique_recipients",
+                                                 "seed_reach_count", "depth"),
                 "limitations": self.limitations(gids)}
 
     def dispatch(self, name, arguments):
         allowed = {"get_node", "get_cluster", "find_common_downstream", "get_paths",
-                   "get_seed_paths", "get_temporal_patterns", "compare_nodes"}
+                   "get_seed_paths", "get_temporal_patterns", "compare_nodes",
+                   "get_methodology_context"}
         if name not in allowed:
             raise ValueError("Unknown investigation tool")
         if not isinstance(arguments, dict):
@@ -178,4 +201,7 @@ TOOL_SCHEMAS = [
     tool_schema("get_temporal_patterns", {"gid": GID},
                 "Get calendar-date temporal consistency; never transaction-level fund matching."),
     tool_schema("compare_nodes", {"gids": GIDS}, "Compare up to ten nodes using deterministic priority contributions."),
+    tool_schema("get_methodology_context", {"topic": {"type": "string", "enum": [
+        "observation_boundary", "degree", "percentile", "seed_reachability"]}},
+        "Get approved analytical definitions for a general methodology question without selecting a node."),
 ]
