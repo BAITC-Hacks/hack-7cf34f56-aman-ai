@@ -101,13 +101,21 @@ def main() -> int:
         metadata = dataset["metadata"]
         report = {
             "python": subprocess.check_output([python, "--version"], text=True).strip(),
+            "node": subprocess.check_output([shutil.which("node"), "--version"], text=True).strip(),
+            "npm": subprocess.check_output([npm, "--version"], text=True).strip(),
             "source": "project",
+            "dependency_sha256": {str(path): hashlib.sha256((ROOT / path).read_bytes()).hexdigest() for path in (
+                Path("requirements.txt"), Path("apps/backend/requirements.txt"), Path("apps/frontend/package-lock.json"),
+            )},
             "input_sha256": {name: hashlib.sha256((ROOT / "data" / name).read_bytes()).hexdigest() for name in INPUTS},
             "output_sha256": first,
             "pipeline_seconds": elapsed,
             "node_count": metadata["node_count"],
             "edge_count": metadata["edge_count"],
             "transaction_count": metadata["transaction_count"],
+            "seed_count": sum(node["is_seed"] for node in dataset["nodes"]),
+            "cluster_count": len(dataset["clusters"]),
+            "top_count": len(dataset["top"]),
             "total_kzt": metadata["total_kzt"],
         }
         report_path = ROOT / "results" / "reproducibility.json"

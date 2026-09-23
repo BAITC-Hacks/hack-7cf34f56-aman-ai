@@ -10,12 +10,13 @@ import { roleColors, clusterColor, graphPalette, money } from '@/lib/graph-prese
 
 type SimNode = NodeObject<AMLGraphNode>
 type SimLink = LinkObject<SimNode, { sum_kzt: number; n_tx: number | null; key: string; reciprocal: boolean }>
-type Props = { data: AMLGraphData; selected: string | null; onSelect: (gid: string) => void; onClear: () => void; settings: GraphSettings; trace: boolean; hops: 1 | 2 | 3 | 4; direction: 'both' | 'incoming' | 'outgoing'; focusRequest: number; resetRequest: number }
+export type GraphViewportInsets = { left: number; right: number; top?: number; bottom?: number }
+type Props = { data: AMLGraphData; selected: string | null; onSelect: (gid: string) => void; onClear: () => void; settings: GraphSettings; trace: boolean; hops: 1 | 2 | 3 | 4; direction: 'both' | 'incoming' | 'outgoing'; focusRequest: number; resetRequest: number; viewportInsets?: GraphViewportInsets }
 const endpointId = (node: SimLink['source']) => typeof node === 'object' ? node.gid : String(node)
 const selectedDuration = () => matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 500
 
 /** Canvas renderer consumes only normalized graph data. Simulation mutates private copies. */
-export function AMLGraph({ data, selected, onSelect, onClear, settings, trace, hops, direction, focusRequest, resetRequest }: Props) {
+export function AMLGraph({ data, selected, onSelect, onClear, settings, trace, hops, direction, focusRequest, resetRequest, viewportInsets }: Props) {
   const container = useRef<HTMLDivElement>(null)
   const graph = useRef<ForceGraphMethods<SimNode, SimLink> | undefined>(undefined)
   const positions = useRef(new Map<string, SimNode>())
@@ -50,8 +51,8 @@ export function AMLGraph({ data, selected, onSelect, onClear, settings, trace, h
   const maxima = useMemo(() => ({ volume: Math.max(1, ...data.nodes.map(n => nodeVolume(n) ?? 0)), amount: Math.max(1, ...data.links.map(l => l.sum_kzt)) }), [data])
   const highlighted = useMemo(() => {
     const active = hover?.gid ?? selected
-    return active && data.nodes.some(n=>n.gid===active) ? neighborhood(data, active, trace && !hover ? hops : 1, trace && !hover ? direction : 'both') : null
-  }, [data, selected, hover, trace, hops, direction])
+    return active && data.nodes.some(n=>n.gid===active) ? neighborhood(data, active, !hover ? hops : 1, !hover ? direction : 'both') : null
+  }, [data, selected, hover, hops, direction])
   const prominent = useMemo(() => new Set([...data.nodes].sort((a,b) => (nodeScore(b) ?? -1)-(nodeScore(a) ?? -1)).slice(0, 8).map(n=>n.gid)),[data])
   const radius = useCallback((n: AMLGraphNode) => {
     const volume = nodeVolume(n)
@@ -81,24 +82,42 @@ export function AMLGraph({ data, selected, onSelect, onClear, settings, trace, h
     // D3 nodes are private mutable copies, never React/API data.
     // oxlint-disable-next-line react/immutability
     if (resetRequest !== processedReset.current) { processedReset.current=resetRequest; for (const n of sim.nodes) { n.fx=undefined; n.fy=undefined }; fitted.current=false }
+    fitted.current=false
     setHover(null); setHoverLink(null); setSettled(false); fg.d3ReheatSimulation()
   }, [data, sim, settings.repulsion, settings.linkDistance, settings.linkForce, settings.centerForce, resetRequest])
+  const leftInset = viewportInsets?.left ?? 0
+  const rightInset = viewportInsets?.right ?? 0
+  const topInset = (viewportInsets?.top ?? 0) + (selected && viewportInsets ? 180 : 30)
+  const bottomInset = (viewportInsets?.bottom ?? 0) + 65
+  const frame = useCallback((nodes: SimNode[], anchor?: SimNode) => {
+    const fg = graph.current
+    const placed = nodes.filter(node => Number.isFinite(node.x) && Number.isFinite(node.y))
+    if (!fg || !placed.length) return
+    const minX = Math.min(...placed.map(node => node.x! - radius(node) - 25))
+    const maxX = Math.max(...placed.map(node => node.x! + radius(node) + 25))
+    const minY = Math.min(...placed.map(node => node.y! - radius(node) - 25))
+    const maxY = Math.max(...placed.map(node => node.y! + radius(node) + 25))
+    const x = anchor?.x ?? (minX + maxX) / 2
+    const y = anchor?.y ?? (minY + maxY) / 2
+    const dx = Math.max(60, x - minX, maxX - x)
+    const dy = Math.max(60, y - minY, maxY - y)
+    const width = Math.max(150, size.width - leftInset - rightInset - 80)
+    const height = Math.max(120, size.height - topInset - bottomInset - 45)
+    const scale = Math.max(.08, Math.min(1.6, width / (2 * dx), height / (2 * dy)))
+    // Center within the uncovered canvas, so the inspector cannot conceal the chosen client.
+    fg.centerAt(x - (leftInset - rightInset) / (2 * scale), y - (topInset - bottomInset) / (2 * scale), selectedDuration())
+    fg.zoom(scale, selectedDuration())
+  }, [size, leftInset, rightInset, topInset, bottomInset, radius])
+  const fitAll = useCallback(() => frame(sim.nodes), [frame, sim])
   const focus = useCallback(() => {
     const n = sim.nodes.find(n=>n.gid===selected)
-    if (n && graph.current && n.x !== undefined && n.y !== undefined) {
-      const nearby = neighborhood(data, n.gid, 1, 'both').nodeIds
-      let dx=60, dy=60
-      for (const other of sim.nodes) if (nearby.has(other.gid)) {
-        dx=Math.max(dx,Math.abs((other.x??0)-n.x)+radius(other)+24)
-        dy=Math.max(dy,Math.abs((other.y??0)-n.y)+radius(other)+24)
-      }
-      const scale=Math.max(.1,Math.min(1.6,(size.width-110)/(2*dx),(size.height-90)/(2*dy)))
-      graph.current.centerAt(n.x,n.y,selectedDuration()); graph.current.zoom(scale,selectedDuration())
-    }
-  }, [sim, selected, data, size.width, size.height, radius])
+    if (!n) { fitAll(); return }
+    const nearby = neighborhood(data, n.gid, hops, direction).nodeIds
+    frame(sim.nodes.filter(node => nearby.has(node.gid)), n)
+  }, [sim, selected, data, hops, direction, frame, fitAll])
   const latestFocus = useRef(focus)
   useEffect(() => { latestFocus.current=focus }, [focus])
-  useEffect(() => { const timer=setTimeout(()=>latestFocus.current(), 160); return () => clearTimeout(timer) }, [selected, sim, focusRequest, size.width, size.height])
+  useEffect(() => { const timer=setTimeout(()=>latestFocus.current(), 160); return () => clearTimeout(timer) }, [selected, sim, focusRequest, size.width, size.height, leftInset, rightInset, topInset, bottomInset])
   const paintNode = useCallback((n: SimNode, ctx: CanvasRenderingContext2D, scale: number) => {
     const x=n.x??0, y=n.y??0, r=radius(n), isSelected=n.gid===selected, isHover=n.gid===hover?.gid
     const visible = !highlighted || highlighted.nodeIds.has(n.gid)
@@ -131,9 +150,12 @@ export function AMLGraph({ data, selected, onSelect, onClear, settings, trace, h
     ctx.fillStyle=graphPalette.labelBackground;ctx.fillRect(x-3/scale,y-11/scale,width+6/scale,15/scale)
     ctx.fillStyle=graphPalette.foreground;ctx.fillText(label,x,y);ctx.restore()
   }
-  return <div className="aml-canvas" ref={container} data-node-count={data.nodes.length} data-link-count={data.links.length} data-reciprocal-count={sim.links.filter(l=>l.reciprocal).length} data-settled={settled} tabIndex={0} role="region" aria-label="Интерактивный граф переводов. Поиск GID и таблица доступны с клавиатуры." onKeyDown={event=>{
+  return <div className="aml-canvas" ref={container} data-node-count={data.nodes.length} data-link-count={data.links.length} data-selected-gid={selected ?? ''} data-reciprocal-count={sim.links.filter(l=>l.reciprocal).length} data-settled={settled} tabIndex={0} role="region" aria-label="Интерактивный граф переводов. Стрелки — панорама, плюс и минус — масштаб, F — к клиенту, 0 — вписать граф, Escape — снять выбор." onKeyDown={event=>{
+    if (event.target !== event.currentTarget) return
     const fg=graph.current;if(!fg)return
     if(event.key==='Escape')onClear()
+    else if(event.key.toLowerCase()==='f'){event.preventDefault();focus()}
+    else if(event.key==='0'){event.preventDefault();fitAll()}
     else if(event.key==='+'||event.key==='='){event.preventDefault();fg.zoom(fg.zoom()*1.25,150)}
     else if(event.key==='-'){event.preventDefault();fg.zoom(fg.zoom()/1.25,150)}
     else if(event.key.startsWith('Arrow')){event.preventDefault();const p=fg.centerAt();fg.centerAt(p.x+(event.key==='ArrowRight'?60:event.key==='ArrowLeft'?-60:0)/fg.zoom(),p.y+(event.key==='ArrowDown'?60:event.key==='ArrowUp'?-60:0)/fg.zoom(),100)}
@@ -150,14 +172,14 @@ export function AMLGraph({ data, selected, onSelect, onClear, settings, trace, h
       linkDirectionalParticles={l=>!reducedMotion.current&&(trace||settings.animateFlow)&&(!highlighted||activeLink(l))?1:0} linkDirectionalParticleWidth={2} linkDirectionalParticleSpeed={.004} linkDirectionalParticleColor={()=>graphPalette.primary}
       linkCanvasObject={paintAmount} linkCanvasObjectMode={()=>'after'} linkHoverPrecision={5}
       onNodeHover={n=>{setHover(n);setHoverLink(null)}} onLinkHover={setHoverLink}
-      onNodeClick={n=>onSelect(n.gid)} onBackgroundClick={()=>{setHover(null);setHoverLink(null);onClear()}}
+      onNodeClick={n=>onSelect(n.gid)} onBackgroundClick={()=>{setHover(null);setHoverLink(null)}}
       onNodeDragEnd={n=>{n.fx=n.x;n.fy=n.y}}
       warmupTicks={50} cooldownTicks={120} d3AlphaDecay={.035} d3VelocityDecay={.4}
-      onEngineStop={()=>{setSettled(true);if(!fitted.current){fitted.current=true;if(selected)focus();else graph.current?.zoomToFit(selectedDuration(),55)}}}
+      onEngineStop={()=>{setSettled(true);if(!fitted.current){fitted.current=true;focus()}}}
     />
     <div className="aml-map-status"><span className={settled?'settled':'settling'} />{settled?'Сеть готова к исследованию':'Расчёт расположения…'}</div>
-    <div className="aml-zoom-controls"><Button variant="secondary" size="icon-sm" aria-label="Увеличить граф" onClick={()=>graph.current?.zoom((graph.current.zoom()??1)*1.4,200)}><Plus /></Button><Button variant="secondary" size="icon-sm" aria-label="Уменьшить граф" onClick={()=>graph.current?.zoom((graph.current.zoom()??1)/1.4,200)}><Minus /></Button><Button variant="secondary" size="icon-sm" aria-label="Вписать граф" onClick={()=>graph.current?.zoomToFit(selectedDuration(),50)}><Maximize /></Button></div>
-    <div className="aml-map-help">Прокрутка — масштаб · перетаскивание — панорама</div>
+    <div className="aml-zoom-controls"><Button variant="secondary" size="icon-sm" aria-label="Увеличить граф" onClick={()=>graph.current?.zoom((graph.current.zoom()??1)*1.4,200)}><Plus /></Button><Button variant="secondary" size="icon-sm" aria-label="Уменьшить граф" onClick={()=>graph.current?.zoom((graph.current.zoom()??1)/1.4,200)}><Minus /></Button><Button variant="secondary" size="icon-sm" aria-label="Вписать граф" onClick={fitAll}><Maximize /></Button></div>
+    <div className="aml-map-help">Колесо — масштаб · фон — панорама · F — к клиенту · 0 — весь граф</div>
     {hover && <div className="aml-tooltip" role="tooltip"><strong>GID {hover.gid}</strong><span>{hover.risk_score!=null?'Оценка риска':'Приоритет проверки'} <b>{nodeScore(hover) === null ? 'Нет данных' : `${Math.round(nodeScore(hover)! * 100)} / 100`}</b></span><dl><dt>Гипотеза роли</dt><dd>{hover.role === null ? 'Не рассчитана' : roleLabels[hover.role]}</dd><dt>Наблюдаемый объём</dt><dd>{money(nodeVolume(hover))}</dd><dt>Входящие / исходящие связи</dt><dd>{hover.in_degree??'—'} / {hover.out_degree??'—'}</dd><dt>Кластер</dt><dd>{hover.cluster_id === null ? 'Не рассчитан' : `№ ${hover.cluster_id}`}</dd><dt>Глубина</dt><dd>{hover.depth ?? 'Нет данных'}</dd><dt>Исходный клиент</dt><dd>{hover.is_seed === null ? 'Нет данных' : hover.is_seed?'Да':'Нет'}</dd></dl></div>}
     {!hover && hoverLink && <div className="aml-tooltip" role="tooltip"><strong>Направление: отправитель → получатель</strong><span>От: GID {endpointId(hoverLink.source)}</span><span>Кому: GID {endpointId(hoverLink.target)}</span><span>Сумма: {money(hoverLink.sum_kzt)}</span><span>Переводов: {hoverLink.n_tx??'Нет данных'}</span></div>}
   </div>

@@ -27,6 +27,7 @@ export function GraphPanel({ gid, graph, loading, error, retry, onSelect, onClea
   const [view, setView] = useState('graph')
   const [navigation, setNavigation] = useState<{ gid: string | null; hops: 1|2|3|4; direction: 'both'|'incoming'|'outgoing' }>({ gid: null, hops: 1, direction: 'both' })
   const currentNavigation = navigation.gid === gid ? navigation : { gid, hops: 1 as const, direction: 'both' as const }
+  if (navigation.gid !== gid) setNavigation(currentNavigation)
   const { hops, direction } = currentNavigation
   const [legendOpen, setLegendOpen] = useState(false)
   const [focusRequest, setFocusRequest] = useState(0)
@@ -50,9 +51,9 @@ export function GraphPanel({ gid, graph, loading, error, retry, onSelect, onClea
   const resetFilters = () => setSettings(current => applyGraphPreset(current, 'all', maxVolume))
   const clearSelection = () => { onClear(); setFocusRequest(value => value + 1) }
   const showAll = () => { resetFilters(); clearSelection() }
-  const selectNode = (id: string) => { onSelect(id); setFocusRequest(value => value + 1); setSettingsOpen(false) }
+  const selectNode = (id: string) => { setSettingsOpen(false); onSelect(id); setFocusRequest(value => value + 1) }
   const activeFilters = activeGraphFilterCount(settings)
-  return <section className="graph-panel panel aml-panel" aria-label="Граф связей">
+  return <section className="graph-panel panel aml-panel" data-view={view} data-selected={!!gid} aria-label="Граф связей">
     <header className="panel-heading">
       <div className="flex min-w-0 items-center gap-2"><Network className="size-4" /><h2>Граф переводов</h2></div>
       <div className="flex items-center gap-2">
@@ -72,7 +73,7 @@ export function GraphPanel({ gid, graph, loading, error, retry, onSelect, onClea
           <Button variant="ghost" size="icon-sm" aria-label="Снять выбор клиента" onClick={clearSelection}><X /></Button>
         </div>
         <div className="aml-selection-actions">
-          <Button variant="outline" size="sm" onClick={showAll}><Network data-icon="inline-start" />Вся выборка</Button>
+          <Button variant="outline" size="sm" onClick={showAll}><Network data-icon="inline-start" />{graph?.scope === 'neighborhood' ? 'Загруженная выборка' : 'Вся выборка'}</Button>
           <Button variant="outline" size="sm" onClick={() => setFocusRequest(value => value + 1)}><Focus data-icon="inline-start" />В центре</Button>
           <span>Рядом: {Math.max(0, (visible?.nodes.length ?? 0) - (visible?.nodes.some(node => node.gid === gid) ? 1 : 0))}</span>
         </div>
