@@ -12,10 +12,15 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { PriorityPanel } from '@/components/priority-panel'
 import { NodeInspector } from '@/components/node-inspector'
 import { LoadingPanel } from '@/components/shared'
+import { AnnotationBoundary } from '@/components/annotation-boundary'
 const GraphPanel = lazy(() => import('@/components/graph-panel').then(m => ({ default: m.GraphPanel })))
 import { useResource } from '@/lib/use-resource'
 import { api, isDemo } from '@/lib/api'
 import { cn } from '@/lib/utils'
+
+const Agentation = import.meta.env.DEV
+  ? lazy(() => import('agentation').then(m => ({ default: m.Agentation })))
+  : null
 
 function locationState() { const p = new URLSearchParams(location.search); return { gid: p.get('gid'), hop: (p.get('hop') === '2' ? 2 : 1) as 1 | 2 } }
 export default function App() {
@@ -73,7 +78,7 @@ export default function App() {
       <Suspense fallback={<section className="panel"><LoadingPanel /></section>}><GraphPanel gid={gid} graph={graph.data} loading={graph.loading} error={graph.error} retry={graph.retry} hop={hop} onHop={h => gid && navigate(gid, h)} onSelect={navigate} cluster={cluster.data} clusterId={clusterId} clusterLoading={cluster.loading} clusterError={cluster.error} clusterRetry={cluster.retry} closeCluster={() => setClusterId(null)} /></Suspense>
       {desktop && inspector}
     </main>
-    {!desktop && <><Button ref={inspectorTrigger} className="inspector-toggle" disabled={!gid} onClick={() => setSheetOpen(true)}><PanelRightOpen data-icon="inline-start" />Карточка клиента</Button><Sheet open={sheetOpen} onOpenChange={setSheetOpen}><SheetContent className="w-full sm:max-w-[420px]" onCloseAutoFocus={e => { e.preventDefault(); inspectorTrigger.current?.focus() }}><SheetHeader><SheetTitle>Проверка клиента</SheetTitle><SheetDescription>Наблюдаемые связи и гипотеза о роли</SheetDescription></SheetHeader>{inspector}</SheetContent></Sheet></>}
+    {!desktop && <><Button ref={inspectorTrigger} className="inspector-toggle" disabled={!gid} onClick={() => setSheetOpen(true)}><PanelRightOpen data-icon="inline-start" />Карточка клиента</Button><Sheet open={sheetOpen} onOpenChange={setSheetOpen}><SheetContent className="data-[side=right]:w-full data-[side=right]:sm:max-w-[420px]" onCloseAutoFocus={e => { e.preventDefault(); inspectorTrigger.current?.focus() }}><SheetHeader><SheetTitle>Проверка клиента</SheetTitle><SheetDescription>Наблюдаемые связи и гипотеза о роли</SheetDescription></SheetHeader>{inspector}</SheetContent></Sheet></>}
     <footer className="app-footer"><span><ShieldCheck className="size-3.5" />Выводы — гипотезы для проверки, а не утверждение о виновности.</span><span>MONEYGRAPH <span className="footer-dot">/</span> HACKALEM 2026</span></footer>
-  </div></TooltipProvider>
+  </div>{Agentation && <AnnotationBoundary><Suspense fallback={null}><Agentation endpoint="http://localhost:4747" /></Suspense></AnnotationBoundary>}</TooltipProvider>
 }

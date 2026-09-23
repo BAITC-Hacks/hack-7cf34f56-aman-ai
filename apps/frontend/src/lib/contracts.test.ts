@@ -6,7 +6,7 @@ const fixture = fixtureSchema.parse(raw)
 describe('frontend data contract', () => {
   it('keeps identifiers beyond Number.MAX_SAFE_INTEGER as exact strings', () => {
     expect(gidSchema.parse('900000000000100001')).toBe('900000000000100001')
-    expect(gidSchema.safeParse(900000000000100001).success).toBe(false)
+    expect(gidSchema.safeParse(Number('900000000000100001')).success).toBe(false)
     expect(gidSchema.safeParse('9e17').success).toBe(false)
   })
   it('rejects blank starter roles, missing evidence and scores outside the contract', () => {

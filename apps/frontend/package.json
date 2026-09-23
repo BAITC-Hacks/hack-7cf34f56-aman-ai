@@ -9,7 +9,9 @@
     "lint": "oxlint",
     "preview": "vite preview",
     "test": "vitest run",
-    "fixtures": "node scripts/generate-demo.mjs"
+    "fixtures": "node scripts/generate-demo.mjs",
+    "qa:browser": "node scripts/browser-qa.mjs",
+    "qa:api": "node scripts/api-browser-qa.mjs"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.3.0",
@@ -34,6 +36,7 @@
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
     "@vitejs/plugin-react": "^6.1.1",
+    "agentation": "^3.1.2",
     "oxlint": "^1.81.0",
     "typescript": "~6.0.2",
     "vite": "^8.3.0",

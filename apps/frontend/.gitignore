@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Generated browser QA artifacts
+qa/
+.playwright-mcp/
