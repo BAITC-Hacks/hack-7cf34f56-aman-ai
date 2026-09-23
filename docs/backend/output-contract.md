@@ -18,3 +18,8 @@ P1 output files are `results/node_cards.json` and `results/graph.json`. Every gi
 in JSON is a string. Null means unavailable/unknown; use limitation flags rather
 than treating unknown as zero in explanation. `top_gids` is `|`-joined string ids.
 Examples in `docs/backend/examples/` are **MOCK**, not analytical output.
+
+Product JSON is implemented. node_cards.json maps string gid to a full card;
+graph.json has node/edge arrays. See frontend-handoff.md for eligibility metadata
+and weighted priority components. Exported global ranking uses published
+six-decimal scores, then gid; Top-20 is validated against that complete ranking.

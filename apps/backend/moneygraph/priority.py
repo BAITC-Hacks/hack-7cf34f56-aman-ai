@@ -13,7 +13,7 @@ def _reach_pairs(g):
   total+=sum(not g.nodes[n].get("is_seed",False) for n in seen)
  return total
 def apply_priority(features:pd.DataFrame, graph:nx.DiGraph)->pd.DataFrame:
- out=features.copy(); out["centrality"]=(out.pagerank_pct+out.betweenness_pct)/2; out["temporal"]=0.
+ out=features.copy(); out["centrality"]=(out.pagerank_pct+out.betweenness_pct)/2; out["temporal"]=pd.DataFrame({name: out.get(name, pd.Series(0., index=out.index)) for name in ("timing_consistent_turnover", "burst_pct", "synchronous_incoming_pct")}).max(axis=1)
  out["role_weight"]=out.role.map(WEIGHTS); out["resilience_pct"]=0.
  out["preliminary_priority"]=(.30*out.role_weight*out.role_score+.25*out.seed_convergence+.15*out.centrality+.15*out.observed_volume_pct+.10*out.temporal).clip(0,1)
  candidates=out.sort_values(["preliminary_priority","gid"],ascending=[False,True],kind="stable").head(50).gid.tolist()

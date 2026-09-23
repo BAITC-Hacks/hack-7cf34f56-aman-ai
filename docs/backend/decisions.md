@@ -16,4 +16,13 @@
 
 - **ADR-013:** `pct_depth` uses same-depth ascending average ranks for ties: `(average_rank-1)/(N-1)` for valid non-constant `N>1` groups, otherwise zero.
 - **ADR-014:** preliminary priority is final priority with `resilience_pct=0`, sorted by descending score then ascending gid; only its first 50 nodes receive resilience simulation.
-- **ADR-015:** dependency versions must be pinned in the project before final submission. This repository currently has no Python dependency configuration and neither inspected Python runtime has NetworkX installed, so no untested NetworkX version is invented during documentation work.
+- **ADR-015:** dependency versions must be pinned in the project before final submission. At the documentation-only review checkpoint the repository had no Python dependency configuration and neither inspected Python runtime had NetworkX installed, so no untested NetworkX version is invented during documentation work.
+- **ADR-016:** At depth 4, retention remains observable but is excluded from consolidator scoring because outgoing visibility is truncated; its 0.15 contribution is zero and is not redistributed.
+- **ADR-017:** A theoretical role score and role eligibility are distinct. Consumer-facing views must expose eligibility and ineligible reasons, especially terminal at the observation boundary.
+
+- **ADR-018:** Peripheral confidence uses the same eligible non-peripheral score set as selection; complement of its maximum, default maximum zero. Ineligible theoretical scores cannot reduce Peripheral confidence.
+- **ADR-019:** Date-only turnover, incident daily counts (duplicates retained), and distinct daily senders are now calculated. Priority temporal uses their approved maximum without weight changes.
+- **ADR-020:** Exported Top-20 is validated against the global node ranking at six-decimal published score precision, with gid tie-break.
+- **ADR-021:** JSON artifacts are generated locally; API serves one snapshot loaded at startup. API/AI dependencies stay in separate optional requirements.
+
+- **ADR-022:** Completion tested Python 3.14.0 / NetworkX 3.7 in a clean environment. Reciprocal KZT is summed before log1p; repeated Louvain yields 65 communities and 10 multi-seed communities. Do not match the alternative 3.6.1 result by tuning.

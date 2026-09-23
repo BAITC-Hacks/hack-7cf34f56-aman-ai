@@ -80,7 +80,7 @@ Seed 71 ──────┘
 
 Система показывает:
 
-**X reachable from 5 known seed branches.**
+**X reachable from 5 known seeds.**
 
 Не просто:
 
@@ -162,7 +162,7 @@ INVESTIGATION PRIORITY
 ├────────────────────────────────────┤
 │ NETWORK                            │
 │                                    │
-│ Seed branches    6                 │
+│ Reachable seeds    6                 │
 │ PageRank         top 3%            │
 │ Betweenness      top 7%            │
 ├────────────────────────────────────┤

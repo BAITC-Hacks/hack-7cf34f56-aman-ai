@@ -1,20 +1,26 @@
 from pathlib import Path
 import sys
-sys.path.insert(0,str(Path(__file__).parent/"apps/backend"))
-from moneygraph.data_validation import load_and_validate
-from moneygraph.graph_engine import build_graphs
-from moneygraph.features import build_features
-from moneygraph.seed_convergence import compute_seed_convergence
-from moneygraph.communities import compute_communities
-from moneygraph.roles import apply_roles
-from moneygraph.priority import apply_priority
-from moneygraph.evidence import apply_evidence
+import time
+import json
+
+sys.path.insert(0, str(Path(__file__).parent / "apps/backend"))
+from moneygraph.pipeline import calculate
 from moneygraph.outputs import write_outputs
+from moneygraph.diagnostics import diagnostics
+from moneygraph.product import write_product
+
 
 def main():
- root=Path(__file__).parent; bundle=load_and_validate(root/"data"); directed,undirected=build_graphs(bundle.nodes,bundle.edges)
- features=compute_seed_convergence(directed,build_features(directed)); ids,clusters=compute_communities(directed,undirected)
- features=apply_evidence(apply_priority(apply_roles(features,directed,ids),directed))
- nodes,cluster_out,top=write_outputs(features,clusters,root/"results")
- print(f"MoneyGraph complete: {len(nodes)} nodes, {len(cluster_out)} clusters, {len(top)} top nodes.")
-if __name__=="__main__": main()
+    started = time.perf_counter()
+    root = Path(__file__).parent
+    bundle, directed, undirected, features, ids, clusters = calculate(root / "data")
+    nodes, cluster_out, top = write_outputs(features, clusters, root / "results")
+    write_product(features, directed, root / "results")
+    (root / "results/analytics_diagnostics.json").write_text(
+        json.dumps(diagnostics(features, ids), ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"MoneyGraph complete: {len(nodes)} nodes, {len(cluster_out)} clusters, "
+          f"{len(top)} top nodes in {time.perf_counter() - started:.3f}s.")
+
+
+if __name__ == "__main__":
+    main()

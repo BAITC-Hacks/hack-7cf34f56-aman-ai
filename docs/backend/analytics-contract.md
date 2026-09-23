@@ -40,7 +40,7 @@ transit=.25*mean(in_degree_pct,out_degree_pct)+.30*flow_balance+.25*timing_consi
 distributor=.50*receivers_pct+.25*outbound_volume_pct+.25*out_degree_pct
 terminal=.50*inbound_volume_pct+.30*retention_obs+.20*no_observed_outgoing
 coordinator=.30*pagerank_pct+.30*betweenness_pct+.20*bridge_pct+.20*seed_convergence
-peripheral=1-max(consolidator,transit,distributor,terminal,coordinator)
+peripheral=clip(1-max(eligible non-peripheral scores, default=0),0,1)
 ```
 
 Transit is eligible only at depths 1–3. Terminal is eligible only at depths 1–3
@@ -71,3 +71,7 @@ priority=.30*(role_weight*role_score)+.25*seed_convergence+.15*centrality
 
 Round exported scores to six decimals. Sort Top-20 by priority descending then
 gid ascending. Evidence is deterministic, cautious, factual, and <=200 chars.
+
+Depth-4 retention is retained as observed data but excluded from consolidator inference; it is unreliable because the observation boundary truncates outgoing visibility. Consumer views must show role eligibility separately from theoretical score.
+
+Completion: daily incident transaction counts include both endpoints, preserving duplicate transactions; daily incoming sender counts are distinct. All product gids are strings and role scores expose eligibility. Published CSV/JSON ranking uses six-decimal priority then gid.

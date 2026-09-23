@@ -3,11 +3,11 @@ import pandas as pd
 
 def make_evidence(row)->str:
  r=row.role
- if r=="consolidator": text=f"Признаки консолидации: {row.unique_senders} наблюдаемых отправителей, {row.seed_reach_count} seed-веток, входящий объём {row.incoming_kzt:.0f} KZT."
+ if r=="consolidator": text=f"Признаки консолидации: {row.unique_senders} наблюдаемых отправителей, достижим из {row.seed_reach_count} известных seed-узлов, входящий объём {row.incoming_kzt:.0f} KZT."
  elif r=="transit": text=f"Признаки транзита: наблюдаются входящие и исходящие потоки; коэффициент баланса {row.flow_balance:.2f}."
  elif r=="distributor": text=f"Признаки распределения: {row.unique_recipients} наблюдаемых получателей, исходящий объём {row.outgoing_kzt:.0f} KZT."
  elif r=="terminal": text=f"Признаки конечного получателя: входящий объём {row.incoming_kzt:.0f} KZT и нет наблюдаемых исходящих переводов."
- elif r=="coordinator": text=f"Структурно значимый узел: PageRank {row.pagerank_pct:.2f}, betweenness {row.betweenness_pct:.2f}, {row.seed_reach_count} seed-веток."
+ elif r=="coordinator": text=f"Структурно значимый узел: PageRank {row.pagerank_pct:.2f}, betweenness {row.betweenness_pct:.2f}, достижим из {row.seed_reach_count} seed-узлов."
  else: text="Выраженные признаки функциональной роли по наблюдаемым данным не выявлены."
  if "observation_boundary" in row.limitation_flags: text+=" Граница наблюдения depth=4 ограничивает выводы."
  return text[:200]

@@ -31,3 +31,14 @@ def test_real_mandatory_csv_contracts():
  assert n.columns.tolist()==NODE_COLUMNS and c.columns.tolist()==CLUSTER_COLUMNS and t.columns.tolist()==TOP_COLUMNS
  assert len(n)==2248 and n.gid.nunique()==2248 and len(t)==20 and t['rank'].tolist()==list(range(1,21))
  raw=pd.read_parquet(ROOT/'data/nodes.parquet'); raw.gid=raw.gid.astype(str); merged=raw.merge(n[['gid','role']],on='gid'); assert not ((merged.depth==4)&(merged.role=='terminal')).any()
+def test_depth4_retention_is_excluded_and_eligibility_is_explicit():
+ g=nx.DiGraph();g.add_node('4',is_seed=False,depth=4);g.add_node('1',is_seed=False,depth=1)
+ cols=[row('4',depth=4,senders_pct=1,inbound_volume_pct=1,seed_convergence=1,retention_obs=1,incoming_kzt=10),row('1',depth=1,senders_pct=1,inbound_volume_pct=1,seed_convergence=1,retention_obs=1,incoming_kzt=10)]
+ out=apply_roles(pd.DataFrame(cols),g,{'4':1,'1':2}).set_index('gid')
+ assert round(out.loc['4','consolidator_score'],6)==.85 and round(out.loc['1','consolidator_score'],6)==1
+ assert not out.loc['4','terminal_eligible'] and out.loc['4','terminal_ineligible_reason']=='observation_boundary'
+ assert 'retention_boundary_unreliable' in out.loc['4','limitation_flags']
+def test_evidence_uses_seed_reachability_wording():
+ from moneygraph.evidence import apply_evidence
+ f=pd.DataFrame([dict(row('x',role='consolidator',role_score=.8,seed_reach_count=2,unique_senders=1,incoming_kzt=1),limitation_flags=[])])
+ assert 'seed-веток' not in apply_evidence(f).evidence.iloc[0]
