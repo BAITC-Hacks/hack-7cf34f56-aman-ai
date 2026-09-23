@@ -209,7 +209,10 @@ export function parseCsvAnalysis(text: string, fileName: string): CsvAnalysis {
   const moneyIndex = headers.indexOf(moneyColumns[0])
   const dateIndex = dateColumns.length ? headers.indexOf(dateColumns[0]) : -1
   const countIndex = headers.indexOf('n_tx')
-  const kind = moneyColumns[0] === 'sum_kzt' || countIndex >= 0 ? 'edges' : 'transactions'
+  // The official transactions export uses src,dst,date,sum_kzt for individual rows.
+  // Edge metadata (n_tx/depth) takes precedence; undated sum_kzt stays aggregated.
+  const aggregated = countIndex >= 0 || headers.includes('depth') || (moneyColumns[0] === 'sum_kzt' && dateIndex < 0)
+  const kind = aggregated ? 'edges' : 'transactions'
   const edges = new Map<string, { src: string; dst: string; cents: bigint; nTx: number | null }>()
   const daily = new Map<string, { cents: bigint; nTx: number | null }>()
   let totalCents = 0n

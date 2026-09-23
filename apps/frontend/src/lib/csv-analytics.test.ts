@@ -44,8 +44,15 @@ describe('CSV observations', () => {
     expect(result.nodes.find(node => node.gid === '10')).toMatchObject({ incomingKzt: 20, outgoingKzt: 150, inDegree: 1, outDegree: 1, inTx: 1, outTx: 5 })
   })
 
-  it('does not assume sum_kzt represents a single transaction, even with dates', () => {
-    const result = parse('src,dst,sum_kzt,date\n1,2,40,2026-01-01\n1,2,60,2026-01-01')
+  it('reads the official transaction schema without dropping duplicate transaction rows', () => {
+    const result = parse('src,dst,date,sum_kzt\n100000000000000001,2,2026-07-01,5000.01\n100000000000000001,2,2026-07-01,5000.01')
+    expect(result).toMatchObject({ kind: 'transactions', rowCount: 2, transactionCount: 2, totalKzt: 10000.02 })
+    expect(result.edges[0]).toEqual({ src: '100000000000000001', dst: '2', sumKzt: 10000.02, nTx: 2 })
+    expect(result.daily[0]).toEqual({ date: '2026-07-01', sumKzt: 10000.02, transactionCount: 2 })
+  })
+
+  it('keeps aggregated rows with edge depth metadata unknown even when dates are present', () => {
+    const result = parse('src,dst,sum_kzt,date,depth\n1,2,40,2026-01-01,1\n1,2,60,2026-01-01,1')
     expect(result).toMatchObject({ kind: 'edges', rowCount: 2, transactionCount: null, totalKzt: 100 })
     expect(result.edges[0]).toEqual({ src: '1', dst: '2', sumKzt: 100, nTx: null })
     expect(result.nodes[0]).toMatchObject({ inTx: 0, outTx: null })

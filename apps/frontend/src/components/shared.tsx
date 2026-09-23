@@ -26,7 +26,7 @@ export function EmptyPanel({ title, description }: { title: string; description:
   return <Empty><EmptyHeader><EmptyMedia variant="icon"><Network /></EmptyMedia><EmptyTitle>{title}</EmptyTitle><EmptyDescription>{description}</EmptyDescription></EmptyHeader></Empty>
 }
 export function ErrorPanel({ error, retry }: { error: string; retry: () => void }) {
-  return <div className="p-4"><Alert variant="destructive"><AlertTitle>Не удалось загрузить</AlertTitle><AlertDescription>{error}<Button variant="outline" onClick={retry}><RotateCcw data-icon="inline-start" />Повторить</Button></AlertDescription></Alert></div>
+  return <div className="error-panel p-4"><Alert variant="destructive"><AlertTitle>Не удалось загрузить</AlertTitle><AlertDescription>{error}<Button variant="outline" onClick={retry}><RotateCcw data-icon="inline-start" />Повторить</Button></AlertDescription></Alert></div>
 }
 export function LoadingPanel() {
   return <div className="flex flex-col gap-4 p-5" role="status" aria-label="Загрузка данных"><Skeleton className="h-5 w-2/3" /><Skeleton className="h-20 w-full" /><Skeleton className="h-20 w-full" /><Skeleton className="h-5 w-1/2" /><span className="sr-only">Загрузка данных…</span></div>

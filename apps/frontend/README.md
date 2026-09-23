@@ -38,6 +38,8 @@ Reload the browser to load the refreshed export. The normal startup/build hooks 
 
 The graph supports exact-ID search and selection, hover neighborhoods, directed weighted links, reciprocal curves, zoom/pan, 1–4-hop local traversal, flow tracing, priority/volume/role/cluster/depth/seed filters, top-20/50/100 filtering, color modes, and display/force settings. The inspector, cluster summaries, copying, browser history, priority queue, and transfer CSV export remain available. Scores and account totals are never inferred from the visible filtered graph.
 
+The graph fills the browser workspace. Open **Приоритеты** to choose a ranked client; selecting any node shows its immediate neighborhood. Use **Входящие / Исходящие / Все связи**, 1–4 steps, **В центре**, and **Предыдущий клиент** to investigate. **Вся выборка** restores the overview. Filters, client details, and the single **AI-помощник** launcher open one auxiliary panel at a time. **Данные и запуск** explains the official Parquet inputs. On mobile, selecting a node leaves the graph visible; open **Карточка** for details. Keyboard controls while the canvas is focused: arrows pan, +/− zoom, F centers the selected neighborhood, 0 fits visible nodes, Escape clears selection.
+
 See [AML graph architecture and controls](../../docs/aml-graph.md) for rendering, data preparation, and API limitations.
 
 ## CSV analytical dashboard
@@ -50,11 +52,11 @@ Supported headers:
 | --- | --- |
 | `src`, `dst` | Required sender/recipient GIDs as exact decimal text |
 | `amount_kzt` or `amount` | One transaction per row, nonnegative KZT with up to two decimal places |
-| `sum_kzt` | Alternative amount column for aggregated directed links |
+| `sum_kzt` | Official transaction amount when `date` is present and `n_tx`/`depth` are absent; otherwise aggregated link amount |
 | `n_tx` | Optional positive transaction count for an aggregated row; blank means unknown |
 | `date`, `transaction_date`, or `dt` | Optional calendar date in `YYYY-MM-DD` format |
 
-Use one amount column and at most one date column. CSV accepts comma, semicolon, or tab delimiters, UTF-8/BOM, quoted fields and CRLF. Limits are **10 MiB / 50,000 rows**. Invalid rows reject the import with an explanation and preserve the previous dataset. Duplicate transaction rows are retained. GIDs are never converted to numbers; monetary totals use integer minor units and reject amounts that cannot be displayed and exported exactly.
+Use one amount column and at most one date column. The official `src,dst,date,sum_kzt` transaction schema counts each row once; edge metadata (`n_tx` or `depth`) selects aggregated semantics. For dated aggregates with unknown counts, include an empty `n_tx` column. CSV accepts comma, semicolon, or tab delimiters, UTF-8/BOM, quoted fields and CRLF. Limits are **10 MiB / 50,000 rows**. Invalid rows reject the import with an explanation and preserve the previous dataset. Duplicate transaction rows are retained. GIDs are never converted to numbers; monetary totals use integer minor units and reject amounts that cannot be displayed and exported exactly.
 
 Parsing runs in a browser worker; file contents are never uploaded to a server or sent to AI. Imported CSV analytics do not assign roles, priorities, communities, seeds, or discovery depth. Missing counts and dates stay unknown. Graph rendering is limited to 250 clients and 2,000 directed links, with a visible coverage message; all rows contribute to totals and tables. Both link and daily tables are paginated.
 
@@ -134,33 +136,33 @@ QA_BASE_URL=http://127.0.0.1:5173/ npm run qa:project
 QA_BASE_URL=http://127.0.0.1:5173/ npm run qa:csv
 ```
 
-See the [real project data verification report](../../docs/project-data-qa.md) for the current integration results. Earlier demo reports cover separate fixtures.
+See the [fullscreen workspace verification report](../../docs/canvas-workspace-qa.md) for current interaction checks and the [project data verification report](../../docs/project-data-qa.md) for earlier integration checks.
 
 For repeatable browser QA, the project runs an official **Playwright MCP** subprocess through its SDK client, using isolated user-scoped Chromium. It does not require system Chrome or changes to global MCP configuration:
 
 ```bash
 npx playwright install chromium
-# In another terminal, start the explicit demo server:
-VITE_DATA_MODE=demo npm run dev -- --host 127.0.0.1 --port 5173 --strictPort
+# In another terminal, start the project server:
+VITE_DATA_MODE=project npm run dev -- --host 127.0.0.1 --port 5173 --strictPort
 # Then run current Canvas graph checks:
-npm run qa:graph
+QA_BASE_URL=http://127.0.0.1:5173/ npm run qa:project
 ```
 
-`qa:browser` and `qa:analyst` are legacy scripts with some assumptions about the earlier React Flow UI. Their presence does not mean those checks pass against the current Canvas interface.
+`qa:browser`, `qa:analyst`, and `qa:graph` are legacy scripts with assumptions about earlier layouts. Their presence does not mean those checks pass against the current fullscreen interface. Use `qa:project` and `qa:csv` for current browser checks.
 
-To verify race conditions and API behavior, also start a separate API-mode dev server in another terminal:
+The historical API-mode suite uses a separate API-mode dev server:
 
 ```bash
 VITE_DATA_MODE=api npm run dev -- --host 127.0.0.1 --port 5174 --strictPort
 ```
 
-Then run `npm run qa:api`. This test intercepts requests with synthetic responses; it does not claim real backend integration. Browser reports and screenshots are written to the ignored `qa/` directory. The QA scripts expect the exact local ports above and only interact with those development servers.
+`npm run qa:api` intercepts requests with synthetic responses and targets earlier layout controls; it needs migration before reuse. This does not claim real backend integration. The current `qa:project` suite includes delayed, failed, and empty project-loading checks with recovery. Browser reports and screenshots are written to the ignored `qa/` directory.
 
 Regenerate the original 26 examples with `npm run fixtures`. `src/lib/graph-demo.ts` expands them at runtime for the Canvas graph; generated clients are also available through the demo card/search/cluster methods. Both generators are UI test support, not financial inference pipelines.
 
 ## Analyst assistant
 
-The right panel switches between the client inspector and AI chat. Explain with AI fills a question; press Send to submit it. Source links reopen a client. The conversation supports follow-ups, cancellation, retry, and a new conversation action. The optional NVIDIA mode provides a separate critique of OpenAI's answer.
+The single **AI-помощник** button in the header opens AI chat. The selected client remains its context; press Send to submit a question. Source links reopen a client. The conversation supports follow-ups, cancellation, retry, and a new conversation action. The optional NVIDIA mode provides a separate critique of OpenAI's answer.
 
 Use the repository-root `.env.example` as a template. Set `OPENAI_API_KEY` and optionally `NVIDIA_API_KEY` only in the root `.env`, then restart the dev server. `OPENAI_MODEL` and `NVIDIA_MODEL` can override model defaults. Do not use `VITE_` prefixes for keys. No AI request is needed for graph exploration or client inspection.
 
@@ -172,4 +174,4 @@ See [requirements and pipeline handoff](../../docs/frontend-requirements-and-pip
 
 ## Canvas graph verification
 
-With the demo frontend running, `npm run qa:graph` runs the Canvas workflows through Playwright MCP and writes screenshots/reports to ignored `qa/`. Override the local server with `QA_BASE_URL=http://127.0.0.1:5180/` if needed. See [graph architecture](../../docs/aml-graph.md) and [verification report](../../docs/aml-graph-qa.md).
+With the project frontend running, `npm run qa:project` runs the Canvas workflows through Playwright MCP and writes screenshots/reports to ignored `qa/`. Override the local server with `QA_BASE_URL=http://127.0.0.1:5180/` if needed. See [graph architecture](../../docs/aml-graph.md) and the [fullscreen verification report](../../docs/canvas-workspace-qa.md).

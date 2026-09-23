@@ -22,7 +22,7 @@ import type { CsvAnalysis } from '@/lib/csv-analytics'
 
 const GraphPanel = lazy(() => import('@/components/graph-panel').then(module => ({ default: module.GraphPanel })))
 const Agentation = import.meta.env.DEV ? lazy(() => import('agentation').then(module => ({ default: module.Agentation }))) : null
- type Selection = { gid: string | null; hop: 1 | 2 }
+type Selection = { gid: string | null; hop: 1 | 2 }
 type Drawer = 'priorities' | 'details' | 'chat' | 'filters' | null
 function locationState(): Selection {
   const params = new URLSearchParams(location.search)
@@ -55,8 +55,10 @@ function InvestigationApp({ onUpload }: { onUpload: () => void }) {
   const priorityTrigger = useRef<HTMLButtonElement>(null)
   const detailTrigger = useRef<HTMLButtonElement>(null)
   const chatTrigger = useRef<HTMLButtonElement>(null)
+  const lastDrawer = useRef<Drawer>('priorities')
   const { gid } = selection
   const chatSession = useAgentChat(gid, () => setQuestion(''))
+  useEffect(() => { if (drawer && drawer !== 'filters') lastDrawer.current = drawer }, [drawer])
   useEffect(() => {
     const media = matchMedia('(min-width: 900px)')
     const resize = () => setDesktop(media.matches)
@@ -114,7 +116,7 @@ function InvestigationApp({ onUpload }: { onUpload: () => void }) {
     } catch { setFullscreenError('Полноэкранный режим недоступен в этом браузере. Граф уже занимает рабочую область.') }
   }
   const drawerTitle = drawer === 'priorities' ? 'Приоритеты проверки' : drawer === 'chat' ? 'AI-помощник' : 'Карточка клиента'
-  const restoreFocus = () => (drawer === 'chat' ? chatTrigger : drawer === 'priorities' ? priorityTrigger : detailTrigger).current?.focus()
+  const restoreFocus = () => (lastDrawer.current === 'chat' ? chatTrigger : lastDrawer.current === 'priorities' ? priorityTrigger : detailTrigger).current?.focus()
   const drawerContent = drawer === 'priorities'
     ? <PriorityPanel nodes={top.data} loading={top.loading} error={top.error} retry={top.retry} selected={gid} onSelect={navigate} filter={filter} onFilter={setFilter} />
     : drawer === 'chat'

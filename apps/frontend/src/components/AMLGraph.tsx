@@ -150,7 +150,7 @@ export function AMLGraph({ data, selected, onSelect, onClear, settings, trace, h
     ctx.fillStyle=graphPalette.labelBackground;ctx.fillRect(x-3/scale,y-11/scale,width+6/scale,15/scale)
     ctx.fillStyle=graphPalette.foreground;ctx.fillText(label,x,y);ctx.restore()
   }
-  return <div className="aml-canvas" ref={container} data-node-count={data.nodes.length} data-link-count={data.links.length} data-selected-gid={selected ?? ''} data-reciprocal-count={sim.links.filter(l=>l.reciprocal).length} data-settled={settled} tabIndex={0} role="region" aria-label="Интерактивный граф переводов. Стрелки — панорама, плюс и минус — масштаб, F — к клиенту, 0 — вписать граф, Escape — снять выбор." onKeyDown={event=>{
+  return <div className="aml-canvas" ref={container} data-node-count={data.nodes.length} data-link-count={data.links.length} data-selected-gid={selected ?? ''} data-reciprocal-count={sim.links.filter(l=>l.reciprocal).length} data-settled={settled} tabIndex={0} role="region" aria-label="Интерактивный граф переводов. Стрелки — панорама, плюс и минус — масштаб, F — к клиенту, 0 — вписать граф, Escape — снять выбор." onMouseLeave={() => { setHover(null); setHoverLink(null) }} onKeyDown={event=>{
     if (event.target !== event.currentTarget) return
     const fg=graph.current;if(!fg)return
     if(event.key==='Escape')onClear()

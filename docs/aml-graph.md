@@ -121,16 +121,18 @@ Arrows indicate payer → recipient. Ordinary edges are straight. Reciprocal dir
 ## Investigation controls
 
 - Hover highlights the node, immediate incoming/outgoing edges, and neighbors; unrelated nodes fade to 14% opacity.
-- Selection persists after hover, moves the camera, and updates the existing inspector. Background click or Clear removes selection. Focus recenters the selected node.
+- The graph fills the viewport below the compact header. Priorities, the inspector, filters, and AI open on demand; only one auxiliary drawer is open at a time. Desktop full-screen mode also keeps portal dialogs visible.
+- Selecting a node opens its direct neighborhood and centers it in the area clear of the inspector. Background clicks preserve selection. Clear or Escape removes selection; Focus recenters the node.
 - Exact decimal GID search opens the same selection used by the graph, queue, and inspector. Browser history retains selection.
-- Local Graph traverses 1–4 hops in Both, Incoming, or Outgoing direction. Reciprocal links retain separate identities such as `source->target`.
-- Trace Flow emphasizes paths within the selected hop and direction scope. Directional particles are normally off; tracing or the display switch enables them. Reduced-motion preference suppresses particles and smooth selection travel.
+- The selected-client controls traverse 1–4 steps in Both, Incoming, or Outgoing direction. Clicking a neighbor opens that client's direct neighborhood; Previous Client returns to the prior client. Each client change starts with one step and both directions. Whole Dataset resets filters and selection. Reciprocal links retain separate identities such as `source->target`.
+- Directional particles are off by default and can be enabled in appearance settings. Reduced-motion preference suppresses particles and smooth selection travel.
 - Filters include score bands, minimum observed volume, six roles, cluster, dataset depth 0–4, seed/non-seed status, isolated-node hiding, and top 20/50/100/all by `priority_score`. Unknown scores remain in All but cannot satisfy a score band or top-priority filter; unknown volume cannot satisfy a positive minimum.
 - Quick presets reset selection filters and apply Top Priority, Large Flows (at least 25% of the loaded maximum), the seed network (seeds plus their immediate incoming/outgoing neighbors), coordinators, or consolidators. Appearance and force settings remain intact.
+- Filters show an active count, explanatory labels, and a reset action. Advanced appearance and force controls are collapsed initially. The expandable legend explains colors, sizes, seed rings, and direction.
 - Display settings control arrows, labels, edge amounts, seed rings, particles, node size, edge width, and label visibility.
 - Force settings control center/community attraction, repulsion, link strength, and distance. Reset Layout releases pinned positions and restarts settling. Dragging a node pins its final position until reset.
 
-Labels for selected and hovered nodes are always drawn. The highest eight scored nodes become labeled earlier than ordinary nodes; ordinary labels require more zoom. Full GIDs appear for selection/hover, while ordinary labels use a short suffix. The transfer table provides keyboard-accessible GID links and pages of 100 rows, alongside CSV export. The Canvas region also supports arrow-key pan, plus/minus zoom, and Escape to clear selection.
+Labels for selected and hovered nodes are always drawn. The highest eight scored nodes become labeled earlier than ordinary nodes; ordinary labels require more zoom. Full GIDs appear for selection/hover, while ordinary labels use a short suffix. The transfer table provides keyboard-accessible GID links and pages of 100 rows, alongside CSV export. The Canvas region supports arrow-key pan, plus/minus zoom, F to focus, 0 to fit the visible network, and Escape to clear selection.
 
 ## Synthetic demo and performance
 
@@ -162,12 +164,12 @@ Canvas instrumentation verified green/red fills, different radii, and curved lin
 
 API-mode checks used intercepted responses and covered delayed loading, 503/retry, empty/recovery, stale-response prevention, sparse unknown metrics, truncated coverage, exact/unknown search, and missing boundary/seed warnings. Only deliberately injected HTTP errors appeared. The teammate's real backend was not exercised.
 
-Repeat the fixture-based graph checks with an explicit demo server running:
+Verify the current fullscreen interface with a project-mode server running:
 
 ```bash
-VITE_DATA_MODE=demo npm run dev -- --host 127.0.0.1 --port 5173 --strictPort
+VITE_DATA_MODE=project npm run dev -- --host 127.0.0.1 --port 5173 --strictPort
 # In another terminal:
-QA_BASE_URL=http://127.0.0.1:5173/ npm run qa:graph
+QA_BASE_URL=http://127.0.0.1:5173/ npm run qa:project
 ```
 
-See [historical Canvas QA report](aml-graph-qa.md) for those fixture/API-mock artifacts. Real project-mode QA must exercise the generated export separately.
+See [historical Canvas QA report](aml-graph-qa.md) for earlier fixture/API-mock artifacts. The older `qa:graph` script targets the previous layout and needs migration before reuse; `qa:project` covers the current interface and generated project export.

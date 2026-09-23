@@ -519,6 +519,8 @@ body:has([role=dialog]) agentation-toolbar { display: none; }
 .canvas-workspace > .graph-panel { position: absolute; inset: 0; display: block; border: none; border-radius: 0; background: var(--background); }
 .canvas-workspace .graph-panel > .panel-heading { position: absolute; top: 16px; left: calc(16px + var(--canvas-left-inset)); right: calc(16px + var(--canvas-right-inset)); min-height: 44px; height: auto; padding: 7px 10px; z-index: 3; border: 1px solid var(--border); border-radius: 10px; background: var(--card); box-shadow: 0 2px 10px #20343208; }
 .canvas-workspace .graph-panel > .aml-surface { position: absolute; inset: 0; min-height: 0; }
+.canvas-workspace .aml-surface > :is(.error-panel, [role=status], [data-slot=empty], .aml-empty) { position: absolute; top: 78px; bottom: 90px; left: calc(16px + var(--canvas-left-inset)); right: calc(16px + var(--canvas-right-inset)); width: auto; overflow-y: auto; margin: 0; }
+.canvas-workspace .aml-surface:has(.aml-selection-toolbar) > :is(.error-panel, [role=status], [data-slot=empty], .aml-empty) { top: 285px; }
 .canvas-workspace .aml-selection-toolbar { position: absolute; top: 76px; left: calc(16px + var(--canvas-left-inset)); width: min(360px, calc(100% - 32px - var(--canvas-left-inset) - var(--canvas-right-inset))); padding: 10px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 3px 16px #2034320b; z-index: 2; }
 .aml-selection-heading { display: flex; align-items: center; gap: 6px; }
 .aml-selection-heading > strong { flex: 1; font: 12px ui-monospace, monospace; }
@@ -555,6 +557,7 @@ body:has([role=dialog]) agentation-toolbar { display: none; }
 .mobile-canvas-sheet[data-slot=sheet-content] { width: min(94vw, 420px); max-width: 420px; }
 .data-source-sheet[data-slot=sheet-content] { width: min(94vw, 440px); max-width: 440px; }
 .data-source-sheet p { font-size: 13px; line-height: 1.7; }
+.data-source-sheet .header-status { display: flex; max-width: none; margin-left: 0; }
 .data-file-list { display: flex; flex-direction: column; gap: 14px; }
 .data-file-list li { display: flex; flex-direction: column; gap: 3px; font-size: 13px; }
 .data-file-list span { color: var(--muted-foreground); }
