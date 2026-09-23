@@ -8,7 +8,15 @@ const amount = z.number().finite().nonnegative()
 export const roleSchema = z.enum(roles)
 export type Role = z.infer<typeof roleSchema>
 export const edgeSchema = z.object({ src: gidSchema, dst: gidSchema, sum_kzt: amount, n_tx: count.nullable() })
-export const graphNodeSchema = z.object({ gid: gidSchema, role: roleSchema, cluster_id: count, depth: count.max(4), is_seed: z.boolean() })
+export const graphNodeSchema = z.object({
+  gid: gidSchema, role: roleSchema, cluster_id: count, depth: count.max(4), is_seed: z.boolean(),
+  // The neighborhood endpoint may supply these metrics. Missing values stay unknown;
+  // a capped neighborhood cannot establish an account's complete observed totals.
+  role_score: score.nullable().optional(), priority_score: score.nullable().optional(), risk_score: score.nullable().optional(),
+  incoming_kzt: amount.nullable().optional(), outgoing_kzt: amount.nullable().optional(), total_volume_kzt: amount.nullable().optional(),
+  in_degree: count.nullable().optional(), out_degree: count.nullable().optional(), evidence: z.string().nullable().optional(),
+  observed_flows: z.object({ incoming_kzt: amount.nullable().optional(), outgoing_kzt: amount.nullable().optional(), in_degree: count.nullable().optional(), out_degree: count.nullable().optional() }).optional(),
+})
 export const nodeSchema = graphNodeSchema.extend({
   role_score: score, priority_score: score, evidence: z.string().min(1),
   observed_flows: z.object({ incoming_kzt: amount, outgoing_kzt: amount, in_degree: count, out_degree: count, in_tx: count, out_tx: count }),

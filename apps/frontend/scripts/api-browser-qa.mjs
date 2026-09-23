@@ -32,7 +32,7 @@ try {
     });
     await page.setViewportSize({width:1440,height:900});
     await page.goto('http://127.0.0.1:5174/');
-    await page.getByText('Backend API',{exact:true}).waitFor();
+    await page.getByText('Данные анализа',{exact:true}).waitFor();
     assert(await page.getByText('Демонстрационные данные',{exact:true}).count()===0,'API mode does not silently show demo mode');
     delayA=true;
     await page.getByRole('button',{name:'Открыть клиент 900000000000100001'}).click();

@@ -4,6 +4,7 @@ Hackathon team repository for Aman AI
 ## Design documents
 
 - [Investigator architecture and analytical design](docs/moneygraph-investigator-design.md)
+- [Analyst workflow, must-have requirements, pipeline handoff and AI integration](docs/frontend-requirements-and-pipeline.md)
 - [UI design contract: screens, components, data needs, and acceptance checks](docs/moneygraph-ui-design-contract.md)
 
 ## Frontend

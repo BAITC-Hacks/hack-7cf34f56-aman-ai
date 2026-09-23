@@ -43,3 +43,15 @@ Lint, production build, and all six unit tests passed after the fix. The Playwri
 - Add optional full cluster graph, temporal charts, export delivery, and AI only after the deterministic integration is ready.
 
 This report does not assert that the analytical pipeline, real rankings, all 2,248-node lookup, or real backend integration is complete.
+
+## Analyst workflow and chat revision — 2026-09-23
+
+The readable flow revision passed the 25 existing Playwright MCP workflow checks at 1440×900 and 390×844, plus 21 analyst/chat checks: left-to-right relationships, no overlapping node cards, full transfer table, CSV downloads, explicit explain submission, server request context, source navigation, conversation retention, follow-ups, loading, cancel, retry, new conversation, unavailable AI, and mobile focus restoration. Model responses in these browser tests were intercepted synthetic responses. Screenshots: `apps/frontend/qa/analyst-chat-desktop.png`, `apps/frontend/qa/analyst-chat-mobile.png`, and `apps/frontend/qa/startup-recovered.png`.
+
+Sixteen unit tests passed, including server tool execution, runtime validation, source references, backend-failure isolation and optional NVIDIA review handling. Lint and build passed for the tested revision. Exact-key scanning found neither configured API credential in the generated browser assets.
+
+Live inference remains blocked: OpenAI returned HTTP 401 `invalid_api_key`; NVIDIA returned HTTP 401 when tested with a model from its current catalog. Provider keys were not printed or modified. A retired NVIDIA model was replaced in the server default; this does not resolve the authentication failure.
+
+### Concurrent workspace changes
+
+After the successful UI checks, another edit began adding `AMLGraph`, expanding the demo fixture, modifying shared node contracts and replacing `graph-panel.tsx`. The latest combined workspace build has integration/type errors in those evolving graph files and the App-to-graph props. Earlier screenshots and passed checks do not certify that combined revision. The graph integration decision is pending; unrelated concurrent work has been preserved.

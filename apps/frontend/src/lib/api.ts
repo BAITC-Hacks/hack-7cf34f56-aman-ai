@@ -1,5 +1,7 @@
 import { z } from 'zod'
 import { clusterSchema, fixtureSchema, gidSchema, localGraph, nodeSchema, subgraphSchema, topSchema, type Fixture } from './contracts'
+import { mapBackendGraph, type AMLGraphData } from './graph-adapter'
+import { demoGraph, expandDemoFixture } from './graph-demo'
 
 export const isDemo = import.meta.env.VITE_DATA_MODE !== 'api'
 const base = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '')
@@ -16,7 +18,7 @@ async function request<T>(path: string, schema: z.ZodType<T>, signal?: AbortSign
   return parsed.data
 }
 function demo() {
-  fixture ??= request(`${import.meta.env.BASE_URL}demo.json`, fixtureSchema).catch(error => { fixture = undefined; throw error })
+  fixture ??= request(`${import.meta.env.BASE_URL}demo.json`, fixtureSchema).then(expandDemoFixture).catch(error => { fixture = undefined; throw error })
   return fixture
 }
 export const api = {
@@ -36,6 +38,19 @@ export const api = {
   },
   async graph(gid: string, hop: 1 | 2, signal?: AbortSignal) {
     return isDemo ? localGraph(await demo(), gid, hop) : request(`${base}/api/nodes/${gid}/subgraph?hop=${hop}`, subgraphSchema, signal)
+  },
+  async network(gid: string | null, signal?: AbortSignal): Promise<AMLGraphData> {
+    if (isDemo) return demoGraph(await demo())
+    if (!gid) return { nodes: [], links: [], coverage: { truncated: false, total_nodes: null, total_edges: null, limit: 250 }, scope: 'neighborhood' }
+    gidSchema.parse(gid)
+    // The current API only promises a bounded two-hop neighborhood. Do not
+    // invent a global route or fetch thousands of individual account cards.
+    const [graph, card, top] = await Promise.all([
+      api.graph(gid, 2, signal),
+      api.node(gid, signal).catch(() => undefined),
+      api.top(signal).catch(() => []),
+    ])
+    return mapBackendGraph(graph, card ? [card] : [], top)
   },
   async cluster(id: number, signal?: AbortSignal) {
     if (!isDemo) return request(`${base}/api/clusters/${id}`, clusterSchema, signal)

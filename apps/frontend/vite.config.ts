@@ -1,18 +1,27 @@
 import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import tailwindcss from '@tailwindcss/vite'
 import { fileURLToPath, URL } from 'node:url'
+import { createAgentHandler } from './server/agent.mjs'
 
-// https://vite.dev/config/
-export default defineConfig({
-  plugins: [react(), tailwindcss()],
-  resolve: {
-    alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
-    // Optional tooling may be resolved from the repository root. Its React
-    // peers must use this app's installation, including during prebundling.
-    dedupe: ['react', 'react-dom'],
-  },
-  build: { rolldownOptions: { output: { codeSplitting: { groups: [
-    { name: 'validation', test: /node_modules\/zod\// },
-  ] } } } },
+export default defineConfig(({ mode }) => {
+  const envDir = fileURLToPath(new URL('../../', import.meta.url))
+  // Vite exposes only VITE_* variables to the browser. Provider keys stay here.
+  const env = { ...loadEnv(mode, envDir, ''), ...process.env }
+  const agentOptions = { env, dataMode: env.VITE_DATA_MODE === 'api' ? 'api' as const : 'demo' as const }
+  return {
+    envDir,
+    plugins: [react(), tailwindcss(), {
+      name: 'moneygraph-agent',
+      configureServer(server) { server.middlewares.use(createAgentHandler(agentOptions)) },
+      configurePreviewServer(server) { server.middlewares.use(createAgentHandler(agentOptions)) },
+    }],
+    resolve: {
+      alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
+      dedupe: ['react', 'react-dom'],
+    },
+    build: { rolldownOptions: { output: { codeSplitting: { groups: [
+      { name: 'validation', test: /node_modules\/zod\// },
+    ] } } } },
+  }
 })
